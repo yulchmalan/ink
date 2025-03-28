@@ -1,5 +1,5 @@
 export const reviewTypeDefs = `#graphql
-    enum Score {
+    type Score {
         likes: Int
         dislikes: Int
     }

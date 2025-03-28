@@ -1,4 +1,6 @@
 export const userTypeDefs = `#graphql
+    scalar Password
+    
     enum Role {
         USER 
         MODERATOR

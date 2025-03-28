@@ -9,6 +9,7 @@ import authRouter from "./routes/auth.js";
 import usersRoutes from "./routes/user.route.js";
 import { connectDB } from "./config/db.js";
 import { typeDefs, resolvers } from "./graphql/index.js";
+import { expressMiddleware } from "@apollo/server/express4";
 
 const port = 3000;
 
@@ -18,11 +19,7 @@ const server = new ApolloServer({
   resolvers,
 });
 
-const { url } = await startStandaloneServer(server, {
-  listen: { port: port },
-});
-
-console.log(`server is running at http://localhost:${port}`);
+await server.start();
 
 //stara pizda
 const app = express();
@@ -31,7 +28,10 @@ app.use(express.json());
 
 app.get("/", indexRouter);
 app.get("/auth", authRouter);
-app.use("/api/users", usersRoutes);
+app.use("/graphql", expressMiddleware(server));
+// app.use("/api/users", usersRoutes);
+
 app.listen(port, () => {
   connectDB();
+  console.log(`server is running at http://localhost:${port}`);
 });
