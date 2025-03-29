@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const savedTitleSchema = new mongoose.Schema(
   {
+    title: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Title",
+    },
     rating: {
       type: Number,
       min: 0,
@@ -31,6 +35,10 @@ const listSchema = new mongoose.Schema(
 
 const friendSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     status: {
       type: String,
       enum: ["PENDING", "ACCEPTED", "REJECTED"],
@@ -79,6 +87,18 @@ const userSchema = new mongoose.Schema(
     },
     lists: [listSchema],
     friends: [friendSchema],
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
     role: {
       type: String,
       enum: ["USER", "MODERATOR", "ADMIN", "OWNER"],

@@ -1,4 +1,5 @@
 import { mergeResolvers, mergeTypeDefs } from "@graphql-tools/merge";
+
 import {
   resolvers as scalarResolvers,
   typeDefs as scalarTypeDefs,

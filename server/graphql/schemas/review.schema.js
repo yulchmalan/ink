@@ -5,7 +5,7 @@ export const reviewTypeDefs = `#graphql
     }
 
     type Review {
-        id: ObjectID!
+        _id: ObjectID!
         name: String
         body: String
         rating: Int
@@ -17,6 +17,6 @@ export const reviewTypeDefs = `#graphql
     }
 
     type Query {
-        review: [Review]
+        reviews: [Review]
     }
 `;

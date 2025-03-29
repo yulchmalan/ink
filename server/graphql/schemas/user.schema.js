@@ -15,7 +15,7 @@ export const userTypeDefs = `#graphql
     }
 
     type SavedTitle {
-        # title_ID: ObjectID
+        title: Title
         rating: Int
         last_open: DateTime
         progres: Int
@@ -27,7 +27,7 @@ export const userTypeDefs = `#graphql
     }
 
     type Friend {
-        # user_ID: ObjectID
+        user: User
         status: FriendStatus
     }
 
@@ -39,21 +39,76 @@ export const userTypeDefs = `#graphql
     }
 
     type User {
-        id: ObjectID!
-        email: String
+        _id: ObjectID!
+        email: EmailAddress
         password_hash: Password
         settings: Settings
         created: DateTime
         last_online: DateTime
         lists: [List]
-        friends: [Friend]
-        # reviews: [ObjectID]
-        # comments: [ObjectID]
-        # recommendations: [ObjectID]
+        friends: [Friend!]
+        reviews: [Review!]
+        comments: [Comment!]
+        recommendations: [Title!]
         role: Role
     }
 
     type Query {
         users: [User]
+        user(id: ObjectID!): User
+    }
+
+    type Mutation {
+        deleteUser(id: ObjectID!): User
+        addUser(user: AddUserInput!): User
+        updateUser(id: ObjectID!, edits: EditUserInput!): User
+    }
+
+    input AddSettingsInput {
+        username: String!
+    }
+
+    input AddUserInput {
+        email: EmailAddress!
+        password_hash: Password!
+        settings: AddSettingsInput!
+    }
+
+    input EditSettingsInput {
+        username: String
+        bio: String
+        pfp: String
+        banner: String
+    }
+
+    input EditFriendInput {
+        user: User
+        status: FriendStatus
+    }  
+
+    input EditSavedTitleInput {
+        title: Title
+        rating: Int
+        last_open: DateTime
+        progres: Int
+    }
+
+    input EditListInput {
+        name: String
+        titles: [EditSavedTitleInput]
+    }
+
+    input EditUserInput {
+        email: EmailAddress
+        password_hash: Password
+        settings: EditSettingsInput
+        created: DateTime
+        last_online: DateTime
+        lists: [EditListInput!]
+        friends: [EditFriendInput!]
+        reviews: [Review]
+        comments: [Comment]
+        recommendations: [Title]
+        role: Role
     }
 `;

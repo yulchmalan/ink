@@ -22,7 +22,6 @@ export const titleTypeDefs = `#graphql
         name: String!
         description: String
         # author_ID: ObjectID!
-        volume: Int
         cover: String
         francise: String
         translation: Translation

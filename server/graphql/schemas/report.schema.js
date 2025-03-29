@@ -1,6 +1,6 @@
 export const reportTypeDefs = `#graphql
     enum ReportStatus {
-        SENDING
+        SENDED
         REVIEWED
         RESOLVED
     }
