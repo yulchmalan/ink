@@ -88,6 +88,7 @@ export const userTypeDefs = `#graphql
       role: Role
       sortBy: String = "created"
       sortOrder: String = "desc"
+      search: String
     ): [User]
     user(id: ObjectID!): User
   }

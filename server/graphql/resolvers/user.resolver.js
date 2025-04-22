@@ -7,10 +7,21 @@ export const userResolvers = {
   Query: {
     async users(
       _,
-      { limit = 10, offset = 0, role, sortBy = "created", sortOrder = "desc" }
+      {
+        limit = 10,
+        offset = 0,
+        role,
+        sortBy = "created",
+        sortOrder = "desc",
+        search,
+      }
     ) {
       try {
-        const filter = role ? { role } : {};
+        const filter = {};
+
+        if (role) filter.role = role;
+        if (search) filter.username = { $regex: search, $options: "i" }; // пошук по username
+
         const sort = { [sortBy]: sortOrder === "asc" ? 1 : -1 };
 
         return await User.find(filter).sort(sort).skip(offset).limit(limit);
@@ -19,6 +30,7 @@ export const userResolvers = {
         throw new Error("Failed to fetch users");
       }
     },
+
     async user(_, { id }) {
       try {
         return await User.findById(id);
