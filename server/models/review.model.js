@@ -1,9 +1,16 @@
+// models/Review.js
 import mongoose from "mongoose";
 
 const scoreSchema = new mongoose.Schema(
   {
-    likes: Number,
-    dislikes: Number,
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    dislikes: {
+      type: Number,
+      default: 0,
+    },
   },
   { _id: false }
 );
@@ -20,11 +27,30 @@ const reviewSchema = new mongoose.Schema(
     },
     rating: {
       type: Number,
+      min: 0,
+      max: 10,
     },
     views: {
       type: Number,
+      default: 0,
     },
     score: scoreSchema,
+    user_ID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    title_ID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Title",
+      required: true,
+    },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -6,10 +6,10 @@ export const commentTypeDefs = `#graphql
 
     type Comment {
         id: ObjectID!
-        # user_ID: ObjectID
-        # subject_ID: ObjectID
+        user_ID: ObjectID
+        subject_ID: ObjectID
         body: String
-        # parent_ID: ObjectID
+        parent_ID: ObjectID
         score: Score
     }
 

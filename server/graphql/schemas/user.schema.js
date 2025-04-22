@@ -18,7 +18,7 @@ export const userTypeDefs = `#graphql
         title: Title
         rating: Int
         last_open: DateTime
-        progres: Int
+        progress: Int
     }
 
     type List {
@@ -58,57 +58,57 @@ export const userTypeDefs = `#graphql
         user(id: ObjectID!): User
     }
 
-    type Mutation {
-        deleteUser(id: ObjectID!): User
-        addUser(user: AddUserInput!): User
-        updateUser(id: ObjectID!, edits: EditUserInput!): User
-    }
+    # type Mutation {
+    #     deleteUser(id: ObjectID!): User
+    #     addUser(user: AddUserInput!): User
+    #     updateUser(id: ObjectID!, edits: EditUserInput!): User
+    # }
 
-    input AddSettingsInput {
-        username: String!
-    }
+    # input AddSettingsInput {
+    #     username: String!
+    # }
 
-    input AddUserInput {
-        email: EmailAddress!
-        password_hash: Password!
-        settings: AddSettingsInput!
-    }
+    # input AddUserInput {
+    #     email: EmailAddress!
+    #     password_hash: Password!
+    #     settings: AddSettingsInput!
+    # }
 
-    input EditSettingsInput {
-        username: String
-        bio: String
-        pfp: String
-        banner: String
-    }
+    # input EditSettingsInput {
+    #     username: String
+    #     bio: String
+    #     pfp: String
+    #     banner: String
+    # }
 
-    input EditFriendInput {
-        user: User
-        status: FriendStatus
-    }  
+    # input EditFriendInput {
+    #     user: User
+    #     status: FriendStatus
+    # }  
 
-    input EditSavedTitleInput {
-        title: Title
-        rating: Int
-        last_open: DateTime
-        progres: Int
-    }
+    # input EditSavedTitleInput {
+    #     title: Title
+    #     rating: Int
+    #     last_open: DateTime
+    #     progress: Int
+    # }
 
-    input EditListInput {
-        name: String
-        titles: [EditSavedTitleInput]
-    }
+    # input EditListInput {
+    #     name: String
+    #     titles: [EditSavedTitleInput]
+    # }
 
-    input EditUserInput {
-        email: EmailAddress
-        password_hash: Password
-        settings: EditSettingsInput
-        created: DateTime
-        last_online: DateTime
-        lists: [EditListInput!]
-        friends: [EditFriendInput!]
-        reviews: [Review]
-        comments: [Comment]
-        recommendations: [Title]
-        role: Role
-    }
+    # input EditUserInput {
+    #     email: EmailAddress
+    #     password_hash: Password
+    #     settings: EditSettingsInput
+    #     created: DateTime
+    #     last_online: DateTime
+    #     lists: [EditListInput!]
+    #     friends: [EditFriendInput!]
+    #     reviews: [Review]
+    #     comments: [Comment]
+    #     recommendations: [Title]
+    #     role: Role
+    # }
 `;

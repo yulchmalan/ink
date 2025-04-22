@@ -33,49 +33,49 @@ export const userResolvers = {
         console.error("error fetching user's reviews:", error);
       }
     },
-    async comments(parent) {
-      try {
-        const commentIds = parent.comments;
-        const comments = await Comment.find({ _id: { $in: commentIds } });
-        return comments;
-      } catch (error) {
-        console.error("error fetching user's comments:", error);
-      }
-    },
-    async recommendations(parent) {
-      try {
-        const recommendationIds = parent.recommendations;
-        const recommendations = await Title.find({
-          _id: { $in: recommendationIds },
-        });
-        return recommendations;
-      } catch (error) {
-        console.error("error fetching user's recommendations:", error);
-      }
-    },
+    // async comments(parent) {
+    //   try {
+    //     const commentIds = parent.comments;
+    //     const comments = await Comment.find({ _id: { $in: commentIds } });
+    //     return comments;
+    //   } catch (error) {
+    //     console.error("error fetching user's comments:", error);
+    //   }
+    // },
+    // async recommendations(parent) {
+    //   try {
+    //     const recommendationIds = parent.recommendations;
+    //     const recommendations = await Title.find({
+    //       _id: { $in: recommendationIds },
+    //     });
+    //     return recommendations;
+    //   } catch (error) {
+    //     console.error("error fetching user's recommendations:", error);
+    //   }
+    // },
   },
-  Mutation: {
-    async deleteUser(_, args) {
-      try {
-        const user = await User.findByIdAndDelete(args.id);
-        return user;
-      } catch (error) {
-        console.error("error deleting user:", error);
-      }
-    },
-    async addUser(_, args) {
-      try {
-        let user = {
-          ...args.user,
-          settings: { ...args.user.settings },
-          created: new Date(),
-          _id: new ObjectId(),
-        };
-        const savedUser = await User.create(user);
-        return savedUser;
-      } catch (error) {
-        console.error("error adding user:", error);
-      }
-    },
-  },
+  // Mutation: {
+  //   async deleteUser(_, args) {
+  //     try {
+  //       const user = await User.findByIdAndDelete(args.id);
+  //       return user;
+  //     } catch (error) {
+  //       console.error("error deleting user:", error);
+  //     }
+  //   },
+  //   async addUser(_, args) {
+  //     try {
+  //       let user = {
+  //         ...args.user,
+  //         settings: { ...args.user.settings },
+  //         created: new Date(),
+  //         _id: new ObjectId(),
+  //       };
+  //       const savedUser = await User.create(user);
+  //       return savedUser;
+  //     } catch (error) {
+  //       console.error("error adding user:", error);
+  //     }
+  //   },
+  // },
 };

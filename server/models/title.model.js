@@ -1,5 +1,7 @@
+// models/Title.js
 import mongoose from "mongoose";
 
+// вкладений контент: розділи, томи
 const contentSchema = new mongoose.Schema(
   {
     volume: {
@@ -10,7 +12,10 @@ const contentSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    path: String,
+    path: {
+      type: String,
+      required: true,
+    },
   },
   { _id: false }
 );
@@ -20,6 +25,7 @@ const titleSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      trim: true,
     },
     description: {
       type: String,
@@ -27,7 +33,7 @@ const titleSchema = new mongoose.Schema(
     cover: {
       type: String,
     },
-    francise: {
+    franchise: {
       type: String,
     },
     translation: {
@@ -42,8 +48,26 @@ const titleSchema = new mongoose.Schema(
     },
     alt_names: {
       type: [String],
+      default: [],
     },
-    content: contentSchema,
+    contents: [contentSchema],
+    author_ID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Author",
+      required: true,
+    },
+    genres: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Label",
+      },
+    ],
+    tags: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Label",
+      },
+    ],
   },
   { timestamps: true }
 );

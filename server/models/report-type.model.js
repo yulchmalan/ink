@@ -1,3 +1,4 @@
+// models/ReportType.js
 import mongoose from "mongoose";
 
 const reportTypeSchema = new mongoose.Schema(
@@ -6,6 +7,13 @@ const reportTypeSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
+      lowercase: true,
+    },
+    subject_type: {
+      type: String,
+      enum: ["title", "user", "comment", "review"],
+      required: true,
     },
   },
   { timestamps: true }

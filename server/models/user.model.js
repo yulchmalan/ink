@@ -1,5 +1,11 @@
+// models/User.js
 import mongoose from "mongoose";
 
+// Константи для ролей та статусів
+const ROLES = ["USER", "MODERATOR", "ADMIN", "OWNER"];
+const FRIEND_STATUSES = ["PENDING", "ACCEPTED", "REJECTED"];
+
+// збережені твори в списках
 const savedTitleSchema = new mongoose.Schema(
   {
     title: {
@@ -14,7 +20,7 @@ const savedTitleSchema = new mongoose.Schema(
     last_open: {
       type: Date,
     },
-    progres: {
+    progress: {
       type: Number,
       min: 0,
     },
@@ -22,6 +28,7 @@ const savedTitleSchema = new mongoose.Schema(
   { _id: false }
 );
 
+//  читацькі списки
 const listSchema = new mongoose.Schema(
   {
     name: {
@@ -33,6 +40,7 @@ const listSchema = new mongoose.Schema(
   { _id: false }
 );
 
+// друзі та статус дружби
 const friendSchema = new mongoose.Schema(
   {
     user: {
@@ -41,18 +49,15 @@ const friendSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["PENDING", "ACCEPTED", "REJECTED"],
+      enum: FRIEND_STATUSES,
     },
   },
   { _id: false }
 );
 
+// додаткові налаштування профілю
 const settingsSchema = new mongoose.Schema(
   {
-    username: {
-      type: String,
-      required: true,
-    },
     bio: {
       type: String,
     },
@@ -66,8 +71,14 @@ const settingsSchema = new mongoose.Schema(
   { _id: false }
 );
 
+// оОсновна схема користувача
 const userSchema = new mongoose.Schema(
   {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     email: {
       type: String,
       required: true,
@@ -101,13 +112,14 @@ const userSchema = new mongoose.Schema(
     ],
     role: {
       type: String,
-      enum: ["USER", "MODERATOR", "ADMIN", "OWNER"],
+      enum: ROLES,
       default: "USER",
     },
   },
   { timestamps: true }
 );
 
+// створення моделі
 const User = mongoose.model("User", userSchema);
 
 export default User;

@@ -1,3 +1,4 @@
+// models/Label.js
 import mongoose from "mongoose";
 
 const labelSchema = new mongoose.Schema(
@@ -6,6 +7,8 @@ const labelSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
+      lowercase: true,
     },
     status: {
       type: String,
