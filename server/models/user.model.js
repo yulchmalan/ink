@@ -1,7 +1,7 @@
 // models/User.js
 import mongoose from "mongoose";
 
-// Константи для ролей та статусів
+// константи для ролей та статусів
 const ROLES = ["USER", "MODERATOR", "ADMIN", "OWNER"];
 const FRIEND_STATUSES = ["PENDING", "ACCEPTED", "REJECTED"];
 
@@ -71,7 +71,7 @@ const settingsSchema = new mongoose.Schema(
   { _id: false }
 );
 
-// оОсновна схема користувача
+// основна схема користувача
 const userSchema = new mongoose.Schema(
   {
     username: {

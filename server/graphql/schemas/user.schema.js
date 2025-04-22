@@ -1,114 +1,94 @@
 export const userTypeDefs = `#graphql
-    scalar Password
-    
-    enum Role {
-        USER 
-        MODERATOR
-        ADMIN
-        OWNER
-    }
+  scalar Password
 
-    enum FriendStatus {
-        PENDING
-        ACCEPTED
-        REJECTED
-    }
+  enum Role {
+    USER
+    MODERATOR
+    ADMIN
+    OWNER
+  }
 
-    type SavedTitle {
-        title: Title
-        rating: Int
-        last_open: DateTime
-        progress: Int
-    }
+  enum FriendStatus {
+    PENDING
+    ACCEPTED
+    REJECTED
+  }
 
-    type List {
-        name: String
-        titles: [SavedTitle]
-    }
+  type SavedTitle {
+    title: Title
+    rating: Int
+    last_open: DateTime
+    progress: Int
+  }
 
-    type Friend {
-        user: User
-        status: FriendStatus
-    }
+  type List {
+    name: String
+    titles: [SavedTitle]
+  }
 
-    type Settings {
-        username: String
-        bio: String
-        pfp: String
-        banner: String
-    }
+  type Friend {
+    user: User
+    status: FriendStatus
+  }
 
-    type User {
-        _id: ObjectID!
-        email: EmailAddress
-        password_hash: Password
-        settings: Settings
-        created: DateTime
-        last_online: DateTime
-        lists: [List]
-        friends: [Friend!]
-        reviews: [Review!]
-        comments: [Comment!]
-        recommendations: [Title!]
-        role: Role
-    }
+  type Settings {
+    bio: String
+    pfp: String
+    banner: String
+  }
 
-    type Query {
-        users: [User]
-        user(id: ObjectID!): User
-    }
+  type User {
+    _id: ObjectID!
+    username: String
+    email: EmailAddress
+    password_hash: Password
+    settings: Settings
+    created: DateTime
+    last_online: DateTime
+    lists: [List]
+    friends: [Friend!]
+    reviews: [Review!]
+    comments: [Comment!]
+    recommendations: [Title!]
+    role: Role
+  }
 
-    # type Mutation {
-    #     deleteUser(id: ObjectID!): User
-    #     addUser(user: AddUserInput!): User
-    #     updateUser(id: ObjectID!, edits: EditUserInput!): User
-    # }
+  input AddSettingsInput {
+    bio: String
+    pfp: String
+    banner: String
+  }
 
-    # input AddSettingsInput {
-    #     username: String!
-    # }
+  input AddUserInput {
+    username: String!
+    email: EmailAddress!
+    password_hash: Password!
+    settings: AddSettingsInput
+  }
 
-    # input AddUserInput {
-    #     email: EmailAddress!
-    #     password_hash: Password!
-    #     settings: AddSettingsInput!
-    # }
+  input EditSettingsInput {
+    bio: String
+    pfp: String
+    banner: String
+  }
 
-    # input EditSettingsInput {
-    #     username: String
-    #     bio: String
-    #     pfp: String
-    #     banner: String
-    # }
+  input EditUserInput {
+    username: String
+    email: EmailAddress
+    password_hash: Password
+    settings: EditSettingsInput
+    last_online: DateTime
+    role: Role
+  }
 
-    # input EditFriendInput {
-    #     user: User
-    #     status: FriendStatus
-    # }  
+  type Query {
+    users: [User]
+    user(id: ObjectID!): User
+  }
 
-    # input EditSavedTitleInput {
-    #     title: Title
-    #     rating: Int
-    #     last_open: DateTime
-    #     progress: Int
-    # }
-
-    # input EditListInput {
-    #     name: String
-    #     titles: [EditSavedTitleInput]
-    # }
-
-    # input EditUserInput {
-    #     email: EmailAddress
-    #     password_hash: Password
-    #     settings: EditSettingsInput
-    #     created: DateTime
-    #     last_online: DateTime
-    #     lists: [EditListInput!]
-    #     friends: [EditFriendInput!]
-    #     reviews: [Review]
-    #     comments: [Comment]
-    #     recommendations: [Title]
-    #     role: Role
-    # }
+  type Mutation {
+    addUser(user: AddUserInput!): User
+    updateUser(id: ObjectID!, edits: EditUserInput!): User
+    deleteUser(id: ObjectID!): Boolean
+  }
 `;

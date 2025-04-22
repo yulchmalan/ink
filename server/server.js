@@ -6,7 +6,6 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 
 import indexRouter from "./routes/index.js";
 import authRouter from "./routes/auth.js";
-import usersRoutes from "./routes/user.route.js";
 import { connectDB } from "./config/db.js";
 import { typeDefs, resolvers } from "./graphql/index.js";
 import { expressMiddleware } from "@apollo/server/express4";

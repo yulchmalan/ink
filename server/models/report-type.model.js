@@ -10,11 +10,6 @@ const reportTypeSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
-    subject_type: {
-      type: String,
-      enum: ["title", "user", "comment", "review"],
-      required: true,
-    },
   },
   { timestamps: true }
 );

@@ -51,7 +51,7 @@ const titleSchema = new mongoose.Schema(
       default: [],
     },
     contents: [contentSchema],
-    author_ID: {
+    author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Author",
       required: true,
