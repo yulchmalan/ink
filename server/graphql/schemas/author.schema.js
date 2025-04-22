@@ -12,8 +12,39 @@ export const authorTypeDefs = `#graphql
     updatedAt: DateTime
   }
 
+  input AuthorFilterInput {
+    name: String
+    alt_name: String
+  }
+
+  enum AuthorSortField {
+    NAME
+    CREATED_AT
+  }
+
+  enum SortDirection {
+    ASC
+    DESC
+  }
+
+  input AuthorSortInput {
+    field: AuthorSortField!
+    direction: SortDirection!
+  }
+
+  type AuthorQueryResult {
+    total: Int!
+    results: [Author!]!
+  }
+
   type Query {
-    authors: [Author]
+    authors(
+      filter: AuthorFilterInput
+      sort: AuthorSortInput
+      limit: Int
+      offset: Int
+    ): AuthorQueryResult!
+    
     getAuthor(id: ObjectID!): Author
   }
 

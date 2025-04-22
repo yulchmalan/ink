@@ -2,9 +2,36 @@ import Label from "../../models/label.model.js";
 
 export const labelResolvers = {
   Query: {
-    async labels() {
+    async labels(
+      _,
+      {
+        filter = {},
+        sortBy = "CREATED_AT",
+        sortOrder = "DESC",
+        limit = 10,
+        offset = 0,
+      }
+    ) {
       try {
-        return await Label.find();
+        const query = {};
+        if (filter.type) query.type = filter.type;
+        if (filter.nameContains)
+          query.name = { $regex: filter.nameContains, $options: "i" };
+
+        const sortFieldMap = {
+          NAME: "name",
+          CREATED_AT: "createdAt",
+        };
+        const sortField = sortFieldMap[sortBy] || "createdAt";
+        const direction = sortOrder === "ASC" ? 1 : -1;
+
+        const total = await Label.countDocuments(query);
+        const results = await Label.find(query)
+          .sort({ [sortField]: direction })
+          .skip(offset)
+          .limit(limit);
+
+        return { total, results };
       } catch (error) {
         console.error("error fetching labels:", error);
         throw new Error("Failed to fetch labels");
@@ -25,16 +52,15 @@ export const labelResolvers = {
     async createLabel(_, { name, type }) {
       try {
         const existing = await Label.findOne({ name, type });
-        if (existing) {
+        if (existing)
           throw new Error("Label with same name and type already exists");
-        }
-
         return await Label.create({ name, type });
       } catch (error) {
         console.error("error creating label:", error);
         throw new Error("Failed to create label");
       }
     },
+
     async updateLabel(_, { id, name, type }) {
       try {
         const updated = await Label.findByIdAndUpdate(
@@ -43,13 +69,9 @@ export const labelResolvers = {
             ...(name !== undefined && { name }),
             ...(type !== undefined && { type }),
           },
-          { new: true } // повертає оновлений документ
+          { new: true }
         );
-
-        if (!updated) {
-          throw new Error("Label not found");
-        }
-
+        if (!updated) throw new Error("Label not found");
         return updated;
       } catch (error) {
         console.error("error updating label:", error);
@@ -60,9 +82,7 @@ export const labelResolvers = {
     async deleteLabel(_, { id }) {
       try {
         const deleted = await Label.findByIdAndDelete(id);
-        if (!deleted) {
-          throw new Error("Label not found");
-        }
+        if (!deleted) throw new Error("Label not found");
         return true;
       } catch (error) {
         console.error("error deleting label:", error);

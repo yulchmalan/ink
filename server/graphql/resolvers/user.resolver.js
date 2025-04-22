@@ -5,9 +5,15 @@ import Title from "../../models/title.model.js";
 
 export const userResolvers = {
   Query: {
-    async users() {
+    async users(
+      _,
+      { limit = 10, offset = 0, role, sortBy = "created", sortOrder = "desc" }
+    ) {
       try {
-        return await User.find();
+        const filter = role ? { role } : {};
+        const sort = { [sortBy]: sortOrder === "asc" ? 1 : -1 };
+
+        return await User.find(filter).sort(sort).skip(offset).limit(limit);
       } catch (error) {
         console.error("error fetching users:", error.message);
         throw new Error("Failed to fetch users");
@@ -32,7 +38,7 @@ export const userResolvers = {
         });
         return createdUser;
       } catch (error) {
-        console.error("error adding user:", error.message, error.stack);
+        console.error("error adding user:", error.message);
         throw new Error("Failed to create user");
       }
     },
@@ -40,6 +46,7 @@ export const userResolvers = {
     async updateUser(_, { id, edits }) {
       try {
         const updates = {};
+        if (edits.username !== undefined) updates.username = edits.username;
         if (edits.email !== undefined) updates.email = edits.email;
         if (edits.password_hash !== undefined)
           updates.password_hash = edits.password_hash;

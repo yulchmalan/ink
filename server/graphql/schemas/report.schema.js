@@ -5,6 +5,29 @@ export const reportTypeDefs = `#graphql
     RESOLVED
   }
 
+  enum ReportSortField {
+    CREATED_AT
+    STATUS
+  }
+
+  enum SortOrder {
+    ASC
+    DESC
+  }
+
+  input ReportFilter {
+    status: ReportStatus
+    userId: ObjectID
+    reasonId: ObjectID
+  }
+
+  input CreateReportInput {
+    userId: ObjectID!
+    subjectId: ObjectID!
+    reasonId: ObjectID!
+    body: String!
+  }
+
   type Report {
     id: ObjectID!
     user: User!
@@ -16,17 +39,21 @@ export const reportTypeDefs = `#graphql
     updatedAt: DateTime
   }
 
-  type Query {
-    reports: [Report!]!
-    report(id: ObjectID!): Report
-    reportsByStatus(status: ReportStatus!): [Report!]!
+  type PaginatedReports {
+    total: Int!
+    results: [Report!]!
   }
 
-  input CreateReportInput {
-    userId: ObjectID!
-    subjectId: ObjectID!
-    reasonId: ObjectID!
-    body: String!
+  type Query {
+    reports(
+      filter: ReportFilter
+      sortBy: ReportSortField = CREATED_AT
+      sortOrder: SortOrder = DESC
+      limit: Int = 10
+      offset: Int = 0
+    ): PaginatedReports!
+
+    report(id: ObjectID!): Report
   }
 
   type Mutation {

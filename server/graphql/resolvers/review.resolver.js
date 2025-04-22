@@ -5,9 +5,42 @@ import Comment from "../../models/comment.model.js";
 
 export const reviewResolvers = {
   Query: {
-    async reviews() {
+    async reviews(
+      _,
+      {
+        filter = {},
+        sortBy = "CREATED_AT",
+        sortOrder = "DESC",
+        limit = 10,
+        offset = 0,
+      }
+    ) {
       try {
-        return await Review.find();
+        const query = {};
+
+        if (filter.userId) query.user_ID = filter.userId;
+        if (filter.titleId) query.title_ID = filter.titleId;
+        if (filter.minRating !== undefined)
+          query.rating = { ...query.rating, $gte: filter.minRating };
+        if (filter.maxRating !== undefined)
+          query.rating = { ...query.rating, $lte: filter.maxRating };
+
+        const sortFields = {
+          CREATED_AT: "createdAt",
+          RATING: "rating",
+          VIEWS: "views",
+        };
+
+        const sortField = sortFields[sortBy] || "createdAt";
+        const direction = sortOrder === "ASC" ? 1 : -1;
+
+        const total = await Review.countDocuments(query);
+        const results = await Review.find(query)
+          .sort({ [sortField]: direction })
+          .skip(offset)
+          .limit(limit);
+
+        return { total, results };
       } catch (error) {
         console.error("error fetching reviews:", error.message);
         throw new Error("Failed to fetch reviews");
@@ -74,12 +107,11 @@ export const reviewResolvers = {
 
     async likeReview(_, { id }) {
       try {
-        const updated = await Review.findByIdAndUpdate(
+        return await Review.findByIdAndUpdate(
           id,
           { $inc: { "score.likes": 1 } },
           { new: true }
         );
-        return updated;
       } catch (error) {
         console.error("error liking review:", error.message);
         throw new Error("Failed to like review");
@@ -88,12 +120,11 @@ export const reviewResolvers = {
 
     async dislikeReview(_, { id }) {
       try {
-        const updated = await Review.findByIdAndUpdate(
+        return await Review.findByIdAndUpdate(
           id,
           { $inc: { "score.dislikes": 1 } },
           { new: true }
         );
-        return updated;
       } catch (error) {
         console.error("error disliking review:", error.message);
         throw new Error("Failed to dislike review");

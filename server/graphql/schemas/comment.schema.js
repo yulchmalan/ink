@@ -22,13 +22,41 @@ export const commentTypeDefs = `#graphql
     parentId: ObjectID
   }
 
-  type Query {
-    comments: [Comment!]!
-    comment(id: ObjectID!): Comment
-  }
-
   input EditCommentInput {
     body: String
+  }
+
+  enum CommentSortField {
+    CREATED_AT
+    LIKES
+    DISLIKES
+  }
+
+  enum SortOrder {
+    ASC
+    DESC
+  }
+
+  input CommentFilter {
+    subjectId: ObjectID
+    userId: ObjectID
+  }
+
+  type PaginatedComments {
+    total: Int!
+    results: [Comment!]!
+  }
+
+  type Query {
+    comments(
+      filter: CommentFilter
+      sortBy: CommentSortField = CREATED_AT
+      sortOrder: SortOrder = DESC
+      limit: Int = 10
+      offset: Int = 0
+    ): PaginatedComments!
+
+    comment(id: ObjectID!): Comment
   }
 
   type Mutation {

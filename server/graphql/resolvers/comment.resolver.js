@@ -3,9 +3,43 @@ import User from "../../models/user.model.js";
 
 export const commentResolvers = {
   Query: {
-    async comments() {
+    async comments(
+      _,
+      {
+        filter = {},
+        sortBy = "CREATED_AT",
+        sortOrder = "DESC",
+        limit = 10,
+        offset = 0,
+      }
+    ) {
       try {
-        return await Comment.find();
+        const query = {};
+
+        if (filter.subjectId) {
+          query.subject_ID = filter.subjectId;
+        }
+
+        if (filter.userId) {
+          query.user_ID = filter.userId;
+        }
+
+        const sortFieldMap = {
+          CREATED_AT: "createdAt",
+          LIKES: "score.likes",
+          DISLIKES: "score.dislikes",
+        };
+
+        const sortField = sortFieldMap[sortBy] || "createdAt";
+        const sortDirection = sortOrder === "ASC" ? 1 : -1;
+
+        const total = await Comment.countDocuments(query);
+        const results = await Comment.find(query)
+          .sort({ [sortField]: sortDirection })
+          .skip(offset)
+          .limit(limit);
+
+        return { total, results };
       } catch (error) {
         console.error("error fetching comments:", error.message);
         throw new Error("Failed to fetch comments");
@@ -70,12 +104,11 @@ export const commentResolvers = {
 
     async likeComment(_, { id }) {
       try {
-        const updated = await Comment.findByIdAndUpdate(
+        return await Comment.findByIdAndUpdate(
           id,
           { $inc: { "score.likes": 1 } },
           { new: true }
         );
-        return updated;
       } catch (error) {
         console.error("error liking comment:", error.message);
         throw new Error("Failed to like comment");
@@ -84,12 +117,11 @@ export const commentResolvers = {
 
     async dislikeComment(_, { id }) {
       try {
-        const updated = await Comment.findByIdAndUpdate(
+        return await Comment.findByIdAndUpdate(
           id,
           { $inc: { "score.dislikes": 1 } },
           { new: true }
         );
-        return updated;
       } catch (error) {
         console.error("error disliking comment:", error.message);
         throw new Error("Failed to dislike comment");

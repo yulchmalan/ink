@@ -4,6 +4,21 @@ export const labelTypeDefs = `#graphql
     GENRE
   }
 
+  enum LabelSortField {
+    NAME
+    CREATED_AT
+  }
+
+  enum SortOrder {
+    ASC
+    DESC
+  }
+
+  input LabelFilter {
+    type: LabelType
+    nameContains: String
+  }
+
   type Label {
     id: ObjectID!
     name: String!
@@ -12,9 +27,21 @@ export const labelTypeDefs = `#graphql
     updatedAt: DateTime
   }
 
+  type PaginatedLabels {
+    total: Int!
+    results: [Label!]!
+  }
+
   type Query {
-    labels: [Label]
-    labelsByType(type: LabelType!): [Label] 
+    labels(
+      filter: LabelFilter
+      sortBy: LabelSortField = CREATED_AT
+      sortOrder: SortOrder = DESC
+      limit: Int = 10
+      offset: Int = 0
+    ): PaginatedLabels!
+
+    labelsByType(type: LabelType!): [Label]
   }
 
   type Mutation {

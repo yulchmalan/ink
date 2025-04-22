@@ -4,9 +4,46 @@ import Label from "../../models/label.model.js";
 
 export const titleResolvers = {
   Query: {
-    async titles() {
-      return await Title.find();
+    async titles(_, { filter, sort, limit = 10, offset = 0 }) {
+      try {
+        const query = {};
+
+        if (filter?.name) {
+          query.name = { $regex: filter.name, $options: "i" };
+        }
+        if (filter?.franchise) {
+          query.franchise = { $regex: filter.franchise, $options: "i" };
+        }
+        if (filter?.translation) {
+          query.translation = filter.translation;
+        }
+        if (filter?.status) {
+          query.status = filter.status;
+        }
+
+        let sortOptions = {};
+        if (sort) {
+          const fieldMap = {
+            NAME: "name",
+            CREATED_AT: "createdAt",
+          };
+          const direction = sort.direction === "DESC" ? -1 : 1;
+          sortOptions[fieldMap[sort.field]] = direction;
+        }
+
+        const total = await Title.countDocuments(query);
+        const results = await Title.find(query)
+          .sort(sortOptions)
+          .skip(offset)
+          .limit(limit);
+
+        return { total, results };
+      } catch (error) {
+        console.error("error fetching titles:", error.message, error.stack);
+        throw new Error("Failed to fetch titles");
+      }
     },
+
     async getTitle(_, { id }) {
       return await Title.findById(id);
     },
@@ -49,9 +86,9 @@ export const titleResolvers = {
         throw new Error("Failed to create title");
       }
     },
+
     async updateTitle(_, { id, input }) {
       try {
-        // Будуємо об'єкт з полів, які реально передані
         const updates = {};
 
         if (input.name !== undefined) updates.name = input.name;
@@ -71,7 +108,6 @@ export const titleResolvers = {
         const updated = await Title.findByIdAndUpdate(id, updates, {
           new: true,
         });
-
         if (!updated) throw new Error("Title not found");
 
         return updated;
@@ -80,6 +116,7 @@ export const titleResolvers = {
         throw new Error("Failed to update title");
       }
     },
+
     async deleteTitle(_, { id }) {
       try {
         const deleted = await Title.findByIdAndDelete(id);

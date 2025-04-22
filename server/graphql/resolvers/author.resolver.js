@@ -3,11 +3,40 @@ import User from "../../models/user.model.js";
 
 export const authorResolvers = {
   Query: {
-    async authors() {
+    async authors(_, { filter, sort, limit = 10, offset = 0 }) {
       try {
-        return await Author.find();
+        const query = {};
+
+        // 🔍 Фільтрація
+        if (filter?.name) {
+          query.name = { $regex: filter.name, $options: "i" };
+        }
+        if (filter?.alt_name) {
+          query.alt_names = {
+            $elemMatch: { $regex: filter.alt_name, $options: "i" },
+          };
+        }
+
+        let sortOptions = {};
+        if (sort) {
+          const fieldMap = {
+            NAME: "name",
+            CREATED_AT: "createdAt",
+          };
+          const direction = sort.direction === "DESC" ? -1 : 1;
+          sortOptions[fieldMap[sort.field]] = direction;
+        }
+
+        const total = await Author.countDocuments(query);
+
+        const results = await Author.find(query)
+          .sort(sortOptions)
+          .skip(offset)
+          .limit(limit);
+
+        return { total, results };
       } catch (error) {
-        console.error("error fetching authors:", error);
+        console.error("error fetching authors with filters:", error);
         throw new Error("Failed to fetch authors");
       }
     },
@@ -23,6 +52,7 @@ export const authorResolvers = {
       }
     },
   },
+
   Mutation: {
     async createAuthor(_, { name, alt_names, bio, photo }) {
       try {
@@ -71,6 +101,7 @@ export const authorResolvers = {
       }
     },
   },
+
   Author: {
     subscribers: async (parent) => {
       return await User.find({ _id: { $in: parent.subscribers } });

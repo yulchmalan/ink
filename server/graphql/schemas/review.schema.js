@@ -26,15 +26,45 @@ export const reviewTypeDefs = `#graphql
     titleId: ObjectID!
   }
 
-  type Query {
-    reviews: [Review!]!
-    review(id: ObjectID!): Review
-  }
-
   input EditReviewInput {
     name: String
     body: String
     rating: Int
+  }
+
+  input ReviewFilter {
+    userId: ObjectID
+    titleId: ObjectID
+    minRating: Int
+    maxRating: Int
+  }
+
+  enum ReviewSortField {
+    CREATED_AT
+    RATING
+    VIEWS
+  }
+
+  enum SortOrder {
+    ASC
+    DESC
+  }
+
+  type PaginatedReviews {
+    total: Int!
+    results: [Review!]!
+  }
+
+  type Query {
+    reviews(
+      filter: ReviewFilter
+      sortBy: ReviewSortField = CREATED_AT
+      sortOrder: SortOrder = DESC
+      limit: Int = 10
+      offset: Int = 0
+    ): PaginatedReviews!
+
+    review(id: ObjectID!): Review
   }
 
   type Mutation {

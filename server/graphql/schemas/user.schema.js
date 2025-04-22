@@ -82,7 +82,13 @@ export const userTypeDefs = `#graphql
   }
 
   type Query {
-    users: [User]
+    users(
+      limit: Int = 10
+      offset: Int = 0
+      role: Role
+      sortBy: String = "created"
+      sortOrder: String = "desc"
+    ): [User]
     user(id: ObjectID!): User
   }
 

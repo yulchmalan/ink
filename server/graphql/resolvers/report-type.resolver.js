@@ -2,9 +2,38 @@ import ReportType from "../../models/report-type.model.js";
 
 export const reportTypeResolvers = {
   Query: {
-    async reportTypes() {
+    async reportTypes(
+      _,
+      {
+        filter = {},
+        sortBy = "CREATED_AT",
+        sortOrder = "DESC",
+        limit = 10,
+        offset = 0,
+      }
+    ) {
       try {
-        return await ReportType.find();
+        const query = {};
+
+        if (filter.titleContains) {
+          query.title = { $regex: filter.titleContains, $options: "i" };
+        }
+
+        const sortMap = {
+          TITLE: "title",
+          CREATED_AT: "createdAt",
+        };
+
+        const sortField = sortMap[sortBy] || "createdAt";
+        const sortDirection = sortOrder === "ASC" ? 1 : -1;
+
+        const total = await ReportType.countDocuments(query);
+        const results = await ReportType.find(query)
+          .sort({ [sortField]: sortDirection })
+          .skip(offset)
+          .limit(limit);
+
+        return { total, results };
       } catch (error) {
         console.error("error fetching reportTypes:", error.message);
         throw new Error("Failed to fetch report types");
