@@ -10,7 +10,7 @@ const labelSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
-    status: {
+    type: {
       type: String,
       enum: ["TAG", "GENRE"],
       required: true,

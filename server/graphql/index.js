@@ -13,6 +13,8 @@ import { labelTypeDefs } from "./schemas/label.schema.js";
 import { commentTypeDefs } from "./schemas/comment.schema.js";
 import { userTypeDefs } from "./schemas/user.schema.js";
 import { userResolvers } from "./resolvers/user.resolver.js";
+import { authorResolvers } from "./resolvers/author.resolver.js";
+import { labelResolvers } from "./resolvers/label.resolver.js";
 
 const typeDefs = mergeTypeDefs([
   ...scalarTypeDefs,
@@ -26,6 +28,11 @@ const typeDefs = mergeTypeDefs([
   userTypeDefs,
 ]);
 
-const resolvers = mergeResolvers([scalarResolvers, userResolvers]);
+const resolvers = mergeResolvers([
+  scalarResolvers,
+  userResolvers,
+  authorResolvers,
+  labelResolvers,
+]);
 
 export { typeDefs, resolvers };

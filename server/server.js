@@ -29,7 +29,6 @@ app.use(express.json());
 app.get("/", indexRouter);
 app.get("/auth", authRouter);
 app.use("/graphql", expressMiddleware(server));
-// app.use("/api/users", usersRoutes);
 
 app.listen(port, () => {
   connectDB();
