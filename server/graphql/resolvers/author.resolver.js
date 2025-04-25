@@ -7,7 +7,6 @@ export const authorResolvers = {
       try {
         const query = {};
 
-        // 🔍 Фільтрація
         if (filter?.name) {
           query.name = { $regex: filter.name, $options: "i" };
         }
