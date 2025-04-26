@@ -1,4 +1,10 @@
 {
+    "UI": {
+        "ukrainian": "Ukrainian",
+        "polish": "Polish",
+        "english": "English",
+        "langSwitch": "Change Language"
+    },
     "Index": {
         "localeText": "english"
     }
