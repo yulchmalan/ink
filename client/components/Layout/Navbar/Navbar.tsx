@@ -46,8 +46,10 @@ export default function Navbar() {
           </ul>
           <div className={styles.endFlex}>
             {logged && <SimpleIconBtn icon={<PlusCircle />} />}
-            {!logged && <SimpleIconBtn icon={<Settings />} />}
-            <SimpleIconBtn icon={<Search />} />
+            {logged && <SimpleIconBtn icon={<Settings />} />}
+            <div className={styles.searchIcon}>
+              <SimpleIconBtn icon={<Search />} />
+            </div>
             {logged && <SimpleIconBtn icon={<Bell />} />}
             {!logged && (
               <Button>
@@ -55,7 +57,11 @@ export default function Navbar() {
                 {t("login")}
               </Button>
             )}
-            {logged && <AvatarButton href="/profile" />}
+            {logged && (
+              <div className={styles.PfpContainer}>
+                <AvatarButton href="/profile" />
+              </div>
+            )}
           </div>
         </div>
       </Container>

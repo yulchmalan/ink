@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { knownRoutes } from "./knownRoutes"; // Шлях до твого списку
+import { knownRoutes } from "./knownRoutes";
 
 export default function RootLayout({
   children,

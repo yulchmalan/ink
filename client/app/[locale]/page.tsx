@@ -11,7 +11,6 @@ export default async function Home() {
 
   return (
     <>
-      <Navbar></Navbar>
       <h1>{t("localeText")}</h1>
       <Button>Праймарі кніпка</Button>
       <Button variant="secondary">Секондарі кніпка</Button>

@@ -4,6 +4,7 @@ import "../../styles/globals.scss";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import Navbar from "@/components/Layout/Navbar/Navbar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,14 +19,20 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
+  const messages = (await import(`@/messages/${locale}.json`)).default;
+
   return (
     <html lang={locale}>
       <body>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Navbar />
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
