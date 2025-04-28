@@ -3,7 +3,8 @@
         "ukrainian": "Українська",
         "polish": "Польська",
         "english": "Англійська",
-        "langSwitch": "Змінити мову"
+        "langSwitch": "Змінити мову",
+        "avatar": "Аватар користувача"
     },
     "Index": {
         "localeText": "українська"
@@ -14,13 +15,9 @@
     },
     "Navigation": {
         "catalog": "Каталог",
-        "catalog__titles": "Тайтли",
-        "titles__manga": "Манґа",
-        "titles__manhwa": "Манхва",
-        "titles__novel": "Новели",
-        "catalog__people": "Люди",
-        "search": "Пошук",
-        "contacts": "Контакти"
+        "mainpage": "Головна",
+        "contacts": "Контакти",
+        "login": "Вхід | Реєстрація"
     },
     "Footer": {
         "col1_heading": "Наш сайт",
