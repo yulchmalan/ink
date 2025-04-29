@@ -7,8 +7,6 @@ import ThemeToggle from "@/components/UI/ThemeToggle/ThemeToggle";
 import { getTranslations, getLocale } from "next-intl/server";
 import cover from "../../assets/cover.png";
 import SwiperMoreButton from "@/components/UI/Buttons/ShowMore/ShowMore";
-import SwiperSection from "@/components/Layout/SwiperSection/SwiperSection";
-import { popularBooks, recommendedBooks } from "@/data/bookSections";
 
 export default async function Home() {
   const locale = await getLocale();
@@ -28,7 +26,7 @@ export default async function Home() {
         href="/title/osina-fabrika"
         size="large"
       />
-      <Container></Container>
+      <Container>gfgh</Container>
     </>
   );
 }
