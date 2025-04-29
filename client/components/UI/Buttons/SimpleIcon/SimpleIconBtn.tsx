@@ -1,5 +1,3 @@
-"use client";
-
 import { ButtonHTMLAttributes, ReactNode } from "react";
 import styles from "./simple-icon.module.scss";
 import clsx from "clsx";

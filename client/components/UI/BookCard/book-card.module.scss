@@ -1,0 +1,76 @@
+@use '@/styles/variables' as *;
+
+.card {
+    position: relative;
+    display: block;
+    aspect-ratio: 1 / 1.35;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.coverContainer {
+    position: relative;
+    min-height: 105%;
+    width: 105%;
+    transform: translate(-5px, -5px);
+    &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0; bottom: 0;
+        left: 0; right: 0;
+        background: linear-gradient(0deg,rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+}
+  
+.cover {
+    width: 100%;
+    height: 100%;
+}
+
+.info {
+    position: absolute;
+    bottom: 0;
+    right: 0; left: 0;
+    padding: 12px;
+}
+
+.title {
+    color: $white;
+    font-weight: 500;
+}
+
+.desc {
+  font-size: .75rem;
+  color: #C7C9D9;
+  display: none;
+}
+
+.large {
+    width: 8.6rem;
+    .title {
+        font-size: var(--font-size);
+    }
+}
+
+.small {
+    width: 8.6rem;
+    .title {
+        font-size: .875rem;
+    }
+}
+
+@media (min-width: 690px) {
+    .desc {
+        display: block;
+    }
+    .large {
+        width: 10rem;
+    }
+}
+
+@media (min-width: 1500px) {
+    .large {
+        width: 11.5rem;
+    }
+}
