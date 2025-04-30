@@ -2,23 +2,19 @@
 .wrapper {
     overflow: visible;
     position: relative;
-    &:hover {
-        :global {
-            .custom-next,
-            .custom-prev,
-            .custom-next2,
-            .custom-prev2 {
-                opacity: 1;
-            }
-            .swiper-button-disabled {
-                opacity: 0;
-            }
-        }
-        
-    }
 }
 
 :global {
+    .wrapper:hover .custom-next,
+    .wrapper:hover .custom-prev,
+    .wrapper:hover .custom-next2,
+    .wrapper:hover .custom-prev2 {
+        opacity: 1;
+    }
+
+    .wrapper:hover .swiper-button-disabled {
+        opacity: 0;
+    }
     .custom-next,
     .custom-prev {
         width: 48px;
