@@ -1,7 +1,7 @@
 @use '@/styles/variables' as *;
 
 .wrapper {
-    background-color: $white;
+    background-color: var(--surface);
     padding: 24px;
     border-radius: 18px;
 }

@@ -45,29 +45,11 @@ export default function SwiperSection() {
       <div className={styles.swiperWrapper}>
         <Swiper
           modules={[Navigation, A11y, FreeMode]}
-          spaceBetween={12}
+          spaceBetween={16}
           slidesPerView="auto"
-          loop
           freeMode
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           className={styles.swiperLarge}
-          // breakpoints={{
-          //   420: {
-          //     slidesPerView: 2.5,
-          //   },
-          //   480: {
-          //     slidesPerView: 3,
-          //   },
-          //   550: {
-          //     slidesPerView: 3.5,
-          //   },
-          //   1480: {
-          //     slidesPerView: 5,
-          //   },
-          //   1900: {
-          //     slidesPerView: 7.7,
-          //   },
-          // }}
         >
           {popularBooks.map((book, index) => (
             <SwiperSlide key={index} className={styles.slide}>

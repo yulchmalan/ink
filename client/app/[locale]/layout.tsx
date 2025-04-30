@@ -5,6 +5,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Layout/Navbar/Navbar";
+import Body from "@/components/Layout/Body/Body";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -31,7 +32,7 @@ export default async function RootLayout({
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Navbar />
-          {children}
+          <Body>{children}</Body>
         </NextIntlClientProvider>
       </body>
     </html>

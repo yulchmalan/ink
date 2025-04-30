@@ -15,13 +15,22 @@ export default async function Home() {
 
   return (
     <>
-      <h1>{t("localeText")}</h1>
-      <Button>Праймарі кніпка</Button>
-      <Button variant="secondary">Секондарі кніпка</Button>
+      {/* <h1>{t("localeText")}</h1> */}
       {/* <LanguageSwitcher></LanguageSwitcher> */}
-      <ThemeToggle></ThemeToggle>
+      {/* <ThemeToggle></ThemeToggle> */}
       <Container>
         <SwiperPopularSection></SwiperPopularSection>
+      </Container>
+      <Container>
+        <SwiperRecommendations></SwiperRecommendations>
+      </Container>
+      <Container>
+        <SwiperRecommendations></SwiperRecommendations>
+      </Container>
+      <Container>
+        <SwiperRecommendations></SwiperRecommendations>
+      </Container>
+      <Container>
         <SwiperRecommendations></SwiperRecommendations>
       </Container>
     </>

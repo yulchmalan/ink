@@ -1,6 +1,5 @@
 @use '@/styles/variables' as *;
 .wrapper {
-    background-color: red;
     overflow: visible;
     position: relative;
     &:hover {
@@ -9,6 +8,9 @@
         :global(.custom-next2),
         :global(.custom-prev2) {
             opacity: 1;
+        }
+        :global(.swiper-button-disabled) {
+            opacity: 0;
         }
     }
 }
@@ -41,9 +43,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #C7C9D9;
+    color: var(--font);
     
-    background-color: $white;
+    background-color: var(--surface);
     border-radius: 50%;
     pointer-events: auto;
     border: none;
@@ -51,7 +53,6 @@
     box-shadow: $box-shadow;
     transition: .3s all ease;
     opacity: 0;
-    
 }
 :global(.custom-prev) {
     left: -24px;

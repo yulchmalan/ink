@@ -1,13 +1,16 @@
 @use '@/styles/variables' as *;
 
 .navbar {
-    position: relative;
+    position: fixed;
+    top: 0;
+    right: 0; left: 0;
     background-color: var(--surface);
     box-shadow: $box-shadow;
     font-size: var(--font-size);
     font-weight: 600;
     padding: 8px 0;
     transition: .3s all ease;
+    z-index: 100;
     .container {
         display: flex;
         justify-content: space-between;

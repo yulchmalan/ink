@@ -29,7 +29,6 @@ export default function SwiperRecommendations() {
           slidesPerView="auto"
           navigation={{ nextEl: ".custom-next2", prevEl: ".custom-prev2" }}
           className={styles.swiperSmall}
-          loop={true}
           freeMode
         >
           {recomendedBooks.map((book, index) => (
