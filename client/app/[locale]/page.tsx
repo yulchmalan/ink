@@ -1,5 +1,5 @@
 import Container from "@/components/Layout/Container/Container";
-import Navbar from "@/components/Layout/Navbar/Navbar";
+import SwiperPopularSection from "@/components/Layout/SwiperSections/SwiperPopularSection";
 import BookCard from "@/components/UI/BookCard/BookCard";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
 import LanguageSwitcher from "@/components/UI/LanguageSwitcher/LanguageSwitcher";
@@ -7,6 +7,7 @@ import ThemeToggle from "@/components/UI/ThemeToggle/ThemeToggle";
 import { getTranslations, getLocale } from "next-intl/server";
 import cover from "../../assets/cover.png";
 import SwiperMoreButton from "@/components/UI/Buttons/ShowMore/ShowMore";
+import SwiperRecommendations from "@/components/Layout/SwiperSections/SwiperRecommendations";
 
 export default async function Home() {
   const locale = await getLocale();
@@ -19,14 +20,10 @@ export default async function Home() {
       <Button variant="secondary">Секондарі кніпка</Button>
       {/* <LanguageSwitcher></LanguageSwitcher> */}
       <ThemeToggle></ThemeToggle>
-      <BookCard
-        title="Осина фабрика"
-        desc="Психологія, Роман"
-        coverUrl={cover.src}
-        href="/title/osina-fabrika"
-        size="large"
-      />
-      <Container>gfgh</Container>
+      <Container>
+        <SwiperPopularSection></SwiperPopularSection>
+        <SwiperRecommendations></SwiperRecommendations>
+      </Container>
     </>
   );
 }
