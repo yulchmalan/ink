@@ -7,6 +7,7 @@ import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 import "swiper/scss/scrollbar";
+import clsx from "clsx";
 
 import styles from "./swiper-section.module.scss";
 import BookCard from "@/components/UI/BookCard/BookCard";
@@ -18,7 +19,7 @@ import ChevronRight from "@/assets/icons/ChevronRight";
 
 export default function SwiperRecommendations() {
   return (
-    <Wrapper className={styles.wrapper}>
+    <Wrapper className={clsx(styles.wrapper, "wrapper")}>
       <div className={styles.heading}>
         <h2>На основі прочитаного</h2>
       </div>
@@ -28,7 +29,7 @@ export default function SwiperRecommendations() {
           spaceBetween={12}
           slidesPerView="auto"
           navigation={{ nextEl: ".custom-next2", prevEl: ".custom-prev2" }}
-          className={styles.swiperSmall}
+          className={clsx(styles.swiperSmall, "swiperSmall")}
           freeMode
         >
           {recomendedBooks.map((book, index) => (
@@ -39,10 +40,10 @@ export default function SwiperRecommendations() {
         </Swiper>
       </div>
       <div className={styles.navButtons}>
-        <button className="custom-prev2">
+        <button className={clsx(styles.customPrev2, "custom-prev2")}>
           <ChevronLeft />
         </button>
-        <button className="custom-next2">
+        <button className={clsx(styles.customNext2, "custom-next2")}>
           <ChevronRight />
         </button>
       </div>

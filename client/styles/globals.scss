@@ -44,9 +44,49 @@ a {
   text-decoration: none;
 }
 
+.swiperLarge {
+  .swiper-slide {
+      width: 8.6rem;
+  }
+}
+
+.swiperSmall {
+  .swiper-slide {
+      width: 8.6rem;
+  }
+}
+
+.wrapper {
+  &:hover {
+    .custom-next:is(.swiper-button-disabled),
+    .custom-prev:is(.swiper-button-disabled),
+    .custom-next2:is(.swiper-button-disabled),
+    .custom-prev2:is(.swiper-button-disabled) {
+      opacity: 0;
+    }
+  }
+}
+
+
+@media (min-width: 690px) {
+  .swiperLarge {
+      .swiper-slide {
+          width: 10rem;
+      }
+  }
+}
+
 @media (min-width: 900px) {
   :root {
     --font-size: 1rem;
+  }
+}
+
+@media (min-width: 1500px) {
+  .swiperLarge {
+    .swiper-slide {
+      width: 11.5rem;
+    }
   }
 }
 

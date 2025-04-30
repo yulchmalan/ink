@@ -4,6 +4,8 @@ import { useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y, FreeMode } from "swiper/modules";
 import { Swiper as SwiperType } from "swiper";
+import clsx from "clsx";
+
 import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
@@ -36,7 +38,7 @@ export default function SwiperSection() {
   }, []);
 
   return (
-    <Wrapper className={styles.wrapper}>
+    <Wrapper className={clsx(styles.wrapper, "wrapper")}>
       <div className={styles.heading}>
         <h2>Популярне</h2>
         <ShowMore href="/catalogue%popular" />
@@ -49,7 +51,7 @@ export default function SwiperSection() {
           slidesPerView="auto"
           freeMode
           onSwiper={(swiper) => (swiperRef.current = swiper)}
-          className={styles.swiperLarge}
+          className={clsx(styles.swiperLarge, "swiperLarge")}
         >
           {popularBooks.map((book, index) => (
             <SwiperSlide key={index} className={styles.slide}>
@@ -60,10 +62,16 @@ export default function SwiperSection() {
       </div>
 
       <div className={styles.navButtons}>
-        <button ref={prevRef} className="custom-prev">
+        <button
+          ref={prevRef}
+          className={clsx(styles.customPrev, "custom-prev")}
+        >
           <ChevronLeft />
         </button>
-        <button ref={nextRef} className="custom-next">
+        <button
+          ref={nextRef}
+          className={clsx(styles.customNext, "custom-next")}
+        >
           <ChevronRight />
         </button>
       </div>
