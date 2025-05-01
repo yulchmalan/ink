@@ -12,12 +12,13 @@ import "swiper/scss/navigation";
 import styles from "./swiper-section.module.scss";
 import BookCard from "@/components/UI/Cards/BookCard/BookCard";
 import Wrapper from "../Wrapper/Wrapper";
-import ShowMore from "../../UI/Buttons/ShowMore/ShowMore";
+import ShowMore from "../../UI/Buttons/ArrowBtn/ArrowBtn";
 import Heading from "../../UI/Heading/Heading";
 import ChevronLeft from "@/assets/icons/ChevronLeft";
 import ChevronRight from "@/assets/icons/ChevronRight";
 
 import { booksData } from "@/data/lib";
+import ArrowBtn from "../../UI/Buttons/ArrowBtn/ArrowBtn";
 
 type LibDataKeys = keyof typeof booksData;
 
@@ -64,7 +65,7 @@ export default function BookSwiper({
     <Wrapper className={clsx(styles.wrapper, "wrapper")}>
       <div className={styles.heading}>
         <Heading>{heading}</Heading>
-        {isLarge && <ShowMore href={`/catalogue%${dataName}`} />}
+        {isLarge && <ArrowBtn href={`/catalogue%${dataName}`}>Більше</ArrowBtn>}
       </div>
 
       <div className={styles.swiperWrapper}>

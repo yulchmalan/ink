@@ -11,6 +11,9 @@ import styles from "./page.module.scss";
 import Heading from "@/components/UI/Heading/Heading";
 import IndexGrid from "@/components/Layout/Grid/IndexGrid";
 import IndexTabs from "@/components/Layout/Tabs/IndexTabs";
+import Tag from "@/components/UI/Tag/Tag";
+import CollectionCard from "@/components/UI/Cards/CollectionCard/CollectionCard";
+import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
 
 export default async function Home() {
   const locale = await getLocale();
@@ -78,7 +81,63 @@ export default async function Home() {
               <IndexTabs></IndexTabs>
             </Wrapper>
           }
-          topRight={<div className={styles.collections}>dfg</div>}
+          topRight={
+            <div className={styles.collections}>
+              <ArrowBtn href="/collections" size="large">
+                Колекції
+              </ArrowBtn>
+              <div className={styles.items}>
+                <CollectionCard
+                  title="Фентезі"
+                  views={11200}
+                  itemsCount={10}
+                  bookmarks={2000}
+                  likes="96/12"
+                  covers={[cover.src, cover.src, cover.src]}
+                />
+                <CollectionCard
+                  title="Буддизм"
+                  views={11200}
+                  itemsCount={16}
+                  bookmarks={2000}
+                  likes="96/12"
+                  covers={[]}
+                />
+                <CollectionCard
+                  title="Буддизм"
+                  views={11200}
+                  itemsCount={16}
+                  bookmarks={2000}
+                  likes="96/12"
+                  covers={[]}
+                />
+                <CollectionCard
+                  title="Буддизм"
+                  views={11200}
+                  itemsCount={16}
+                  bookmarks={2000}
+                  likes="96/12"
+                  covers={[]}
+                />
+                <CollectionCard
+                  title="Буддизм"
+                  views={11200}
+                  itemsCount={16}
+                  bookmarks={2000}
+                  likes="96/12"
+                  covers={[]}
+                />
+                <CollectionCard
+                  title="Буддизм"
+                  views={11200}
+                  itemsCount={16}
+                  bookmarks={2000}
+                  likes="96/12"
+                  covers={[]}
+                />
+              </div>
+            </div>
+          }
           bottomRight={<div className={styles.reviews}>dfg</div>}
         ></IndexGrid>
       </Container>

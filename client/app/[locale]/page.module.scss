@@ -28,11 +28,28 @@
 }
 
 .collections {
-    background-color: yellow;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .reviews {
     background-color: blue;
+}
+
+.items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    > div {
+        display: none;
+        width: 100%;
+        &:nth-child(1),
+        &:nth-child(2) {
+            display: flex;
+        }
+    }
 }
 
 @media (min-width: 690px) {
@@ -49,8 +66,29 @@
             .progCard {
                 &:nth-child(3),
                 &:nth-child(4) {
-                    display: block;
+                    display: flex;
                 }
+            }
+        }
+    }
+    .items {
+        > div {
+            width: calc(50% - 6px);
+            &:nth-child(3),
+            &:nth-child(4) {
+                display: flex;
+            }
+        }
+    }
+}
+
+@media (min-width: 1500px) {
+    .items {
+        > div {
+            width: calc(33% - 6px);
+            &:nth-child(5),
+            &:nth-child(6) {
+                display: flex;
             }
         }
     }
