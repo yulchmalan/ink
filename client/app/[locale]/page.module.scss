@@ -1,0 +1,57 @@
+/* Enable hover only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  
+}
+
+.pdBottom12 {
+    padding-bottom: 12px;
+}
+
+.recentWrapper {
+    > div {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        align-items: stretch;
+        .progCard {
+            display: none;
+            &:nth-child(1),
+            &:nth-child(2) {
+                display: block;
+            }
+        }
+    }
+}
+
+.recent {
+    min-height: 100%;
+}
+
+.collections {
+    background-color: yellow;
+}
+
+.reviews {
+    background-color: blue;
+}
+
+@media (min-width: 690px) {
+    .recentWrapper {
+        > div {
+            flex-direction: row;
+        }
+    }
+}
+
+@media (min-width: 1150px) {
+    .recentWrapper {
+        > div {
+            .progCard {
+                &:nth-child(3),
+                &:nth-child(4) {
+                    display: block;
+                }
+            }
+        }
+    }
+}

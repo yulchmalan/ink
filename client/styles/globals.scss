@@ -3,6 +3,7 @@
 :root {
   --background: #FAFAFC;
   --font: #3A3A3C;
+  --font-secondary: #656565;
   --font-size: 0.875rem;
   --surface: #ffffff;
   --shadow-color: rgba(99, 99, 99, 0.2);
@@ -11,6 +12,7 @@
 .dark {
   --background: #0F0F0F;
   --font: #BFBFBF;
+  --font-secondary: #b4b4b4;
   --surface: #2A2727;
   --shadow-color: rgba(43, 43, 43, 0.2);
 }
@@ -41,7 +43,12 @@ body {
 
 a {
   color: inherit;
+  -webkit-tap-highlight-color: transparent;
   text-decoration: none;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .swiperLarge {
