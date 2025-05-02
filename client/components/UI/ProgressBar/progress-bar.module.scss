@@ -13,7 +13,7 @@
 .barBackground {
     width: 100%;
     height: 5px;
-    background-color: $primary-subtle;
+    background-color: var(--tag-bg);
     border-radius: 2.5px;
     overflow: hidden;
 }

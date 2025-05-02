@@ -6,7 +6,7 @@
   
   .tabHeader {
     display: flex;
-    border-bottom: 1px solid #C7C9D9;
+    border-bottom: 1px solid var(--font-secondary);
     border-radius: .5px;
   }
   
@@ -46,7 +46,7 @@
   .card {
     display: flex;
     gap: 15px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--font-secondary);
     padding-top: 15px;
   }
   
@@ -70,7 +70,7 @@
   
   .subtitle {
     font-size: 13px;
-    color: #666;
+    color: var(--font-secondary);
   }
   
   .meta {
@@ -83,6 +83,6 @@
   
   .empty {
     text-align: center;
-    color: #999;
+    color: var(--font-secondary);
   }
   

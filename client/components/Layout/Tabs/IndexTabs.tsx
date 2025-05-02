@@ -1,11 +1,14 @@
 import UpdateCard from "@/components/UI/Cards/UpdateCard/UpdateCard";
 import Tabs from "./Tabs";
 import cover from "../../../assets/cover.png";
+import { useLocale, useTranslations } from "next-intl";
 
 const MyTabsPage = () => {
+  const localActive = useLocale();
+  const t = useTranslations("Tabs");
   const tabs = [
     {
-      title: "Всі оновлення",
+      title: t("AllUpdates"),
       content: (
         <>
           <UpdateCard
@@ -68,7 +71,7 @@ const MyTabsPage = () => {
       ),
     },
     {
-      title: "Мої оновлення",
+      title: t("MyUpdates"),
       content: (
         <>
           <UpdateCard

@@ -5,10 +5,17 @@
         "english": "Англійська",
         "langSwitch": "Змінити мову",
         "showMore": "Більше",
-        "avatar": "Аватар користувача"
+        "avatar": "Аватар користувача",
+        "chapter": "Розділ"
     },
     "Index": {
-        "localeText": "українська"
+        "localeText": "українська",
+        "Continue": "Продовжити",
+        "Updates": "Нещодавні оновлення",
+        "Collections": "Колекції",
+        "Reviews": "Рецензії",
+        "Popular": "Популярне",
+        "BasedOnRead": "На основі прочитаного"
     },
     "NotFoundPage": {
         "title": "Сторінку не знайдено",
@@ -19,6 +26,10 @@
         "mainpage": "Головна",
         "contacts": "Контакти",
         "login": "Вхід | Реєстрація"
+    },
+    "Tabs": {
+        "AllUpdates": "Всі оновлення",
+        "MyUpdates": "Мої оновлення"
     },
     "Footer": {
         "col1_heading": "Наш сайт",

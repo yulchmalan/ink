@@ -19,6 +19,7 @@ import ChevronRight from "@/assets/icons/ChevronRight";
 
 import { booksData } from "@/data/lib";
 import ArrowBtn from "../../UI/Buttons/ArrowBtn/ArrowBtn";
+import { useTranslations } from "use-intl";
 
 type LibDataKeys = keyof typeof booksData;
 
@@ -39,6 +40,7 @@ export default function BookSwiper({
   const nextRef = useRef<HTMLButtonElement>(null);
   const swiperRef = useRef<SwiperType | null>(null);
   const [data, setData] = useState<any[]>([]);
+  const t = useTranslations("UI");
 
   const isLarge = size === "large";
 
@@ -65,13 +67,15 @@ export default function BookSwiper({
     <Wrapper className={clsx(styles.wrapper, "wrapper")}>
       <div className={styles.heading}>
         <Heading>{heading}</Heading>
-        {isLarge && <ArrowBtn href={`/catalogue%${dataName}`}>Більше</ArrowBtn>}
+        {isLarge && (
+          <ArrowBtn href={`/catalogue%${dataName}`}>{t("showMore")}</ArrowBtn>
+        )}
       </div>
 
       <div className={styles.swiperWrapper}>
         <Swiper
           modules={[Navigation, A11y, FreeMode]}
-          spaceBetween={isLarge ? 16 : 12}
+          spaceBetween={12}
           slidesPerView="auto"
           freeMode
           onSwiper={(swiper) => {

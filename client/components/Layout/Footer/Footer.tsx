@@ -8,8 +8,12 @@ import Telegram from "@/assets/icons/Telegram";
 import Twitter from "@/assets/icons/Twitter";
 import YouTube from "@/assets/icons/YouTube";
 import Container from "../Container/Container";
+import { useLocale, useTranslations } from "use-intl";
 
 export default function Footer() {
+  const localActive = useLocale();
+  const t = useTranslations("Footer");
+
   return (
     <footer className={styles.footer}>
       <Container>
@@ -19,63 +23,63 @@ export default function Footer() {
               <Logo className={styles.logo}></Logo>
             </div>
             <div className={styles.column}>
-              <h4>Наш сайт</h4>
+              <h4>{t("col1_heading")}</h4>
               <ul>
                 <li>
-                  <Link href="#">Політика конфіденційності</Link>
+                  <Link href="#">{t("col1_1")}</Link>
                 </li>
                 <li>
-                  <Link href="#">Публічна оферта</Link>
+                  <Link href="#">{t("col1_2")}</Link>
                 </li>
                 <li>
-                  <Link href="#">DMCA – Правовласникам</Link>
+                  <Link href="#">{t("col1_3")}</Link>
                 </li>
                 <li>
-                  <Link href="#">Як створити публікацію?</Link>
+                  <Link href="#">{t("col1_4")}</Link>
                 </li>
               </ul>
             </div>
             <div className={styles.column}>
-              <h4>Навігація</h4>
+              <h4>{t("col2_heading")}</h4>
               <ul>
                 <li>
-                  <Link href="#">Головна</Link>
+                  <Link href="#">{t("col2_1")}</Link>
                 </li>
                 <li>
-                  <Link href="#">Каталог</Link>
+                  <Link href="#">{t("col2_2")}</Link>
                 </li>
                 <li>
-                  <Link href="#">FAQ</Link>
+                  <Link href="#">{t("col2_3")}</Link>
                 </li>
               </ul>
             </div>
             <div className={styles.column}>
-              <h4>Підтримка</h4>
+              <h4>{t("col3_heading")}</h4>
               <ul>
                 <li>
-                  <Link href="#">Контакти</Link>
+                  <Link href="#">{t("col3_1")}</Link>
                 </li>
               </ul>
             </div>
             <div className={styles.column}>
-              <h4>Каталог</h4>
+              <h4>{t("col4_heading")}</h4>
               <ul>
                 <li>
-                  <Link href="#">Книги</Link>
+                  <Link href="#">{t("col4_1")}</Link>
                 </li>
                 <li>
-                  <Link href="#">Комікси</Link>
+                  <Link href="#">{t("col4_2")}</Link>
                 </li>
                 <li>
-                  <Link href="#">Манґа</Link>
+                  <Link href="#">{t("col4_3")}</Link>
                 </li>
                 <li>
-                  <Link href="#">Манхви</Link>
+                  <Link href="#">{t("col4_4")}</Link>
                 </li>
               </ul>
             </div>
             <div className={styles.column}>
-              <h4>Ми в соцмережах</h4>
+              <h4>{t("col5_heading")}</h4>
               <div className={styles.socials}>
                 <Link href="#" className={styles.social}>
                   <Telegram />
@@ -92,16 +96,16 @@ export default function Footer() {
         </div>
 
         <div className={styles.bottom}>
-          <span>©2025 Ink, All Rights Reserved</span>
+          <span>©2025 Ink, {t("rights")}</span>
           <div className={styles.links}>
             <Link href="#" className={styles.link}>
-              Terms of Use
+              {t("terms")}
             </Link>
             <Link href="#" className={styles.link}>
-              Privacy Policy
+              {t("privacy")}
             </Link>
             <Link href="#" className={styles.link}>
-              Cookie Policy
+              {t("cookie")}
             </Link>
           </div>
         </div>

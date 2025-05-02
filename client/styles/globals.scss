@@ -7,14 +7,16 @@
   --font-size: 0.875rem;
   --surface: #ffffff;
   --shadow-color: rgba(99, 99, 99, 0.2);
+  --tag-bg: #FFF2F6;
 }
 
 .dark {
   --background: #0F0F0F;
   --font: #BFBFBF;
-  --font-secondary: #b4b4b4;
+  --font-secondary: #9b9b9b;
   --surface: #2A2727;
   --shadow-color: rgba(43, 43, 43, 0.2);
+  --tag-bg: #d62b5624;
 }
 
 * {

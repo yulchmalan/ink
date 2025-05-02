@@ -3,7 +3,6 @@ import LanguageSwitcher from "@/components/UI/LanguageSwitcher/LanguageSwitcher"
 import ThemeToggle from "@/components/UI/ThemeToggle/ThemeToggle";
 import { getTranslations, getLocale } from "next-intl/server";
 import SwiperSection from "@/components/Layout/SwiperSections/SwiperSection";
-import ProgressBar from "@/components/UI/ProgressBar/ProgressBar";
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
 import ProgressCard from "@/components/UI/Cards/ProgressCard/ProgressCard";
 import cover from "../../assets/cover.png";
@@ -11,11 +10,9 @@ import styles from "./page.module.scss";
 import Heading from "@/components/UI/Heading/Heading";
 import IndexGrid from "@/components/Layout/Grid/IndexGrid";
 import IndexTabs from "@/components/Layout/Tabs/IndexTabs";
-import Tag from "@/components/UI/Tag/Tag";
 import CollectionCard from "@/components/UI/Cards/CollectionCard/CollectionCard";
 import ReviewCard from "@/components/UI/Cards/ReviewCard/ReviewCard";
 import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
-import Rating from "@/components/UI/Rating/Rating";
 
 export default async function Home() {
   const locale = await getLocale();
@@ -24,25 +21,24 @@ export default async function Home() {
     "Головна проблема – сюжет, що балансує між штучною напруженістю і повною передбачуваністю. Автор намагається створити атмосферу параної та екзистенційного жаху блаблабалаба блаблабалаба блаблабалабаблаблабалаба блаблабалаба";
   return (
     <>
-      {/* <h1>{t("localeText")}</h1> */}
       {/* <LanguageSwitcher></LanguageSwitcher> */}
       {/* <ThemeToggle></ThemeToggle> */}
       <Container>
         <SwiperSection
-          heading="Популярне"
+          heading={t("Popular")}
           dataName="popularBooks"
           size="large"
         />
       </Container>
       <Container>
         <SwiperSection
-          heading="На основі прочитаного"
+          heading={t("BasedOnRead")}
           dataName="recommendedBooks"
         ></SwiperSection>
       </Container>
       <Container>
         <Wrapper className={styles.recentWrapper}>
-          <Heading className={styles.pdBottom12}>Продовжити</Heading>
+          <Heading className={styles.pdBottom12}>{t("Continue")}</Heading>
           <div>
             <ProgressCard
               value={5}
@@ -80,14 +76,14 @@ export default async function Home() {
         <IndexGrid
           sidebar={
             <Wrapper className={styles.recent}>
-              <Heading>Нещодавні оновлення</Heading>
+              <Heading>{t("Updates")}</Heading>
               <IndexTabs></IndexTabs>
             </Wrapper>
           }
           topRight={
             <div className={styles.section}>
               <ArrowBtn href="/collections" size="large">
-                Колекції
+                {t("Collections")}
               </ArrowBtn>
               <div className={styles.items}>
                 <CollectionCard
@@ -144,7 +140,7 @@ export default async function Home() {
           bottomRight={
             <div className={styles.section}>
               <ArrowBtn href="/collections" size="large">
-                Рецензії
+                {t("Reviews")}
               </ArrowBtn>
               <div className={styles.items}>
                 <ReviewCard

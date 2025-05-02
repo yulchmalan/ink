@@ -2,8 +2,7 @@
 
 .footer {
     padding: 64px 0;
-    background: #fff;
-    border-top: 1px solid #ddd;
+    background: var(--surface);
     font-size: 14px;
     color: var(--font);
   
@@ -42,7 +41,7 @@
               width: 56px;
               height: 56px;
               border: 1px solid $primary;
-              background-color: $primary-subtle;
+              background-color:var(--tag-bg);
               color: $primary;
               border-radius: 8px;
               padding: 14px;
