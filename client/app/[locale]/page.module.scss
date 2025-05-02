@@ -27,15 +27,14 @@
     min-height: 100%;
 }
 
-.collections {
+.section {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.reviews {
-    background-color: blue;
-}
+// .section {
+// }
 
 .items {
     display: flex;
@@ -56,6 +55,19 @@
     .recentWrapper {
         > div {
             flex-direction: row;
+        }
+    }
+    .items {
+        > div {
+            width: calc(50% - 6px);
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    .items {
+        > div {
+            width: 100%;
         }
     }
 }

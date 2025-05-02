@@ -40,6 +40,30 @@ const MyTabsPage = () => {
             views={11200}
             saves={2000}
           ></UpdateCard>
+          <UpdateCard
+            href="blabla"
+            title="Квіти для Елджернона"
+            desc="Наукова фантастика - Роман"
+            coverUrl={cover.src}
+            views={11200}
+            saves={2000}
+          ></UpdateCard>
+          <UpdateCard
+            href="blabla"
+            title="Квіти для Елджернона"
+            desc="Наукова фантастика - Роман"
+            coverUrl={cover.src}
+            views={11200}
+            saves={2000}
+          ></UpdateCard>
+          <UpdateCard
+            href="blabla"
+            title="Квіти для Елджернона"
+            desc="Наукова фантастика - Роман"
+            coverUrl={cover.src}
+            views={11200}
+            saves={2000}
+          ></UpdateCard>
         </>
       ),
     },

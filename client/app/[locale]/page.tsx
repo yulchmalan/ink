@@ -13,12 +13,15 @@ import IndexGrid from "@/components/Layout/Grid/IndexGrid";
 import IndexTabs from "@/components/Layout/Tabs/IndexTabs";
 import Tag from "@/components/UI/Tag/Tag";
 import CollectionCard from "@/components/UI/Cards/CollectionCard/CollectionCard";
+import ReviewCard from "@/components/UI/Cards/ReviewCard/ReviewCard";
 import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
+import Rating from "@/components/UI/Rating/Rating";
 
 export default async function Home() {
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: "Index" });
-
+  const reviewBody =
+    "Головна проблема – сюжет, що балансує між штучною напруженістю і повною передбачуваністю. Автор намагається створити атмосферу параної та екзистенційного жаху блаблабалаба блаблабалаба блаблабалабаблаблабалаба блаблабалаба";
   return (
     <>
       {/* <h1>{t("localeText")}</h1> */}
@@ -82,7 +85,7 @@ export default async function Home() {
             </Wrapper>
           }
           topRight={
-            <div className={styles.collections}>
+            <div className={styles.section}>
               <ArrowBtn href="/collections" size="large">
                 Колекції
               </ArrowBtn>
@@ -138,7 +141,63 @@ export default async function Home() {
               </div>
             </div>
           }
-          bottomRight={<div className={styles.reviews}>dfg</div>}
+          bottomRight={
+            <div className={styles.section}>
+              <ArrowBtn href="/collections" size="large">
+                Рецензії
+              </ArrowBtn>
+              <div className={styles.items}>
+                <ReviewCard
+                  likes="96/12"
+                  views={11200}
+                  title="Не виправдало очікувань"
+                  body={reviewBody}
+                  rating={2.5}
+                  coverUrl={cover.src}
+                ></ReviewCard>
+                <ReviewCard
+                  likes="96/12"
+                  views={11200}
+                  title="Не виправдало очікувань"
+                  body={reviewBody}
+                  rating={2.5}
+                  coverUrl={cover.src}
+                ></ReviewCard>
+                <ReviewCard
+                  likes="96/12"
+                  views={11200}
+                  title="Не виправдало очікувань"
+                  body={reviewBody}
+                  rating={2.5}
+                  coverUrl={cover.src}
+                ></ReviewCard>
+                <ReviewCard
+                  likes="96/12"
+                  views={11200}
+                  title="Не виправдало очікувань"
+                  body={reviewBody}
+                  rating={2.5}
+                  coverUrl={cover.src}
+                ></ReviewCard>
+                <ReviewCard
+                  likes="96/12"
+                  views={11200}
+                  title="Не виправдало очікувань"
+                  body={reviewBody}
+                  rating={2.5}
+                  coverUrl={cover.src}
+                ></ReviewCard>
+                <ReviewCard
+                  likes="96/12"
+                  views={11200}
+                  title="Не виправдало очікувань"
+                  body={reviewBody}
+                  rating={2.5}
+                  coverUrl={cover.src}
+                ></ReviewCard>
+              </div>
+            </div>
+          }
         ></IndexGrid>
       </Container>
     </>
