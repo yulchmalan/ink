@@ -13,6 +13,13 @@ import IndexTabs from "@/components/Layout/Tabs/IndexTabs";
 import CollectionCard from "@/components/UI/Cards/CollectionCard/CollectionCard";
 import ReviewCard from "@/components/UI/Cards/ReviewCard/ReviewCard";
 import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Ink",
+  description:
+    "Ink — це сучасна цифрова бібліотека для читання книг, коміксів, манґи та манхви онлайн. Створюй власні колекції, залишай рецензії, слідкуй за оновленнями та відкривай нові історії, які ми підбираємо спеціально для тебе. Підтримка української, англійської та польської мов.",
+};
 
 export default async function Home() {
   const locale = await getLocale();
