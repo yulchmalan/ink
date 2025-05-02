@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "../../styles/globals.scss";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Layout/Navbar/Navbar";
+import Footer from "@/components/Layout/Footer/Footer";
 import Body from "@/components/Layout/Body/Body";
 
 export const metadata: Metadata = {
@@ -33,6 +33,7 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Navbar />
           <Body>{children}</Body>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>
