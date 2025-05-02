@@ -1,4 +1,7 @@
 {
+    "Meta": {
+        "description": "Ink to nowoczesna cyfrowa biblioteka do czytania książek, komiksów, mangi i manhwy online. Twórz kolekcje, zostawiaj recenzje i odkrywaj nowe historie."
+    },
     "UI": {
         "ukrainian": "Ukraiński",
         "polish": "Polski",
