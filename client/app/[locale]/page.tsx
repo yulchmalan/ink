@@ -15,15 +15,10 @@ import ReviewCard from "@/components/UI/Cards/ReviewCard/ReviewCard";
 import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
 import { Metadata } from "next";
 
-type Props = {
-  params: { locale: string };
-};
+export async function generateMetadata() {
+  const locale = await getLocale();
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const t = await getTranslations({
-    locale: params.locale,
-    namespace: "Meta",
-  });
+  const t = await getTranslations({ locale, namespace: "Meta" });
 
   return {
     title: "Ink | Digital Library",
