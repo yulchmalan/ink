@@ -28,7 +28,8 @@
         "catalog": "Catalog",
         "mainpage": "Home",
         "contacts": "Contacts",
-        "login": "Login | Register"
+        "login": "Login",
+        "reg": "Register"
     },
     "Tabs": {
         "AllUpdates": "All updates",
