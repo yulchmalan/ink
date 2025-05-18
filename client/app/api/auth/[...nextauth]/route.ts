@@ -100,6 +100,7 @@ const handler = NextAuth({
 
           const registerJson = await registerRes.json();
 
+          
           if (registerJson.errors) {
             console.log("registerJson", registerJson);
             console.error("Register failed:", registerJson.errors);
