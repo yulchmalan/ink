@@ -101,6 +101,7 @@ const handler = NextAuth({
           const registerJson = await registerRes.json();
 
           if (registerJson.errors) {
+            console.log("registerJson", registerJson);
             console.error("Register failed:", registerJson.errors);
             return false;
           }
@@ -110,8 +111,10 @@ const handler = NextAuth({
         }
 
         if (loginJson.errors) {
-          console.error("Login failed:", loginJson.errors);
-          return false;
+          console.error("Login failed:", JSON.stringify(loginJson.errors));
+          console.log("loginJson", loginJson);
+          // console.error("Login failed:", loginJson.errors);
+          // return false;
         }
 
         user.token = loginJson.data.loginUser.token;
