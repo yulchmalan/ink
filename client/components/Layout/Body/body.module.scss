@@ -1,0 +1,12 @@
+.body {
+    padding: 96px 0 96px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+@media (min-width: 790px) {
+    .body {
+        padding: 124px 0 96px 0;
+    }
+}

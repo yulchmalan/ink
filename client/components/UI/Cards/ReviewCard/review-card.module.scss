@@ -1,0 +1,53 @@
+@use '@/styles/variables' as *;
+
+.card {
+    overflow: hidden;
+    background: var(--surface);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.info {
+    padding: 8px 16px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    .reviewBody {
+        display: -webkit-box;
+        line-clamp: 3;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: calc(var(--font-size) - 4px);
+        @media (min-width: 868px) {
+            font-size: calc(var(--font-size) - 3px);
+        }
+    }
+}
+
+.title {
+    font-size: var(--font-size);
+    font-weight: 500;
+}
+
+.tags {
+    padding-top: 4px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.coverContainer {
+    position: relative;
+    height: 126px;
+    width: 100%;
+    overflow: hidden;
+    .cover {
+        position: absolute;
+        width: 100%;
+        top: calc(-50%);
+    }
+}

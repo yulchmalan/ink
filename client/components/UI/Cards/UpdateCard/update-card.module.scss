@@ -1,0 +1,68 @@
+@use '@/styles/variables' as *;
+
+.card {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    min-height: 132px;
+    display: flex;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--font-secondary);
+}
+
+.coverContainer {
+    overflow: hidden;
+    height: 100%;
+    width: 90px;
+    border-radius: 12px;
+}
+  
+.cover {
+    width: 100%;
+    height: 100%;
+}
+
+.info {
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    svg {
+        height: 24px;
+    }
+}
+
+.desc {
+    color: var(--font-secondary);
+    font-size: calc(var(--font-size) - 4px);
+}
+
+.bottomInfo {
+    color: $primary;
+    display: flex;
+    gap: 4px;
+    > div {
+        display: flex;
+        gap: 4px;
+        font-size: calc(var(--font-size) - 2px);
+        font-weight: 700;
+        padding: 8px 4px;
+        align-items: center;
+    }
+}
+
+.title {
+    color: var(--font);
+    font-weight: 500;
+    font-size: var(--font-size);
+}
+
+@media (min-width: 690px) {
+   
+}
+
+@media (min-width: 1500px) {
+   
+}

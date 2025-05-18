@@ -1,0 +1,49 @@
+@use '@/styles/variables' as *;
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.error {
+    color:  $error;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.social {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid $primary;
+    border-radius: 8px;
+    padding: 8px;
+    color: $primary;
+    background-color: var(--tag-bg);
+    font-size: 12px;
+    font-weight: 500;
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+    &:focus-visible {
+        background-color: $primary-subtle;
+    }
+    &:active {
+        background-color: $primary-light;
+    }
+    &:disabled {
+        background-color: $primary-font;
+        color: $primary-font;
+    }
+}

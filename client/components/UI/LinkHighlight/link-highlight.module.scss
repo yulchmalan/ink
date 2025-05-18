@@ -1,0 +1,12 @@
+@use '@/styles/variables' as *;
+.link {
+    color: $primary;
+    font-weight: inherit;
+    font-size: inherit;
+    text-decoration: none;
+  
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  

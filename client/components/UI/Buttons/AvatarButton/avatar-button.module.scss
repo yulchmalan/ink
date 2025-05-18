@@ -1,0 +1,28 @@
+
+.avatarButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: var(--font);
+    cursor: pointer;
+    border: none;
+}
+
+.avatarImage {
+    width: calc(100% + 5px);
+    height: calc(100% + 5px);
+    object-fit: cover;
+}
+
+@media (min-width: 1600px) {
+    .avatarButton {
+        width: 56px;
+        height: 56px;
+        border-radius: 8px;
+    }
+  }
+  

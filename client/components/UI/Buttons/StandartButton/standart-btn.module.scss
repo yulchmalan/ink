@@ -1,0 +1,54 @@
+@use '@/styles/variables' as *;
+
+.button {
+  padding: 0.875rem 1.5rem;
+  font-size: var(--font-size);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all linear .3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  svg {
+    height: 24px;
+    transform: translateY(2px);
+  }
+}
+
+.primary {
+  color: $white;
+  background-color: $primary;
+  border: none;
+  &:hover {
+    background-color: $primary-hover;
+  }
+  &:focus-visible {
+    background-color: $primary-hover;
+  }
+  &:active {
+    background-color: $primary-dark;
+  }
+  &:disabled {
+    background-color: $primary-subtle;
+    color: $primary-font;
+  }
+}
+
+.secondary {
+  color: $primary;
+  border: 1px solid $primary;
+  background-color: transparent;
+  &:hover {
+    background-color: $primary-subtle;
+  }
+  &:focus-visible {
+    background-color: $primary-subtle;
+  }
+  &:active {
+    background-color: $primary-light;
+  }
+  &:disabled {
+    background-color: $primary-font;
+    color: $primary-font;
+  }
+}

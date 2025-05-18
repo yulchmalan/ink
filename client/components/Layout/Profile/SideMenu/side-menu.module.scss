@@ -1,0 +1,120 @@
+@use '@/styles/variables' as *;
+
+.wrapper {
+    position: relative;
+    &:first-child {
+        margin-top: 16px;
+        @media (min-width: 768px) {
+            margin-top: 0;
+        }
+    }
+    &:not(:last-child) {
+        margin-bottom: 12px;
+    }
+}
+
+.title {
+    color: var(--font-secondary);
+    margin-bottom: 12px;
+    position: relative;
+    display: grid;
+    grid-template-columns: 8px max-content 1fr;
+    gap: 8px;
+    &::before,
+    &::after {
+        width: 100%;
+        content: "";
+        display: block;
+        position: relative;
+        top: calc(50% + 1px);
+        height: 1px;
+        border-radius: 0.5px;
+        left: 0;
+        background-color: var(--border);
+    }
+}
+
+.divider {
+    height: .5px;
+    background-color: var(--border);
+    border-radius: .5px;
+    width: 90%;
+    position: absolute;
+    right: 0;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    list-style: none;
+}
+
+.badge {
+    position: absolute;
+    right: 8px;
+}
+
+.item {
+    position: relative;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    &:not(.radio).active {
+        background: $primary-subtle;
+        color: $primary;
+        font-weight: 500;
+    }
+
+    &.radio {
+        position: relative;
+        padding-left: calc(var(--font-size) + 20px);
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            height: var(--font-size);
+            width: var(--font-size);
+            box-sizing: border-box;
+            border: $primary-font 1px solid;
+            transition: all .1s linear;
+        }
+        &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translate(4px, -50%); 
+            height: calc(var(--font-size) - 8px);
+            width: calc(var(--font-size) - 8px);
+            border-radius: 50%;
+            background-color: $primary;
+            transition: all .1s linear;
+            opacity: 0;
+        }
+        &.active {
+            &::before {
+                border: $primary 1px solid;
+            }
+
+            &::after {
+                opacity: 1;
+            }
+        }
+    }
+    &.icon {
+        padding-left: calc(var(--font-size) + 20px);
+        .iconSymbol {
+            position: absolute;
+            left: 12px;
+            top: calc(50% - .5em);
+            svg {
+                height: 1em;
+            }
+        }
+    }
+}

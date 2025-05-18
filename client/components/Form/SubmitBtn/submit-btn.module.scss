@@ -1,0 +1,28 @@
+@use '@/styles/variables' as *;
+
+.button {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    font-size: var(--font-size);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all linear .3s;
+    display: inline-flex;
+    justify-content: center;
+    color: $white;
+    background-color: $primary;
+    border: none;
+    &:hover {
+        background-color: $primary-hover;
+    }
+    &:focus-visible {
+        background-color: $primary-hover;
+    }
+    &:active {
+        background-color: $primary-dark;
+    }
+    &:disabled {
+        background-color: $primary-subtle;
+        color: $primary-font;
+    }
+}

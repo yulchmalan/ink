@@ -1,0 +1,60 @@
+@use '@/styles/variables' as *;
+
+.container {
+    margin-top: 70px;
+}
+
+.infoWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 22px;
+    align-items: flex-start;
+}
+
+.pfp {
+    display: block;
+    height: 100px;
+    width: 100px;
+    border-radius: 20px;
+}
+
+.name {
+    color: $light-background;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding-top: 10px;
+    font-size: 1.5rem;
+    svg {
+        height: 1em;
+        transform: translateY(5px);
+    }
+}
+
+
+
+@media (min-width: 790px) {
+    .container {
+        margin-top: 50px;
+    }
+}
+
+@media (min-width: 900px) {
+    .container {
+        margin-top: 51px;
+    }
+    .pfp {
+        height: 150px;
+        width: 150px;
+    }
+    .name {
+        padding-top: 25px;
+        font-size: 2rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        margin-top: 151px;
+    }
+}

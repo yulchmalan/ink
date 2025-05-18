@@ -1,0 +1,61 @@
+{
+    "Meta": {
+        "description": "Ink is a modern digital library for reading books, comics, manga, and manhwa online. Create collections, leave reviews, and discover new stories."
+    },
+    "UI": {
+        "ukrainian": "Ukrainian",
+        "polish": "Polish",
+        "english": "English",
+        "langSwitch": "Change language",
+        "showMore": "Show more",
+        "avatar": "User avatar",
+        "chapter": "Chapter"
+    },
+    "Index": {
+        "localeText": "Ukrainian",
+        "Continue": "Continue",
+        "Updates": "Recent updates",
+        "Collections": "Collections",
+        "Reviews": "Reviews",
+        "Popular": "Popular",
+        "BasedOnRead": "Based on your reading"
+    },
+    "NotFoundPage": {
+        "title": "Page not found",
+        "desc": "Oops! Something went wrong, the page does not exist"
+    },
+    "Navigation": {
+        "catalog": "Catalog",
+        "mainpage": "Home",
+        "contacts": "Contacts",
+        "login": "Login",
+        "reg": "Register"
+    },
+    "Tabs": {
+        "AllUpdates": "All updates",
+        "MyUpdates": "My updates"
+    },
+    "Footer": {
+        "col1_heading": "Our site",
+        "col1_1": "Privacy Policy",
+        "col1_2": "Public Offer",
+        "col1_3": "DMCA – For Rights Holders",
+        "col1_4": "How to create a publication?",
+        "col2_heading": "Navigation",
+        "col2_1": "Home",
+        "col2_2": "Catalog",
+        "col2_3": "FAQ",
+        "col3_heading": "Support",
+        "col3_1": "Contacts",
+        "col4_heading": "Catalog",
+        "col4_1": "Books",
+        "col4_2": "Comics",
+        "col4_3": "Manga",
+        "col4_4": "Manhwa",
+        "col5_heading": "We are on social media",
+        "rights": "All rights reserved",
+        "terms": "Terms of Use",
+        "privacy": "Privacy Policy",
+        "cookie": "Cookie Policy"
+    }
+  }

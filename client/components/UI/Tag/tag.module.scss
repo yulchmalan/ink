@@ -1,0 +1,19 @@
+@use '@/styles/variables' as *;
+
+.tag {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid $primary;
+    border-radius: 5px;
+    padding: 4px;
+    color: $primary;
+    background-color: var(--tag-bg);
+    font-size: 12px;
+    font-weight: 500;
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  

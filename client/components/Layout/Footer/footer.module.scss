@@ -1,0 +1,94 @@
+@use '@/styles/variables' as *;
+
+.footer {
+    padding: 64px 0;
+    background: var(--surface);
+    font-size: 14px;
+    color: var(--font);
+  
+    .top {
+      .columns {
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: 16px;
+        column-gap: 8px;
+        justify-content: space-between;
+        .column {
+          h4 {
+            font-weight: bold;
+            font-size: calc(var(--font-size) + 2px);
+            margin-bottom: 24px;
+          }
+          ul {
+            list-style: none;
+            padding: 0;
+            li {
+              margin-bottom: 12px;
+              font-size: var(--font-size);
+              a {
+                text-decoration: none;
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
+            }
+          }
+          .socials {
+            display: flex;
+            gap: 12px;
+  
+            .social {
+              width: 56px;
+              height: 56px;
+              border: 1px solid $primary;
+              background-color:var(--tag-bg);
+              color: $primary;
+              border-radius: 8px;
+              padding: 14px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+        }
+      }
+    }
+  
+    .bottom {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: var(--font-size);
+      @media (min-width: 768px) {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+  
+      .links {
+        display: flex;
+        .link {
+            padding: 0 20px;
+            &:not(:last-child) {
+                border-right: 1px solid var(--border);
+            }
+        }
+        a {
+          text-decoration: none;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
+  .column:has(.logo) {
+    display: none;
+    @media (min-width: 968px) {
+        display: block;
+    }
+  }

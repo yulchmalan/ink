@@ -1,0 +1,11 @@
+.iconButton {
+  background-color: transparent;
+  color: var(--font);
+  outline: none;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+.iconButton svg {
+  height: 28px;
+}/*# sourceMappingURL=simple-icon.module.css.map */

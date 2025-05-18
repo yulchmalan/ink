@@ -1,0 +1,18 @@
+.spinner {
+    width: 86px;
+    height: 86px;
+    background-color: red;
+    background: linear-gradient(219.14deg, #D62B57 1.99%, #F2AF29 112.24%);
+    animation: spin 2.5s linear infinite;
+    mask-image: url("spinner-mask3.svg");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+
+@keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }

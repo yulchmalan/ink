@@ -1,0 +1,62 @@
+{
+    "Meta": {
+        "description": "Ink to nowoczesna cyfrowa biblioteka do czytania książek, komiksów, mangi i manhwy online. Twórz kolekcje, zostawiaj recenzje i odkrywaj nowe historie."
+    },
+    "UI": {
+        "ukrainian": "Ukraiński",
+        "polish": "Polski",
+        "english": "Angielski",
+        "langSwitch": "Zmień język",
+        "showMore": "Więcej",
+        "avatar": "Awatar użytkownika",
+        "chapter": "Rozdział"
+    },
+    "Index": {
+        "localeText": "ukraiński",
+        "Continue": "Kontynuuj",
+        "Updates": "Najnowsze aktualizacje",
+        "Collections": "Kolekcje",
+        "Reviews": "Recenzje",
+        "Popular": "Popularne",
+        "BasedOnRead": "Na podstawie przeczytanych"
+    },
+    "NotFoundPage": {
+        "title": "Strona nie znaleziona",
+        "desc": "Ups! Coś poszło nie tak, strona nie istnieje"
+    },
+    "Navigation": {
+        "catalog": "Katalog",
+        "mainpage": "Strona główna",
+        "contacts": "Kontakt",
+        "login": "Logowanie",
+        "reg": "Rejestracja"
+    },
+    "Tabs": {
+        "AllUpdates": "Wszystkie aktualizacje",
+        "MyUpdates": "Moje aktualizacje"
+    },
+    "Footer": {
+        "col1_heading": "Nasza strona",
+        "col1_1": "Polityka prywatności",
+        "col1_2": "Oferta publiczna",
+        "col1_3": "DMCA – Dla właścicieli praw",
+        "col1_4": "Jak stworzyć publikację?",
+        "col2_heading": "Nawigacja",
+        "col2_1": "Strona główna",
+        "col2_2": "Katalog",
+        "col2_3": "FAQ",
+        "col3_heading": "Wsparcie",
+        "col3_1": "Kontakt",
+        "col4_heading": "Katalog",
+        "col4_1": "Książki",
+        "col4_2": "Komiksy",
+        "col4_3": "Manga",
+        "col4_4": "Manhwa",
+        "col5_heading": "Jesteśmy w mediach społecznościowych",
+        "rights": "Wszelkie prawa zastrzeżone",
+        "terms": "Warunki użytkowania",
+        "privacy": "Polityka prywatności",
+        "cookie": "Polityka plików cookie"
+    }
+  }
+  

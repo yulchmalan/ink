@@ -1,0 +1,97 @@
+@use '@/styles/variables' as *;
+.wrapper {
+    overflow: visible;
+    position: relative;
+    &:hover {
+        .customNext,
+        .customPrev,
+        .customNext2,
+        .customPrev2 {
+            opacity: 1;
+        }
+    }
+}
+
+.customNext,
+.customPrev {
+    width: 48px;
+    height: 48px;
+    top: 50%;
+    svg {
+        height: 34px;
+    }
+}
+
+.customNext2,
+.customPrev2 {
+    width: 32px;
+    height: 32px;
+    top: 50%;
+    svg {
+        height: 22px;
+    }
+}
+
+.customNext,
+.customPrev,
+.customNext2,
+.customPrev2 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--font);
+    
+    background-color: var(--surface);
+    border-radius: 50%;
+    pointer-events: auto;
+    border: none;
+    font-size: 20px;
+    box-shadow: $box-shadow;
+    transition: .3s all ease;
+    opacity: 0;
+}
+.customPrev {
+    left: -24px;
+    &:hover {
+        transform: translateX(-5px);
+    }
+}
+.customPrev2 {
+    left: -16px;
+    &:hover {
+        transform: translateX(-3px);
+    }
+}
+.customNext {
+    right: -24px;
+    &:hover {
+        transform: translateX(5px);
+    }
+}
+.customNext2 {
+    right: -16px;
+    &:hover {
+        transform: translateX(3px);
+    }
+}
+
+.swiperWrapper {
+    overflow: hidden;
+    width: calc(100% + 48px);
+    transform: translateX(-24px);
+}
+
+.swiperLarge,
+.swiperSmall {
+   overflow: visible;
+   width: calc(100% - 48px);
+}
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+

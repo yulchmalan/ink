@@ -1,0 +1,256 @@
+@use '@/styles/variables' as *;
+
+.navbar {
+    position: fixed;
+    top: 0;
+    right: 0; left: 0;
+    background-color: var(--surface);
+    box-shadow: $box-shadow;
+    font-size: var(--font-size);
+    font-weight: 600;
+    padding: 8px 0;
+    transition: .3s all ease;
+    z-index: 100;
+    .container {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+.navActive {
+    .navFlex {
+        transform: translateX(-16px);
+    }
+}
+
+.settings {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    
+    width: 100%;
+    ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        li {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: row-reverse;
+            gap: 16px;
+            padding: 12px 24px;
+            border-top: 1px solid var(--background);
+            width: 100%;
+            svg {
+                height: 24px;
+            }
+            &:hover {
+                background-color: var(--surface-hover);
+            }
+            &.listItemBtn {
+                padding: 8px;
+                button {
+                    padding: 12px 16px;
+                }
+            }
+            &:last-child {
+                color: $primary;
+            }
+        }
+    }
+}
+
+.fullWidth {
+    width: 100%;
+    text-align: center;
+}
+
+.navFlex {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    transform: translateX(calc(-100% - 16px));
+    transition: .3s all ease;
+    position: absolute;
+
+    flex-direction: column-reverse;
+    background-color: var(--surface);
+    width: 100%;
+    max-width: 400px;
+    top: 100%;
+    padding: 24px 0;
+    height: calc(100vh - 47px);
+    justify-content: start;
+    .logo {
+        position: absolute;
+        bottom: 48px;
+    }
+    .navList {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+        li {
+            cursor: pointer;
+            padding: 16px 24px;
+            border-top: 1px solid var(--background);
+            width: 100%;
+            &:last-child {
+                border-bottom: 1px solid var(--background);
+            }
+            &:hover {
+                background-color: var(--surface-hover);
+            }
+        }
+    }
+}
+
+.endFlex {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    column-gap: 12px;
+    row-gap: 24px;
+    flex-wrap: wrap;
+}
+
+.mobileIcon {
+    display: block;
+}
+
+.desktopIcon {
+    display: none;
+}
+
+.searchIcon {
+    display: none;
+}
+
+.PfpContainer {
+    display: flex;
+    justify-content: center;
+    order: -1;
+    width: 100%;
+}
+
+
+
+@media (min-width: 890px) {
+    .settings {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        top: calc(100% + 16px);
+        right: -1;
+        background-color: var(--surface);
+        border-radius: 12px;
+        opacity: 0;
+        visibility: 0;
+        transition: .3s all ease;
+
+        width: auto;
+        ul {
+            list-style: none;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            li {
+                font-size: calc(var(--font-size) - 3px);
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                flex-direction: row;
+                gap: 8px;
+                padding: 6px 12px;
+                border-radius: 4px;
+                border: none;
+                cursor: pointer;
+                transition: .2s all linear;
+                > div {
+                    width: 100%;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    gap: 8px;
+                    svg {
+                        height: 24px;
+                    }
+                }
+                svg {
+                    height: 24px;
+                }
+                &.listItemBtn {
+                    font-size: calc(var(--font-size) - 3px);
+                    padding: 0;
+                }
+            }
+        }
+        &.active {
+            opacity: 1;
+            visibility: 1;
+        }
+    }
+    .searchIcon {
+        display: block;
+    }
+    .mobileIcon {
+        display: none;
+    }
+    .desktopIcon {
+        display: block;
+    }
+    .navFlex {
+        position: static;
+        transform: translateX(0);
+        justify-content: space-between;
+        flex-direction: row;
+        max-width: none;
+        padding: 0;
+        gap: 4px;
+        height: auto;
+        .logo {
+            position: static;
+        }
+        .navList {
+            display: flex;
+            gap: 40px;
+            flex-direction: row;
+            width: auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            li {
+                padding: 0;
+                border: none;
+                width: auto;
+                &:last-child {
+                    border: none;
+                }
+                &:hover {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+    .endFlex {
+        padding: 0;
+        width: auto;
+    }
+    
+    .PfpContainer {
+        order: 0;
+        width: auto;
+    }
+}
+
+@media (min-width: 1440px) {
+    .navList {
+        gap: 50px;
+    }
+}

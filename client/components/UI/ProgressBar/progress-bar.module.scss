@@ -1,0 +1,26 @@
+@use '@/styles/variables' as *;
+
+.container {
+    width: 100%;
+}
+
+.text {
+    font-size: calc(var(--font-size) - 2px);
+    color: var(--font-secondary);
+    margin-bottom: 5px;
+}
+
+.barBackground {
+    width: 100%;
+    height: 5px;
+    background-color: var(--tag-bg);
+    border-radius: 2.5px;
+    overflow: hidden;
+}
+
+.barFill {
+    height: 100%;
+    background-color: $primary;
+    border-radius: 2.5px 0 0 2.5px;
+    transition: width 0.3s ease-in-out;
+}

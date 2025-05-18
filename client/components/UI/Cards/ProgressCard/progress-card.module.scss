@@ -1,0 +1,116 @@
+@use '@/styles/variables' as *;
+
+.card {
+    position: relative;
+    overflow: hidden;
+    min-width: calc(25% - 18px);
+    width: 100%;
+    min-height: 142px;
+    border-radius: 22px;
+    background-color: var(--background);
+    box-shadow: -1px 0px 8px 0px rgba(99,99,99,0.1) inset;
+    a {
+        display: block;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+    }
+}
+
+.coverContainer {
+    overflow: hidden;
+    height: 100%;
+    width: 90px;
+    border-radius: 12px;
+}
+  
+.cover {
+    width: 100%;
+    height: 100%;
+}
+
+.info {
+    padding: 12px;
+    width: calc(100% - 164px); 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.deleteBtn {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 64px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 0 20px 20px 0;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    transition: all .2s linear;
+    cursor: pointer;
+    color: $primary;
+    &:hover {
+        background-color: $primary-subtle;
+    }
+    svg {
+        height: 24px;
+    }
+}
+
+.cross {
+    display: none;
+}
+
+.title {
+    color: var(--font);
+    font-weight: 500;
+    font-size: var(--font-size);
+}
+
+@media (min-width: 690px) {
+    .info {
+        width: calc(100% - 74px); 
+    }
+    .card {
+        overflow: visible;
+        &:hover {
+            .deleteBtn {
+                opacity: 1;
+            }
+        }
+    }
+    .cross {
+        display: block;
+    }
+    .trash {
+        display: none;
+    }
+    .deleteBtn {
+        opacity: 0;
+        width: 36px;
+        height: 36px;
+        right: -15px;
+        top: -15px;
+        border-radius: 50%;
+        border: 1px solid $primary;
+        outline: none;
+        background-color: transparent;
+        transition: all .2s linear;
+        cursor: pointer;
+        color: $primary;
+        background-color: $primary-subtle;
+        svg {
+            height: 20px;
+        }
+    }
+}
+
+@media (min-width: 1500px) {
+   
+}
