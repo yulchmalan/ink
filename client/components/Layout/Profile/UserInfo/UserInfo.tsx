@@ -10,10 +10,8 @@ import Pfp from "../Pfp/Pfp";
 
 export const UserInfo = ({
   user,
-}: // tabs,
-{
+}: {
   user: { _id: string; username: string; email: string };
-  // tabs?: { title: string; content: ReactNode }[];
 }) => {
   const { user: currentUser } = useAuth();
 
