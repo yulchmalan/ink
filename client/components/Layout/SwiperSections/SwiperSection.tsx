@@ -68,7 +68,7 @@ export default function BookSwiper({
       <div className={styles.heading}>
         <Heading>{heading}</Heading>
         {isLarge && (
-          <ArrowBtn href={`/catalogue%${dataName}`}>{t("showMore")}</ArrowBtn>
+          <ArrowBtn href={`/catalogue/${dataName}`}>{t("showMore")}</ArrowBtn>
         )}
       </div>
 

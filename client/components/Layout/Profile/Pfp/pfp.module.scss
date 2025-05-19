@@ -1,0 +1,13 @@
+.pfp {
+    display: block;
+    height: 100px;
+    width: 100px;
+    border-radius: 20px;
+}
+
+@media (min-width: 900px) {
+    .pfp {
+        height: 150px;
+        width: 150px;
+    }
+}

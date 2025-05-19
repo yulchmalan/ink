@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./avatar-button.module.scss";
-import { HTMLAttributes } from "react";
+import { useEffect, useState, HTMLAttributes } from "react";
 import clsx from "clsx";
 import DefaultAvatar from "@/assets/pfp.svg";
 import { useTranslations } from "use-intl";
@@ -16,7 +16,16 @@ export default function AvatarButton({
   ...props
 }: AvatarButtonProps) {
   const t = useTranslations("UI");
-  const imageToShow = imgSrc || DefaultAvatar.src;
+  const [resolvedImg, setResolvedImg] = useState<string>(DefaultAvatar.src);
+
+  useEffect(() => {
+    if (!imgSrc) return;
+
+    const img = new Image();
+    img.src = imgSrc + `?cb=${Date.now()}`;
+    img.onload = () => setResolvedImg(imgSrc);
+    img.onerror = () => setResolvedImg(DefaultAvatar.src);
+  }, [imgSrc]);
 
   return (
     <button
@@ -24,7 +33,7 @@ export default function AvatarButton({
       className={clsx(styles.avatarButton, className)}
       {...props}
     >
-      <img src={imageToShow} alt={t("avatar")} className={styles.avatarImage} />
+      <img src={resolvedImg} alt={t("avatar")} className={styles.avatarImage} />
     </button>
   );
 }

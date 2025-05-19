@@ -19,7 +19,6 @@ import User from "@/assets/icons/User";
 import LogOut from "@/assets/icons/LogOut";
 import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
-import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {

@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
+import { getSession, signOut } from "next-auth/react";
 
 type DecodedToken = {
   userId: string;
@@ -29,17 +30,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const init = async () => {
+      const session = await getSession();
 
-    if (token) {
-      try {
-        const decoded = jwtDecode<DecodedToken>(token);
-        fetchUser(decoded.userId, token);
-      } catch (err) {
-        console.warn("Невалідний токен. Автоматичний logout");
-        logout();
+      if (session?.accessToken) {
+        try {
+          const decoded = jwtDecode<DecodedToken>(session.accessToken);
+          await fetchUser(decoded.userId, session.accessToken);
+          return;
+        } catch (err) {
+          console.warn("Невалідний токен із сесії");
+          logout();
+        }
       }
-    }
+
+      const localToken = localStorage.getItem("token");
+      if (localToken) {
+        try {
+          const decoded = jwtDecode<DecodedToken>(localToken);
+          await fetchUser(decoded.userId, localToken);
+        } catch (err) {
+          console.warn("Невалідний токен із localStorage");
+          logout();
+        }
+      }
+    };
+
+    init();
   }, []);
 
   const fetchUser = async (userId: string, token?: string) => {
@@ -94,7 +111,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem("token");
     setUser(null);
     setIsLoggedIn(false);
-    router.refresh();
+    signOut({ callbackUrl: "/" });
   };
 
   return (
