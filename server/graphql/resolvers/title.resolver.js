@@ -64,6 +64,7 @@ export const titleResolvers = {
           content,
           genreIds,
           tagIds,
+          type,
         } = input;
 
         const newTitle = await Title.create({
@@ -78,6 +79,7 @@ export const titleResolvers = {
           content,
           genres: genreIds,
           tags: tagIds,
+          type,
         });
 
         return newTitle;
@@ -104,6 +106,7 @@ export const titleResolvers = {
         if (input.content !== undefined) updates.content = input.content;
         if (input.genreIds !== undefined) updates.genres = input.genreIds;
         if (input.tagIds !== undefined) updates.tags = input.tagIds;
+        if (input.type !== undefined) updates.type = input.type;
 
         const updated = await Title.findByIdAndUpdate(id, updates, {
           new: true,

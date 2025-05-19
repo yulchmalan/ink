@@ -9,7 +9,10 @@
         "langSwitch": "Zmień język",
         "showMore": "Więcej",
         "avatar": "Awatar użytkownika",
-        "chapter": "Rozdział"
+        "chapter": "Rozdział",
+        "level": "Poziom",
+        "untilNext": "do następnego poziomu",
+        "totalExp": "łącznie doświadczenia"
     },
     "Index": {
         "localeText": "ukraiński",
@@ -24,7 +27,7 @@
         "title": "Strona nie znaleziona",
         "desc": "Ups! Coś poszło nie tak, strona nie istnieje"
     },
-    "Navigation": {
+    "Nav": {
         "catalog": "Katalog",
         "mainpage": "Strona główna",
         "contacts": "Kontakt",
@@ -34,6 +37,13 @@
     "Tabs": {
         "AllUpdates": "Wszystkie aktualizacje",
         "MyUpdates": "Moje aktualizacje"
+    },
+    "User": {
+        "email": "Email",
+        "joined": "Z nami od",
+        "bio": "O sobie",
+        "noBio": "Użytkownik nie dodał jeszcze opisu.",
+        "close": "Zamknij"
     },
     "Footer": {
         "col1_heading": "Nasza strona",

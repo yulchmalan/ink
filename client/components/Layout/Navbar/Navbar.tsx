@@ -26,7 +26,7 @@ export default function Navbar() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const settingsRef = useRef<HTMLDivElement>(null);
   const avatarBtnRef = useRef<HTMLDivElement>(null);
-  const t = useTranslations("Navigation");
+  const t = useTranslations("Nav");
   const { isLoggedIn, user, logout } = useAuth();
   const router = useRouter();
 

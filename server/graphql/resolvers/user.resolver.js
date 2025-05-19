@@ -3,6 +3,14 @@ import Review from "../../models/review.model.js";
 import Comment from "../../models/comment.model.js";
 import Title from "../../models/title.model.js";
 
+const DEFAULT_LISTS = [
+  "reading",
+  "planned",
+  "completed",
+  "dropped",
+  "favorite",
+];
+
 export const userResolvers = {
   Query: {
     async users(
@@ -47,6 +55,7 @@ export const userResolvers = {
         const createdUser = await User.create({
           ...user,
           created: new Date(),
+          lists: DEFAULT_LISTS.map((name) => ({ name, titles: [] })),
         });
         return createdUser;
       } catch (error) {
@@ -89,6 +98,49 @@ export const userResolvers = {
         throw new Error("Failed to delete user");
       }
     },
+
+    addCustomList: async (_, { userId, input }) => {
+      const user = await User.findById(userId);
+      if (!user) throw new Error("User not found");
+
+      user.lists.push({ name: input.name, titles: [] });
+      await user.save();
+
+      return user.lists;
+    },
+
+    addTitleToList: async (_, { userId, input }) => {
+      const user = await User.findById(userId);
+      if (!user) throw new Error("User not found");
+
+      const { listName, titleId } = input;
+
+      user.lists.forEach((list) => {
+        list.titles = list.titles.filter(
+          (entry) => entry.title.toString() !== titleId
+        );
+      });
+
+      const targetList = user.lists.find((l) => l.name === listName);
+      if (!targetList) throw new Error("List not found");
+
+      const alreadyExists = targetList.titles.some(
+        (entry) => entry.title.toString() === titleId
+      );
+
+      if (!alreadyExists) {
+        targetList.titles.push({
+          title: titleId,
+          rating: 0,
+          progress: 0,
+        });
+      }
+
+      user.markModified("lists");
+      await user.save();
+
+      return user.lists;
+    },
   },
 
   User: {
@@ -100,6 +152,18 @@ export const userResolvers = {
     },
     recommendations: async (parent) => {
       return await Title.find({ _id: { $in: parent.recommendations } });
+    },
+  },
+
+  SavedTitle: {
+    title: async (parent) => {
+      if (!parent.title) return null;
+      try {
+        return await Title.findById(parent.title);
+      } catch (err) {
+        console.error("Failed to resolve SavedTitle.title:", err);
+        return null;
+      }
     },
   },
 };

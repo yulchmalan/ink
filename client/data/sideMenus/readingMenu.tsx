@@ -2,17 +2,23 @@ import type { Section } from "@/components/Layout/Profile/SideMenu/SideMenu";
 import Grid from "@/assets/icons/Grid";
 import Rows from "@/assets/icons/Rows";
 
-const readingMenu: Section[] = [
+export const generateReadingMenu = (
+  lists: { name: string; titles: any[] }[]
+): Section[] => [
   {
     title: "Списки",
     type: "list",
     items: [
-      { label: "Все", value: "all", badge: 60 },
-      { label: "Читаю", value: "reading", badge: 10 },
-      { label: "В планах", value: "planned", badge: 20 },
-      { label: "Прочитано", value: "completed", badge: 20 },
-      { label: "Закинуто", value: "dropped", badge: 5 },
-      { label: "Улюблене", value: "favourites", badge: 5 },
+      {
+        label: "Все",
+        value: "all",
+        badge: lists.reduce((acc, l) => acc + l.titles.length, 0),
+      },
+      ...lists.map((list) => ({
+        label: convertListLabel(list.name),
+        value: list.name,
+        badge: list.titles.length,
+      })),
     ],
   },
   {
@@ -43,4 +49,15 @@ const readingMenu: Section[] = [
   },
 ];
 
-export default readingMenu;
+// утиліта для перекладу
+const convertListLabel = (key: string): string => {
+  const map: Record<string, string> = {
+    all: "Все",
+    reading: "Читаю",
+    planned: "В планах",
+    completed: "Прочитано",
+    dropped: "Закинуто",
+    favorite: "Улюблене",
+  };
+  return map[key] || key;
+};

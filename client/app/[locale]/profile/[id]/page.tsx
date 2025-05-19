@@ -14,14 +14,35 @@ export default async function Page(props: { params: any }) {
     },
     body: JSON.stringify({
       query: `
-        query GetUser($id: ObjectID!) {
-          user(id: $id) {
-            _id
-            username
-            email
+      query GetUser($id: ObjectID!) {
+        user(id: $id) {
+          _id
+          username
+          email
+          role
+          created
+          settings {
+            bio
+            pfp
+            banner
+          }
+          lists {
+            name
+            titles {
+              title {
+                id
+                name
+                cover
+                type
+              }
+              rating
+              progress
+              last_open
+            }
           }
         }
-      `,
+      }
+    `,
       variables: { id },
     }),
     cache: "no-store",
@@ -29,7 +50,6 @@ export default async function Page(props: { params: any }) {
 
   const json = await res.json();
   const user = json.data?.user;
-
   if (!user) return notFound();
 
   return (

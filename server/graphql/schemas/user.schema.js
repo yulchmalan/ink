@@ -81,6 +81,27 @@ export const userTypeDefs = `#graphql
     role: Role
   }
 
+  input EditListInput {
+    name: String!
+    titles: [EditSavedTitleInput!]
+  }
+
+  input EditSavedTitleInput {
+    title: ObjectID!
+    rating: Int
+    last_open: DateTime
+    progress: Int
+  }
+
+  input NewListInput {
+    name: String!
+  }
+
+  input AddTitleToListInput {
+    listName: String!
+    titleId: ObjectID!
+  }
+
   type Query {
     users(
       limit: Int = 10
@@ -97,5 +118,8 @@ export const userTypeDefs = `#graphql
     addUser(user: AddUserInput!): User
     updateUser(id: ObjectID!, edits: EditUserInput!): User
     deleteUser(id: ObjectID!): Boolean
+
+    addCustomList(userId: ObjectID!, input: NewListInput!): [List]
+    addTitleToList(userId: ObjectID!, input: AddTitleToListInput!): [List]
   }
 `;

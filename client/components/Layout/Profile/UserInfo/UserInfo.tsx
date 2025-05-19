@@ -7,12 +7,10 @@ import Banner from "../Banner/Banner";
 import Info from "@/assets/icons/Info";
 import profileTabs from "@/components/Layout/Tabs/ProfileTabs";
 import Pfp from "../Pfp/Pfp";
+import Details from "../Details/Details";
+import type { User } from "@/types/user";
 
-export const UserInfo = ({
-  user,
-}: {
-  user: { _id: string; username: string; email: string };
-}) => {
+export const UserInfo = ({ user }: { user: User }) => {
   const { user: currentUser } = useAuth();
 
   //перевірка чи це залогований юзер (поки не юзаю, але лишаю)
@@ -21,16 +19,14 @@ export const UserInfo = ({
   return (
     <div className={styles.container}>
       <Banner userId={user._id} />
-      {/* <p>ID: {user._id}</p> */}
-      {/* <p>Email: {user.email}</p> */}
       <div className={styles.infoWrapper}>
         <Pfp userId={user._id} />
         <h1 className={styles.name}>
-          <Info />
-          {user.username}
+          <Details user={user} />
+          <span className={styles.nickname}>{user.username}</span>
         </h1>
       </div>
-      <Tabs type="profile" tabs={profileTabs} />
+      <Tabs type="profile" tabs={profileTabs(user)} />
     </div>
   );
 };

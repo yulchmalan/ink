@@ -68,6 +68,11 @@ const titleSchema = new mongoose.Schema(
         ref: "Label",
       },
     ],
+    type: {
+      type: String,
+      enum: ["COMIC", "NOVEL"],
+      required: true,
+    },
   },
   { timestamps: true }
 );

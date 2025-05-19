@@ -1,19 +1,22 @@
-import ReadingMenu from "@/data/sideMenus/readingMenu";
+"use client";
+
+import { generateReadingMenu } from "@/data/sideMenus/readingMenu";
 import sortMenu from "@/data/sideMenus/sortMenu";
 import friendsMenu from "@/data/sideMenus/friendsMenu";
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
 import SideMenu from "@/components/Layout/Profile/SideMenu/SideMenu";
 import styles from "@/components/Layout/Profile/UserInfo/user-info.module.scss";
 import TabGrid from "../Grid/TabGrid";
+import type { User } from "@/types/user";
 
-const profileTabs = [
+const profileTabs = (user: User) => [
   {
     title: "Закладки",
     content: (
       <TabGrid
         sidebar={
           <Wrapper className={styles.sideWrapper}>
-            {ReadingMenu.map((section, idx) => (
+            {generateReadingMenu(user.lists ?? []).map((section, idx) => (
               <SideMenu
                 key={idx}
                 data={section}
@@ -23,7 +26,7 @@ const profileTabs = [
           </Wrapper>
         }
       >
-        Закладки
+        закладки
       </TabGrid>
     ),
   },

@@ -1,0 +1,45 @@
+@use "@/styles/variables" as *;
+
+.wrapper {
+  width: 100%;
+  font-size: var(--font-size);
+  color: var(--font);
+  font-weight: 400;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1px;
+}
+
+.level {
+    font-size: calc(var(--font-size) - 2px);
+}
+
+.untilNext {
+  color: var(--font-secondary);
+  font-size: 12px;
+}
+
+.bar {
+  width: 100%;
+  height: 5px;
+  background-color: var(--tag-bg); 
+  border-radius: 2.5px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background-color: $primary; 
+  border-radius: 2.5px 0 0 2.5px;
+  transition: width 0.3s ease-in-out;
+}
+
+.total {
+  text-align: right;
+  color: var(--font-secondary);
+  font-size: 12px;
+  margin-top: 3px;
+}

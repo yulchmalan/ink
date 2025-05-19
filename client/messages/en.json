@@ -9,7 +9,10 @@
         "langSwitch": "Change language",
         "showMore": "Show more",
         "avatar": "User avatar",
-        "chapter": "Chapter"
+        "chapter": "Chapter",
+        "level": "Level",
+        "untilNext": "until next level",
+        "totalExp": "total experience"
     },
     "Index": {
         "localeText": "Ukrainian",
@@ -24,7 +27,7 @@
         "title": "Page not found",
         "desc": "Oops! Something went wrong, the page does not exist"
     },
-    "Navigation": {
+    "Nav": {
         "catalog": "Catalog",
         "mainpage": "Home",
         "contacts": "Contacts",
@@ -35,6 +38,13 @@
         "AllUpdates": "All updates",
         "MyUpdates": "My updates"
     },
+    "User": {
+        "email": "Email",
+        "joined": "Joined",
+        "bio": "About",
+        "noBio": "This user hasn't added a bio yet.",
+        "close": "Close"
+    },  
     "Footer": {
         "col1_heading": "Our site",
         "col1_1": "Privacy Policy",

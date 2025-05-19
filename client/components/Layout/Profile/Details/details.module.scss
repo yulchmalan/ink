@@ -1,0 +1,60 @@
+@use '@/styles/variables' as *;
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 16px;
+    width: 95%;
+    max-width: 490px;
+    box-shadow: $box-shadow;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    h2 {
+        font-size: calc(var(--font-size) + 2px);
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+    h3 {
+        font-size: calc(var(--font-size) - 2px);
+        font-weight: 400;
+        color: var(--font-secondary);
+    }
+    p {
+        font-size: calc(var(--font-size) - 3px);
+        font-weight: 400;
+    }
+    .info {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
+.infoButton {
+    background: transparent;
+    border: none;
+    height: 1.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: $light-background;
+    svg {
+        height: 1em;
+        transform: translateY(5px);
+    }
+}
+
+.stats {
+    display: flex;
+    gap: 10px;
+}

@@ -29,16 +29,13 @@ const savedTitleSchema = new mongoose.Schema(
 );
 
 //  читацькі списки
-const listSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    titles: [savedTitleSchema],
+const listSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
   },
-  { _id: false }
-);
+  titles: [savedTitleSchema],
+});
 
 // друзі та статус дружби
 const friendSchema = new mongoose.Schema(
@@ -95,7 +92,10 @@ const userSchema = new mongoose.Schema(
     last_online: {
       type: Date,
     },
-    lists: [listSchema],
+    lists: {
+      type: [listSchema],
+      default: [],
+    },
     friends: [friendSchema],
     reviews: [
       {
@@ -118,7 +118,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// створення моделі
 const User = mongoose.model("User", userSchema);
 
 export default User;
