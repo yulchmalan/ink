@@ -142,11 +142,12 @@ export const userResolvers = {
       const user = await User.findById(userId);
       if (!user) throw new Error("User not found");
 
-      const { listName, titleId } = input;
+      const { listName, titleId, language = "uk" } = input;
 
       user.lists.forEach((list) => {
         list.titles = list.titles.filter(
-          (entry) => entry.title.toString() !== titleId
+          (entry) =>
+            entry.title.toString() !== titleId || entry.language !== language
         );
       });
 
@@ -154,7 +155,8 @@ export const userResolvers = {
       if (!targetList) throw new Error("List not found");
 
       const alreadyExists = targetList.titles.some(
-        (entry) => entry.title.toString() === titleId
+        (entry) =>
+          entry.title.toString() === titleId && entry.language === language
       );
 
       if (!alreadyExists) {
@@ -162,6 +164,8 @@ export const userResolvers = {
           title: titleId,
           rating: 0,
           progress: 0,
+          language,
+          added: new Date(), // ✅ Додаємо дату
         });
       }
 
@@ -170,6 +174,7 @@ export const userResolvers = {
 
       return user.lists;
     },
+
     addExpToUser: async (_, { userId, amount }) => {
       if (amount < 0) throw new Error("Experience amount must be positive");
 

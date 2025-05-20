@@ -28,10 +28,14 @@ export const titleTypeDefs = `#graphql
     DESC
   }
 
-  type Content {
-    volume: Int
-    chapter: Int
-    path: String
+  type AltName {
+    lang: String!
+    value: String!
+  }
+
+  input AltNameInput {
+    lang: String!
+    value: String!
   }
 
   type Title {
@@ -43,8 +47,7 @@ export const titleTypeDefs = `#graphql
     franchise: String
     translation: Translation
     status: Status
-    alt_names: [String]
-    content: Content
+    alt_names: [AltName]            
     genres: [Label]
     tags: [Label]
     createdAt: DateTime
@@ -60,8 +63,7 @@ export const titleTypeDefs = `#graphql
     franchise: String
     translation: Translation
     status: Status
-    alt_names: [String]
-    content: ContentInput
+    alt_names: [AltNameInput]       
     genreIds: [ObjectID]
     tagIds: [ObjectID]
     type: TitleType!
@@ -75,17 +77,10 @@ export const titleTypeDefs = `#graphql
     franchise: String
     translation: Translation
     status: Status
-    alt_names: [String]
-    content: ContentInput
+    alt_names: [AltNameInput]      
     genreIds: [ObjectID]
     tagIds: [ObjectID]
     type: TitleType
-  }
-
-  input ContentInput {
-    volume: Int
-    chapter: Int
-    path: String
   }
 
   input TitleFilterInput {

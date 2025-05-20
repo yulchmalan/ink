@@ -9,7 +9,10 @@ export const titleResolvers = {
         const query = {};
 
         if (filter?.name) {
-          query.name = { $regex: filter.name, $options: "i" };
+          query.$or = [
+            { name: { $regex: filter.name, $options: "i" } },
+            { "alt_names.value": { $regex: filter.name, $options: "i" } },
+          ];
         }
         if (filter?.franchise) {
           query.franchise = { $regex: filter.franchise, $options: "i" };
@@ -21,7 +24,7 @@ export const titleResolvers = {
           query.status = filter.status;
         }
 
-        let sortOptions = {};
+        const sortOptions = {};
         if (sort) {
           const fieldMap = {
             NAME: "name",
@@ -45,7 +48,12 @@ export const titleResolvers = {
     },
 
     async getTitle(_, { id }) {
-      return await Title.findById(id);
+      try {
+        return await Title.findById(id);
+      } catch (error) {
+        console.error("error fetching title:", error.message);
+        throw new Error("Failed to fetch title");
+      }
     },
   },
 
@@ -61,7 +69,6 @@ export const titleResolvers = {
           translation,
           status,
           alt_names,
-          content,
           genreIds,
           tagIds,
           type,
@@ -76,7 +83,6 @@ export const titleResolvers = {
           translation,
           status,
           alt_names,
-          content,
           genres: genreIds,
           tags: tagIds,
           type,
@@ -103,7 +109,6 @@ export const titleResolvers = {
           updates.translation = input.translation;
         if (input.status !== undefined) updates.status = input.status;
         if (input.alt_names !== undefined) updates.alt_names = input.alt_names;
-        if (input.content !== undefined) updates.content = input.content;
         if (input.genreIds !== undefined) updates.genres = input.genreIds;
         if (input.tagIds !== undefined) updates.tags = input.tagIds;
         if (input.type !== undefined) updates.type = input.type;
@@ -111,6 +116,7 @@ export const titleResolvers = {
         const updated = await Title.findByIdAndUpdate(id, updates, {
           new: true,
         });
+
         if (!updated) throw new Error("Title not found");
 
         return updated;

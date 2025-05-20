@@ -3,18 +3,26 @@ export type UserStats = {
   titlesCreated?: number;
 };
 
-export type TitlePreview = {
-  _id: string;
+export interface TitlePreview {
+  id: string;
   name: string;
-  cover?: string;
-  type?: "COMIC" | "NOVEL";
-};
+  type: "COMIC" | "NOVEL";
+  content?: {
+    chapter?: number;
+  };
+  alt_names?: {
+    lang: string;
+    value: string;
+  }[];
+  updatedAt?: Date
+}
 
 export type SavedTitle = {
   title: TitlePreview | null;
   rating?: number;
   last_open?: string;
   progress?: number;
+  language?: string;
 };
 
 export type List = {

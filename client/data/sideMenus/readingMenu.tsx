@@ -49,7 +49,6 @@ export const generateReadingMenu = (
   },
 ];
 
-// утиліта для перекладу
 const convertListLabel = (key: string): string => {
   const map: Record<string, string> = {
     all: "Все",

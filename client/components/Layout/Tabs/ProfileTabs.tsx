@@ -8,6 +8,7 @@ import SideMenu from "@/components/Layout/Profile/SideMenu/SideMenu";
 import styles from "@/components/Layout/Profile/UserInfo/user-info.module.scss";
 import TabGrid from "../Grid/TabGrid";
 import type { User } from "@/types/user";
+import BookMarks from "../Profile/Bookmarks/Bookmarks";
 
 const profileTabs = (user: User) => [
   {
@@ -26,7 +27,7 @@ const profileTabs = (user: User) => [
           </Wrapper>
         }
       >
-        закладки
+        <BookMarks style="row" user={user}></BookMarks>
       </TabGrid>
     ),
   },

@@ -20,9 +20,16 @@ const savedTitleSchema = new mongoose.Schema(
     last_open: {
       type: Date,
     },
+    added: {
+      type: Date,
+    },
     progress: {
       type: Number,
       min: 0,
+    },
+    language: {
+      type: String,
+      default: "uk", // ← нове поле
     },
   },
   { _id: false }

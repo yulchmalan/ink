@@ -35,10 +35,16 @@ export default async function Page(props: { params: any }) {
                 name
                 cover
                 type
+                alt_names {
+                  lang
+                  value
+                }
               }
               rating
               progress
               last_open
+              added
+              language       
             }
           }
         }

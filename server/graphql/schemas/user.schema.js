@@ -18,7 +18,9 @@ export const userTypeDefs = `#graphql
     title: Title
     rating: Int
     last_open: DateTime
+    added: DateTime
     progress: Int
+    language: String
   }
 
   type List {
@@ -81,7 +83,9 @@ export const userTypeDefs = `#graphql
     title: ObjectID!
     rating: Int
     last_open: DateTime
+    added: DateTime
     progress: Int
+    language: String
   }
 
   input NewListInput {
@@ -91,6 +95,7 @@ export const userTypeDefs = `#graphql
   input AddTitleToListInput {
     listName: String!
     titleId: ObjectID!
+    language: String 
   }
 
   type LabelName {
