@@ -20,9 +20,9 @@ export default function UserInfoModal({ user }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations("User");
 
-  const { bio } = user.settings || {};
-  const joined = user.created
-    ? format(new Date(user.created), "dd.MM.yyyy")
+  const bio = user.bio || "";
+  const joined = user.createdAt
+    ? format(new Date(user.createdAt), "dd.MM.yyyy")
     : "-";
 
   return (
@@ -36,7 +36,7 @@ export default function UserInfoModal({ user }: Props) {
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <section>
               <h2>Досвід</h2>
-              <LevelProgress totalExp={1000}></LevelProgress>
+              <LevelProgress totalExp={user.exp}></LevelProgress>
             </section>
             <section>
               <h2>Статистика за жанрами</h2>

@@ -52,22 +52,6 @@ const friendSchema = new mongoose.Schema(
   { _id: false }
 );
 
-// додаткові налаштування профілю
-const settingsSchema = new mongoose.Schema(
-  {
-    bio: {
-      type: String,
-    },
-    pfp: {
-      type: String,
-    },
-    banner: {
-      type: String,
-    },
-  },
-  { _id: false }
-);
-
 // основна схема користувача
 const userSchema = new mongoose.Schema(
   {
@@ -84,11 +68,23 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    settings: settingsSchema,
-    created: {
-      type: Date,
-      default: Date.now,
+    bio: { type: String, default: "" },
+    stats: {
+      materialsAdded: {
+        type: Number,
+        default: 0,
+      },
+      titlesCreated: {
+        type: Number,
+        default: 0,
+      },
     },
+    recommendations: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Title",
+      },
+    ],
     last_online: {
       type: Date,
     },
@@ -109,6 +105,11 @@ const userSchema = new mongoose.Schema(
         ref: "Comment",
       },
     ],
+    exp: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
     role: {
       type: String,
       enum: ROLES,

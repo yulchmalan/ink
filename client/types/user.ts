@@ -1,7 +1,6 @@
-export type Settings = {
-  bio?: string;
-  pfp?: string;
-  banner?: string;
+export type UserStats = {
+  materialsAdded?: number;
+  titlesCreated?: number;
 };
 
 export type TitlePreview = {
@@ -28,7 +27,9 @@ export type User = {
   username: string;
   email: string;
   role: "USER" | "MODERATOR" | "ADMIN" | "OWNER";
-  created: string;
-  settings?: Settings;
+  createdAt: string;
+  exp: number;
+  stats?: UserStats;
+  bio?: string;
   lists?: List[];
 };

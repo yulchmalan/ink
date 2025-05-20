@@ -31,10 +31,9 @@ export const userTypeDefs = `#graphql
     status: FriendStatus
   }
 
-  type Settings {
-    bio: String
-    pfp: String
-    banner: String
+  type UserStats {
+    materialsAdded: Int!
+    titlesCreated: Int!
   }
 
   type User {
@@ -42,43 +41,35 @@ export const userTypeDefs = `#graphql
     username: String
     email: EmailAddress
     password_hash: Password
-    settings: Settings
-    created: DateTime
+    bio: String
+    stats: UserStats
+    createdAt: DateTime
+    updatedAt: DateTime
     last_online: DateTime
     lists: [List]
     friends: [Friend!]
     reviews: [Review!]
     comments: [Comment!]
     recommendations: [Title!]
+    exp: Int
     role: Role
-  }
-
-  input AddSettingsInput {
-    bio: String
-    pfp: String
-    banner: String
   }
 
   input AddUserInput {
     username: String!
     email: EmailAddress!
     password_hash: Password!
-    settings: AddSettingsInput
-  }
-
-  input EditSettingsInput {
     bio: String
-    pfp: String
-    banner: String
   }
 
   input EditUserInput {
     username: String
     email: EmailAddress
     password_hash: Password
-    settings: EditSettingsInput
+    bio: String
     last_online: DateTime
     role: Role
+    updatedAt: DateTime
   }
 
   input EditListInput {
@@ -102,6 +93,17 @@ export const userTypeDefs = `#graphql
     titleId: ObjectID!
   }
 
+  type LabelName {
+    en: String
+    ua: String
+    pl: String
+  }
+
+  type GenreStat {
+    name: LabelName
+    count: Int
+  }
+
   type Query {
     users(
       limit: Int = 10
@@ -112,6 +114,7 @@ export const userTypeDefs = `#graphql
       search: String
     ): [User]
     user(id: ObjectID!): User
+    userGenreStats(userId: ObjectID!): [GenreStat!]!
   }
 
   type Mutation {
@@ -121,5 +124,7 @@ export const userTypeDefs = `#graphql
 
     addCustomList(userId: ObjectID!, input: NewListInput!): [List]
     addTitleToList(userId: ObjectID!, input: AddTitleToListInput!): [List]
+
+    addExpToUser(userId: ObjectID!, amount: Int!): User
   }
 `;

@@ -19,7 +19,7 @@ export const userResolvers = {
         limit = 10,
         offset = 0,
         role,
-        sortBy = "created",
+        sortBy = "createdAt",
         sortOrder = "desc",
         search,
       }
@@ -28,7 +28,7 @@ export const userResolvers = {
         const filter = {};
 
         if (role) filter.role = role;
-        if (search) filter.username = { $regex: search, $options: "i" }; // пошук по username
+        if (search) filter.username = { $regex: search, $options: "i" };
 
         const sort = { [sortBy]: sortOrder === "asc" ? 1 : -1 };
 
@@ -47,6 +47,31 @@ export const userResolvers = {
         throw new Error("Failed to fetch user");
       }
     },
+
+    userGenreStats: async (_, { userId }) => {
+      const user = await User.findById(userId).populate({
+        path: "lists.titles.title",
+        populate: { path: "genres" },
+      });
+
+      if (!user) throw new Error("User not found");
+
+      const genreCounts = new Map();
+
+      user.lists.forEach((list) => {
+        list.titles.forEach(({ title }) => {
+          title.genres?.forEach((genre) => {
+            const key = genre._id.toString();
+            if (!genreCounts.has(key)) {
+              genreCounts.set(key, { name: genre.name, count: 0 });
+            }
+            genreCounts.get(key).count++;
+          });
+        });
+      });
+
+      return Array.from(genreCounts.values());
+    },
   },
 
   Mutation: {
@@ -54,12 +79,17 @@ export const userResolvers = {
       try {
         const createdUser = await User.create({
           ...user,
-          created: new Date(),
+          bio: user.bio || "",
+          stats: {
+            materialsAdded: 0,
+            titlesCreated: 0,
+          },
           lists: DEFAULT_LISTS.map((name) => ({ name, titles: [] })),
         });
+
         return createdUser;
       } catch (error) {
-        console.error("error adding user:", error.message);
+        console.error("Error adding user:", error.message);
         throw new Error("Failed to create user");
       }
     },
@@ -67,24 +97,23 @@ export const userResolvers = {
     async updateUser(_, { id, edits }) {
       try {
         const updates = {};
+
         if (edits.username !== undefined) updates.username = edits.username;
         if (edits.email !== undefined) updates.email = edits.email;
-        if (edits.password_hash !== undefined)
-          updates.password_hash = edits.password_hash;
-        if (edits.settings !== undefined) updates.settings = edits.settings;
+        if (edits.bio !== undefined) updates.bio = edits.bio;
+        if (edits.exp !== undefined) updates.exp = edits.exp;
         if (edits.last_online !== undefined)
           updates.last_online = edits.last_online;
         if (edits.role !== undefined) updates.role = edits.role;
 
         const updatedUser = await User.findByIdAndUpdate(id, updates, {
           new: true,
+          runValidators: true,
         });
-
-        if (!updatedUser) throw new Error("User not found");
 
         return updatedUser;
       } catch (error) {
-        console.error("error updating user:", error.message);
+        console.error("Error updating user:", error.message);
         throw new Error("Failed to update user");
       }
     },
@@ -140,6 +169,17 @@ export const userResolvers = {
       await user.save();
 
       return user.lists;
+    },
+    addExpToUser: async (_, { userId, amount }) => {
+      if (amount < 0) throw new Error("Experience amount must be positive");
+
+      const user = await User.findById(userId);
+      if (!user) throw new Error("User not found");
+
+      user.exp = (user.exp || 0) + amount;
+      await user.save();
+
+      return user;
     },
   },
 

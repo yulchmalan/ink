@@ -5,19 +5,24 @@ import GenreTag from "./GenreTag";
 import GenreProgressBar from "./GenreProgressBar";
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
+import { useParams } from "next/navigation";
 
-const rawGenres = [
-  { name: "Комедія", count: 7 },
-  { name: "Драма", count: 30 },
-  { name: "Містика", count: 5 },
-  { name: "Романтика", count: 9 },
-  { name: "Кримінал", count: 16 },
-  { name: "Трилер", count: 25 },
-  { name: "Шьоджьо", count: 4 },
-  { name: "Надприродне", count: 3 },
-  { name: "Детектив", count: 1 },
-  { name: "Фантастика", count: 2 },
-];
+type LocalizedName = {
+  en: string;
+  ua: string;
+  pl: string;
+};
+
+type RawGenre = {
+  name: LocalizedName;
+  count: number;
+};
+
+type DisplayGenre = {
+  name: string;
+  count: number;
+  color: string;
+};
 
 const COLORS = [
   "#EF5555",
@@ -32,10 +37,67 @@ const COLORS = [
 ];
 
 export default function GenreStats() {
+  const { id, locale } = useParams(); // <– отримуємо локаль з адресного рядка
+  const currentLocale =
+    typeof locale === "string" && ["en", "ua", "pl"].includes(locale)
+      ? (locale as "en" | "ua" | "pl")
+      : "ua";
+
   const listRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
+
+  const [genres, setGenres] = useState<RawGenre[]>([]);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchGenreStats = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+          },
+          body: JSON.stringify({
+            query: `
+              query GenreStats($userId: ObjectID!) {
+                userGenreStats(userId: $userId) {
+                  name {
+                    en
+                    ua
+                    pl
+                  }
+                  count
+                }
+              }
+            `,
+            variables: { userId: id },
+          }),
+        });
+
+        const json = await res.json();
+        setGenres(json.data.userGenreStats || []);
+      } catch (err) {
+        console.error("Failed to load genre stats:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGenreStats();
+  }, [id]);
+
+  const sortedGenres = [...genres].sort((a, b) => b.count - a.count);
+  const topGenres: DisplayGenre[] = sortedGenres
+    .slice(0, 9)
+    .map((genre, index) => ({
+      name: genre.name[currentLocale],
+      count: genre.count,
+      color: COLORS[index] || "#ccc",
+    }));
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!listRef.current) return;
@@ -44,13 +106,8 @@ export default function GenreStats() {
     scrollLeft.current = listRef.current.scrollLeft;
   };
 
-  const handleMouseLeave = () => {
-    isDragging.current = false;
-  };
-
-  const handleMouseUp = () => {
-    isDragging.current = false;
-  };
+  const handleMouseLeave = () => (isDragging.current = false);
+  const handleMouseUp = () => (isDragging.current = false);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging.current || !listRef.current) return;
@@ -59,12 +116,6 @@ export default function GenreStats() {
     const walk = (x - startX.current) * 1.2;
     listRef.current.scrollLeft = scrollLeft.current - walk;
   };
-
-  const sortedGenres = [...rawGenres].sort((a, b) => b.count - a.count);
-  const topGenres = sortedGenres.slice(0, 9).map((genre, index) => ({
-    ...genre,
-    color: COLORS[index] || "#ccc",
-  }));
 
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
@@ -77,47 +128,73 @@ export default function GenreStats() {
   };
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      checkScrollEdges();
-    }, 0);
-
     const el = listRef.current;
-    if (el) {
-      el.addEventListener("scroll", checkScrollEdges);
-      return () => {
-        clearTimeout(timeout);
-        el.removeEventListener("scroll", checkScrollEdges);
-      };
-    }
-  }, []);
+    if (!el) return;
+
+    const timeout = setTimeout(checkScrollEdges, 0);
+    el.addEventListener("scroll", checkScrollEdges);
+
+    return () => {
+      clearTimeout(timeout);
+      el.removeEventListener("scroll", checkScrollEdges);
+    };
+  }, [genres]);
+
+  if (loading) return <p>Завантаження жанрової статистики...</p>;
 
   return (
     <div className={styles.genreStats}>
-      <div className={styles.genreScrollWrapper}>
-        <div
-          className={clsx(styles.leftFade, { [styles.fadeVisible]: showLeft })}
-        />
+      {topGenres.length > 0 ? (
+        <>
+          <div className={styles.genreScrollWrapper}>
+            <div
+              className={clsx(styles.leftFade, {
+                [styles.fadeVisible]: showLeft,
+              })}
+            />
 
-        <div
-          className={styles.genreList}
-          ref={listRef}
-          onMouseDown={handleMouseDown}
-          onMouseLeave={handleMouseLeave}
-          onMouseUp={handleMouseUp}
-          onMouseMove={handleMouseMove}
-          onScroll={checkScrollEdges}
-        >
-          {topGenres.map((genre) => (
-            <GenreTag key={genre.name} {...genre} />
-          ))}
+            <div
+              className={styles.genreList}
+              ref={listRef}
+              onMouseDown={handleMouseDown}
+              onMouseLeave={handleMouseLeave}
+              onMouseUp={handleMouseUp}
+              onMouseMove={handleMouseMove}
+              onScroll={checkScrollEdges}
+            >
+              {topGenres.map((genre) => (
+                <GenreTag
+                  key={genre.name}
+                  name={genre.name}
+                  count={genre.count}
+                  color={genre.color}
+                />
+              ))}
+            </div>
+
+            <div
+              className={clsx(styles.rightFade, {
+                [styles.fadeVisible]: showRight,
+              })}
+            />
+          </div>
+          <GenreProgressBar genres={topGenres} />
+        </>
+      ) : (
+        <div className={styles.emptyBar}>
+          <div className={styles.progressBar}>
+            <div
+              className={styles.segment}
+              style={{
+                width: "100%",
+                backgroundColor: "#eee",
+                opacity: 0.5,
+              }}
+            />
+          </div>
+          <p className={styles.noData}>Немає даних для відображення жанрів</p>
         </div>
-        <div
-          className={clsx(styles.rightFade, {
-            [styles.fadeVisible]: showRight,
-          })}
-        />
-      </div>
-      <GenreProgressBar genres={topGenres} />
+      )}
     </div>
   );
 }

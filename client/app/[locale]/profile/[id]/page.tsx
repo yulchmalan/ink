@@ -19,12 +19,13 @@ export default async function Page(props: { params: any }) {
           _id
           username
           email
+          exp
           role
-          created
-          settings {
-            bio
-            pfp
-            banner
+          createdAt
+          bio
+          stats {
+            materialsAdded
+            titlesCreated
           }
           lists {
             name
