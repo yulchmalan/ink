@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import type { User } from "@/types/user";
+import type { SavedTitle, TitlePreview, User } from "@/types/user";
 import TitleCard from "./TitleCard/TitleCard";
 import styles from "./bookmarks.module.scss";
 import clsx from "clsx";
@@ -13,6 +13,9 @@ import fallbackCover from "@/assets/cover.png";
 interface Props {
   user: User;
   style?: "grid" | "row";
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  list?: string;
 }
 
 function getLocalizedName(
@@ -28,21 +31,57 @@ function getLocalizedName(
   );
 }
 
-export default function BookMarks({ user, style = "grid" }: Props) {
+export default function BookMarks({
+  user,
+  style = "grid",
+  sortBy = "title",
+  sortOrder = "asc",
+  list = "all",
+}: Props) {
   const lists = user.lists ?? [];
   const locale = useLocale();
 
-  const allTitles = lists.flatMap((list) => list.titles ?? []);
+  const selectedTitles =
+    list === "all"
+      ? lists.flatMap((l) => l.titles ?? [])
+      : lists.find((l) => l.name === list)?.titles ?? [];
 
-  if (allTitles.length === 0) {
-    return <p>Немає збережених творів.</p>;
+  if (selectedTitles.length === 0) {
+    return <p>Немає творів у цьому списку.</p>;
   }
+
+  const sortedTitles = [...selectedTitles].sort((a, b) => {
+    const at = a.title;
+    const bt = b.title;
+    if (!at || !bt) return 0;
+
+    const getValue = (t: any, s: any) => {
+      switch (sortBy) {
+        case "title":
+          return getLocalizedName(t.name, t.alt_names, locale) ?? "";
+        case "added":
+          return new Date(s.addedAt ?? 0).getTime();
+        case "updated":
+          return new Date(t.updatedAt ?? 0).getTime();
+        case "read-date":
+          return new Date(s.last_open ?? 0).getTime();
+        default:
+          return 0;
+      }
+    };
+
+    const aVal = getValue(at, a);
+    const bVal = getValue(bt, b);
+
+    if (aVal < bVal) return sortOrder === "asc" ? -1 : 1;
+    if (aVal > bVal) return sortOrder === "asc" ? 1 : -1;
+    return 0;
+  });
 
   const content = (
     <ul className={clsx(styles.ul, styles[style])}>
-      {allTitles.map((savedTitle, idx) => {
+      {sortedTitles.map((savedTitle: SavedTitle, idx) => {
         const title = savedTitle?.title;
-
         if (!title || typeof title !== "object" || !("name" in title)) {
           return <li key={idx}>Некоректний тайтл</li>;
         }
@@ -53,7 +92,7 @@ export default function BookMarks({ user, style = "grid" }: Props) {
           locale
         );
 
-        const coverUrl = useS3Image("covers", title.id, fallbackCover.src);
+        const titleId = title.id;
         const isNovel = title.type === "NOVEL";
 
         const chapterCount = isNovel ? 100 : title.content?.chapter ?? 0;
@@ -62,11 +101,11 @@ export default function BookMarks({ user, style = "grid" }: Props) {
           : savedTitle.progress ?? 0;
 
         return (
-          <li key={idx}>
+          <li key={title.id}>
             <TitleCard
               title={{
                 name: localizedName,
-                cover: coverUrl,
+                id: titleId,
                 chapter,
                 chapterCount,
                 last_open: savedTitle.last_open,

@@ -41,7 +41,7 @@ export const userResolvers = {
 
     async user(_, { id }) {
       try {
-        return await User.findById(id);
+        return await User.findById(id).populate("friends.user");
       } catch (error) {
         console.error("error fetching user:", error.message);
         throw new Error("Failed to fetch user");
@@ -165,7 +165,7 @@ export const userResolvers = {
           rating: 0,
           progress: 0,
           language,
-          added: new Date(), // ✅ Додаємо дату
+          added: new Date(),
         });
       }
 
@@ -183,6 +183,73 @@ export const userResolvers = {
 
       user.exp = (user.exp || 0) + amount;
       await user.save();
+
+      return user;
+    },
+    addFriend: async (_, { userId, friendId }) => {
+      const user = await User.findById(userId);
+      const friend = await User.findById(friendId);
+      if (userId === friendId) {
+        throw new Error("Cannot add yourself as a friend");
+      }
+      if (!user || !friend) throw new Error("User not found");
+
+      const alreadyAdded = user.friends.some(
+        (f) => f.user.toString() === friendId
+      );
+      const alreadyReverse = friend.friends.some(
+        (f) => f.user.toString() === userId
+      );
+
+      if (!alreadyAdded) {
+        user.friends.push({ user: friendId, status: "PENDING" });
+      }
+
+      if (!alreadyReverse) {
+        friend.friends.push({ user: userId, status: "RECEIVED" });
+      }
+
+      await user.save();
+      await friend.save();
+
+      return user;
+    },
+
+    updateFriendStatus: async (_, { userId, friendId, newStatus }) => {
+      const user = await User.findById(userId);
+      const friend = await User.findById(friendId);
+      if (!user || !friend) throw new Error("User not found");
+
+      const userEntry = user.friends.find(
+        (f) => f.user.toString() === friendId
+      );
+      const friendEntry = friend.friends.find(
+        (f) => f.user.toString() === userId
+      );
+
+      if (!userEntry || !friendEntry) throw new Error("Friend entry not found");
+
+      userEntry.status = newStatus;
+      friendEntry.status = newStatus;
+
+      await user.save();
+      await friend.save();
+
+      return user;
+    },
+
+    removeFriend: async (_, { userId, friendId }) => {
+      const user = await User.findById(userId);
+      const friend = await User.findById(friendId);
+      if (!user || !friend) throw new Error("User not found");
+
+      user.friends = user.friends.filter((f) => f.user.toString() !== friendId);
+      friend.friends = friend.friends.filter(
+        (f) => f.user.toString() !== userId
+      );
+
+      await user.save();
+      await friend.save();
 
       return user;
     },

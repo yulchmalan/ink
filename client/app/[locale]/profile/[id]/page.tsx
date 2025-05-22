@@ -47,6 +47,12 @@ export default async function Page(props: { params: any }) {
               language       
             }
           }
+            friends {
+              user {
+                _id
+              }
+              status
+            }
         }
       }
     `,

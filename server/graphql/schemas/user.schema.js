@@ -11,7 +11,7 @@ export const userTypeDefs = `#graphql
   enum FriendStatus {
     PENDING
     ACCEPTED
-    REJECTED
+    RECEIVED
   }
 
   type SavedTitle {
@@ -131,5 +131,9 @@ export const userTypeDefs = `#graphql
     addTitleToList(userId: ObjectID!, input: AddTitleToListInput!): [List]
 
     addExpToUser(userId: ObjectID!, amount: Int!): User
+
+    addFriend(userId: ObjectID!, friendId: ObjectID!, status: FriendStatus!): User
+    updateFriendStatus(userId: ObjectID!, friendId: ObjectID!, newStatus: FriendStatus!): User
+    removeFriend(userId: ObjectID!, friendId: ObjectID!): User
   }
 `;

@@ -3,6 +3,7 @@
 .card {
     display: flex;
     position: relative;
+    cursor: pointer;
 }
 
 .coverWrapper {
@@ -80,6 +81,7 @@
     align-items: center;
     .coverWrapper {
         width: 100%;
+        border-radius: 12px;
     }
     .info {
         padding: 4px 0 0;
@@ -143,4 +145,37 @@
     .cover {
         width: 86px;
     }
+}
+
+.cover {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  &.loaded {
+    opacity: 1;
+  }
+}
+
+.skeleton {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    #eeeeeeb3 0%,
+    #f5f5f5a9 50%,
+    #eeeeeeac 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  z-index: 1;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }

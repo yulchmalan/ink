@@ -1,0 +1,111 @@
+@use '@/styles/variables' as *;
+
+.comment {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.meta {
+    font-size: 13px;
+    color: var(--font-secondary);
+}
+
+.body {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 5px;
+    background-color: #ccc;
+    overflow: hidden;
+    img {
+        min-height: 100%;
+        width: 100%;
+    }
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.userInfo {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-weight: 500;
+    color: var(--font);
+    font-size: 14px;
+}
+
+.username {
+    font-size: var(--font-size);
+    font-weight: bold;
+}
+
+.date {
+    font-size: calc(var(--font-size) - 4px);
+    font-weight: 400;
+    color: var(--font-secondary);
+}
+
+.message {
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    gap: 12px;
+}
+
+.reportBtn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: $error;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+    svg {
+        height: 16px;
+    }
+    &:hover {
+        background: rgba(209, 60, 60, 0.1);
+    }
+    &:disabled {
+        color: $primary-subtle;
+        cursor: default;
+    }
+}
+
+.rating {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--font);
+    &.positive {
+        color: #2e7d32; 
+    }
+    &.negative {
+        color: #d32f2f; 
+    }
+}

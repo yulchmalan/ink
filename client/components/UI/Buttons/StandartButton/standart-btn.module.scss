@@ -50,7 +50,9 @@
     background-color: $primary-light;
   }
   &:disabled {
-    background-color: $primary-font;
-    color: $primary-font;
+    cursor: default;
+    border: $primary-font 1px solid;
+    background-color: rgba($color: $primary-subtle, $alpha: .5);
+    color: rgba($color: $primary, $alpha: .7);
   }
 }

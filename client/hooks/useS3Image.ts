@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 
 const SUPPORTED_EXTENSIONS = ["webp", "png", "jpg", "jpeg"];
@@ -9,7 +7,7 @@ export const useS3Image = (
   id: string,
   fallback: string
 ) => {
-  const [url, setUrl] = useState<string>(fallback);
+  const [url, setUrl] = useState<string | null>(null); 
 
   useEffect(() => {
     if (!id) return;
@@ -20,7 +18,7 @@ export const useS3Image = (
 
     const tryNext = async (index: number) => {
       if (index >= SUPPORTED_EXTENSIONS.length) {
-        setUrl(fallback);
+        setUrl(fallback); 
         return;
       }
 
@@ -44,5 +42,5 @@ export const useS3Image = (
     tryNext(0);
   }, [id, folder, fallback]);
 
-  return url;
+  return url ?? fallback;
 };

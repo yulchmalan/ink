@@ -2,7 +2,7 @@
 
 import styles from "./side-menu.module.scss";
 import clsx from "clsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type Item = {
   label: string;
@@ -14,48 +14,55 @@ type Item = {
 export type Section = {
   title?: string;
   type: "list" | "radio" | "icon";
-  items: {
-    label: string;
-    value: string;
-    badge?: number;
-    icon?: string | React.ReactNode;
-  }[];
+  items: Item[];
   secondary?: {
     type: "radio";
-    items: {
-      label: string;
-      value: string;
-    }[];
+    items: Item[];
   };
 };
 
 interface Props {
   data: Section;
-  selected?: string;
+  selected?: string; // для основного меню
+  selectedSecondary?: string; // 🆕 для secondary-меню
   onSelect?: (value: string) => void;
 }
 
-export default function SideMenu({ data, selected, onSelect }: Props) {
+export default function SideMenu({
+  data,
+  selected,
+  selectedSecondary,
+  onSelect,
+}: Props) {
   const [selectedValue, setSelectedValue] = useState<string | null>(
     selected ?? null
   );
-  const [selectedSecondary, setSelectedSecondary] = useState<string | null>(
-    null
+  const [secondaryValue, setSecondaryValue] = useState<string | null>(
+    selectedSecondary ?? null
   );
+
+  // Синхронізуємо зовнішній selected
+  useEffect(() => {
+    setSelectedValue(selected ?? null);
+  }, [selected]);
+
+  useEffect(() => {
+    setSecondaryValue(selectedSecondary ?? null);
+  }, [selectedSecondary]);
 
   const handleClick = (value: string, isSecondary = false) => {
     if (isSecondary) {
-      if (selectedSecondary === value) {
-        setSelectedSecondary(null);
-        onSelect?.("");
+      if (secondaryValue === value) {
+        setSecondaryValue(null);
+        onSelect?.("desc"); // 🔁 fallback до дефолтного сортування
       } else {
-        setSelectedSecondary(value);
+        setSecondaryValue(value);
         onSelect?.(value);
       }
     } else {
       if (selectedValue === value) {
         setSelectedValue(null);
-        onSelect?.("");
+        onSelect?.("date"); // 🔁 fallback до дефолтного
       } else {
         setSelectedValue(value);
         onSelect?.(value);
@@ -67,7 +74,7 @@ export default function SideMenu({ data, selected, onSelect }: Props) {
     const isIcon = data.type === "icon";
     const isRadio = data.type === "radio" && !isIcon;
     const isActive = isSecondary
-      ? selectedSecondary === item.value
+      ? secondaryValue === item.value
       : selectedValue === item.value;
 
     return (

@@ -9,6 +9,7 @@ import profileTabs from "@/components/Layout/Tabs/ProfileTabs";
 import Pfp from "../Pfp/Pfp";
 import Details from "../Details/Details";
 import type { User } from "@/types/user";
+import AddFriendButton from "../Friends/AddFriendButton/AddFriendButton";
 
 export const UserInfo = ({ user }: { user: User }) => {
   const { user: currentUser } = useAuth();
@@ -20,6 +21,7 @@ export const UserInfo = ({ user }: { user: User }) => {
     <div className={styles.container}>
       <Banner userId={user._id} />
       <div className={styles.infoWrapper}>
+        {user.friends && <AddFriendButton profileUserId={user._id} />}
         <Pfp userId={user._id} />
         <h1 className={styles.name}>
           <Details user={user} />

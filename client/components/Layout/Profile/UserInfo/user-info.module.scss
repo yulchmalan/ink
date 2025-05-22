@@ -9,6 +9,7 @@
     flex-direction: row;
     gap: 22px;
     align-items: flex-start;
+    position: relative;
 }
 
 .name {
@@ -25,6 +26,11 @@
 .nickname {
     font-size: 1.5rem;
     color: $light-background;
+    line-clamp: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 

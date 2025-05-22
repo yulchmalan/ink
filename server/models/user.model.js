@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 // константи для ролей та статусів
 const ROLES = ["USER", "MODERATOR", "ADMIN", "OWNER"];
-const FRIEND_STATUSES = ["PENDING", "ACCEPTED", "REJECTED"];
+const FRIEND_STATUSES = ["PENDING", "ACCEPTED", "RECEIVED"];
 
 // збережені твори в списках
 const savedTitleSchema = new mongoose.Schema(
@@ -29,7 +29,7 @@ const savedTitleSchema = new mongoose.Schema(
     },
     language: {
       type: String,
-      default: "uk", // ← нове поле
+      default: "uk",
     },
   },
   { _id: false }
