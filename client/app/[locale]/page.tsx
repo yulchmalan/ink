@@ -102,48 +102,54 @@ export default async function Home() {
                   views={11200}
                   itemsCount={10}
                   bookmarks={2000}
-                  likes="96/12"
-                  covers={[cover.src, cover.src, cover.src]}
+                  likes={96}
+                  dislikes={12}
+                  titleIds={[]}
                 />
                 <CollectionCard
                   title="Буддизм"
                   views={11200}
                   itemsCount={16}
                   bookmarks={2000}
-                  likes="96/12"
-                  covers={[]}
+                  likes={96}
+                  dislikes={12}
+                  titleIds={[]}
                 />
                 <CollectionCard
                   title="Буддизм"
                   views={11200}
                   itemsCount={16}
                   bookmarks={2000}
-                  likes="96/12"
-                  covers={[]}
+                  likes={96}
+                  dislikes={12}
+                  titleIds={[]}
                 />
                 <CollectionCard
                   title="Буддизм"
                   views={11200}
                   itemsCount={16}
                   bookmarks={2000}
-                  likes="96/12"
-                  covers={[]}
+                  likes={96}
+                  dislikes={12}
+                  titleIds={[]}
                 />
                 <CollectionCard
                   title="Буддизм"
                   views={11200}
                   itemsCount={16}
                   bookmarks={2000}
-                  likes="96/12"
-                  covers={[]}
+                  likes={96}
+                  dislikes={12}
+                  titleIds={[]}
                 />
                 <CollectionCard
                   title="Буддизм"
                   views={11200}
                   itemsCount={16}
                   bookmarks={2000}
-                  likes="96/12"
-                  covers={[]}
+                  likes={96}
+                  dislikes={12}
+                  titleIds={[]}
                 />
               </div>
             </div>
