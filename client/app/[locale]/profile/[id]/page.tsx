@@ -1,10 +1,26 @@
 import { notFound } from "next/navigation";
 import { UserInfo } from "@/components/Layout/Profile/UserInfo/UserInfo";
 import Container from "@/components/Layout/Container/Container";
+import { getLocale, getTranslations } from "next-intl/server";
+import { GET_USER } from "@/graphql/queries/getUser";
 
-export default async function Page(props: { params: any }) {
-  const params = await props.params;
-  const id = params.id;
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const { locale } = await params;
+
+  const t = await getTranslations({ locale: locale, namespace: "Meta" });
+
+  return {
+    title: t("profile"),
+    description: t("profile_description"),
+  };
+}
+
+export default async function Page({ params }: { params: { id: string } }) {
+  const { id } = await params;
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",
@@ -13,49 +29,7 @@ export default async function Page(props: { params: any }) {
       "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
     },
     body: JSON.stringify({
-      query: `
-      query GetUser($id: ObjectID!) {
-        user(id: $id) {
-          _id
-          username
-          email
-          exp
-          role
-          createdAt
-          bio
-          stats {
-            materialsAdded
-            titlesCreated
-          }
-          lists {
-            name
-            titles {
-              title {
-                id
-                name
-                cover
-                type
-                alt_names {
-                  lang
-                  value
-                }
-              }
-              rating
-              progress
-              last_open
-              added
-              language       
-            }
-          }
-            friends {
-              user {
-                _id
-              }
-              status
-            }
-        }
-      }
-    `,
+      query: GET_USER,
       variables: { id },
     }),
     cache: "no-store",

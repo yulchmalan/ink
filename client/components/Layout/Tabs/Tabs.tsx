@@ -12,12 +12,30 @@ interface TabData {
 interface TabsProps {
   tabs: TabData[];
   type?: "default" | "profile";
+  activeIndex?: number;
+  onTabChange?: (index: number) => void;
 }
 
-const Tabs = ({ tabs, type = "default" }: TabsProps) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+const Tabs = ({
+  tabs,
+  type = "default",
+  activeIndex,
+  onTabChange,
+}: TabsProps) => {
+  const isControlled =
+    typeof activeIndex === "number" && typeof onTabChange === "function";
+  const [internalIndex, setInternalIndex] = useState(0);
+  const currentIndex = isControlled ? activeIndex! : internalIndex;
 
   const isProfile = type === "profile";
+
+  const handleTabClick = (index: number) => {
+    if (isControlled) {
+      onTabChange!(index);
+    } else {
+      setInternalIndex(index);
+    }
+  };
 
   return (
     <div
@@ -34,9 +52,9 @@ const Tabs = ({ tabs, type = "default" }: TabsProps) => {
           <button
             key={index}
             className={`${styles.tab} ${
-              activeIndex === index ? styles.active : ""
+              currentIndex === index ? styles.active : ""
             }`}
-            onClick={() => setActiveIndex(index)}
+            onClick={() => handleTabClick(index)}
           >
             {tab.title}
           </button>
@@ -47,7 +65,7 @@ const Tabs = ({ tabs, type = "default" }: TabsProps) => {
           [styles.profile]: isProfile,
         })}
       >
-        {tabs[activeIndex].content}
+        {tabs[currentIndex].content}
       </div>
     </div>
   );

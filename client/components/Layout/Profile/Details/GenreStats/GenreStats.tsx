@@ -9,7 +9,7 @@ import { useParams } from "next/navigation";
 
 type LocalizedName = {
   en: string;
-  ua: string;
+  uk: string;
   pl: string;
 };
 
@@ -37,11 +37,11 @@ const COLORS = [
 ];
 
 export default function GenreStats() {
-  const { id, locale } = useParams(); // <– отримуємо локаль з адресного рядка
+  const { id, locale } = useParams();
   const currentLocale =
-    typeof locale === "string" && ["en", "ua", "pl"].includes(locale)
-      ? (locale as "en" | "ua" | "pl")
-      : "ua";
+    typeof locale === "string" && ["en", "uk", "pl"].includes(locale)
+      ? (locale as "en" | "uk" | "pl")
+      : "uk";
 
   const listRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
@@ -67,7 +67,7 @@ export default function GenreStats() {
                 userGenreStats(userId: $userId) {
                   name {
                     en
-                    ua
+                    uk
                     pl
                   }
                   count

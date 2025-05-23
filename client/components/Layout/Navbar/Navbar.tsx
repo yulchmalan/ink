@@ -20,10 +20,12 @@ import LogOut from "@/assets/icons/LogOut";
 import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import SearchOverlay from "@/components/Layout/SearchOverlay/SearchOverlay";
 
 export default function Navbar() {
   const [isNavActive, setIsNavActive] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const settingsRef = useRef<HTMLDivElement>(null);
   const avatarBtnRef = useRef<HTMLDivElement>(null);
   const t = useTranslations("Nav");
@@ -64,13 +66,18 @@ export default function Navbar() {
           onClick={toggleNav}
           className={styles.mobileIcon}
         />
-        <SimpleIconBtn icon={<Search />} className={styles.mobileIcon} />
+        <SimpleIconBtn
+          icon={<Search />}
+          onClick={() => setIsSearchOpen(true)}
+          className={styles.mobileIcon}
+        />
         <div className={styles.navFlex}>
           <Logo className={styles.logo} />
           <ul className={styles.navList}>
             <li
               onClick={() => {
                 router.push("/");
+                setIsNavActive(false);
               }}
             >
               <span>{t("mainpage")}</span>
@@ -78,6 +85,7 @@ export default function Navbar() {
             <li
               onClick={() => {
                 router.push("/catalog");
+                setIsNavActive(false);
               }}
             >
               <span>{t("catalog")}</span>
@@ -85,13 +93,18 @@ export default function Navbar() {
             <li
               onClick={() => {
                 router.push("/contacts");
+                setIsNavActive(false);
               }}
             >
               <span>{t("contacts")}</span>
             </li>
           </ul>
           <div className={styles.endFlex}>
-            <SimpleIconBtn icon={<Search />} className={styles.desktopIcon} />
+            <SimpleIconBtn
+              onClick={() => setIsSearchOpen(true)}
+              icon={<Search />}
+              className={styles.desktopIcon}
+            />
             <div className={styles.PfpContainer} ref={avatarBtnRef}>
               <AvatarButton
                 {...(isLoggedIn && user
@@ -116,6 +129,7 @@ export default function Navbar() {
                     } else {
                       router.push("/register");
                     }
+                    setIsNavActive(false);
                   }}
                 >
                   {!isLoggedIn && (
@@ -179,6 +193,12 @@ export default function Navbar() {
           </div>
         </div>
       </Container>
+      {isSearchOpen && (
+        <SearchOverlay
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+        />
+      )}
     </nav>
   );
 }

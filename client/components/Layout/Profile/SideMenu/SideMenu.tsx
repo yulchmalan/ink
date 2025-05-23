@@ -23,8 +23,8 @@ export type Section = {
 
 interface Props {
   data: Section;
-  selected?: string; // для основного меню
-  selectedSecondary?: string; // 🆕 для secondary-меню
+  selected?: string;
+  selectedSecondary?: string;
   onSelect?: (value: string) => void;
 }
 
@@ -41,7 +41,6 @@ export default function SideMenu({
     selectedSecondary ?? null
   );
 
-  // Синхронізуємо зовнішній selected
   useEffect(() => {
     setSelectedValue(selected ?? null);
   }, [selected]);
@@ -54,7 +53,7 @@ export default function SideMenu({
     if (isSecondary) {
       if (secondaryValue === value) {
         setSecondaryValue(null);
-        onSelect?.("desc"); // 🔁 fallback до дефолтного сортування
+        onSelect?.("desc");
       } else {
         setSecondaryValue(value);
         onSelect?.(value);
@@ -62,7 +61,7 @@ export default function SideMenu({
     } else {
       if (selectedValue === value) {
         setSelectedValue(null);
-        onSelect?.("date"); // 🔁 fallback до дефолтного
+        onSelect?.("date");
       } else {
         setSelectedValue(value);
         onSelect?.(value);

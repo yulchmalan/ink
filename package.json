@@ -15,6 +15,7 @@
     "nodemon": "^3.1.9"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.8",
     "@apollo/server": "^4.11.3",
     "@graphql-tools/merge": "^9.0.24",
     "aws-sdk": "^2.1692.0",
@@ -24,7 +25,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "find-config": "^1.0.0",
-    "graphql": "^16.10.0",
+    "graphql": "^16.11.0",
     "graphql-scalars": "^1.24.2",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.15.0",

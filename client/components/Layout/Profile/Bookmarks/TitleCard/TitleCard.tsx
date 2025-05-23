@@ -7,6 +7,7 @@ import Pencil from "@/assets/icons/Pencil";
 import { useS3Image } from "@/hooks/useS3Image";
 import fallbackCover from "@/assets/cover.png";
 import { useState } from "react";
+import Link from "next/link";
 
 interface TitleData {
   id: string;
@@ -39,25 +40,37 @@ export default function TitleCard({
 
   return (
     <div className={clsx(styles.card, styles[type])}>
-      <div className={styles.coverWrapper}>
-        {isLoading && <div className={styles.skeleton} />}
-        <img
-          src={cover ?? fallbackCover.src}
-          alt={name}
-          className={clsx(styles.cover, { [styles.loaded]: loaded })}
-          onLoad={() => setLoaded(true)}
-          loading="lazy"
-        />
-        {type === "grid" && onEdit && (
-          <button className={styles.editBtn} onClick={onEdit}>
-            <Pencil />
-          </button>
-        )}
-      </div>
+      <Link className={styles.coverWrapper} href={`/catalog/${id}`}>
+        <div className={styles.coverWrapper}>
+          {isLoading && <div className={styles.skeleton} />}
+
+          <img
+            src={cover ?? fallbackCover.src}
+            alt={name}
+            className={clsx(styles.cover, { [styles.loaded]: loaded })}
+            onLoad={() => setLoaded(true)}
+            loading="lazy"
+          />
+          {type === "grid" && onEdit && (
+            <button
+              className={styles.editBtn}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                onEdit?.();
+              }}
+            >
+              <Pencil />
+            </button>
+          )}
+        </div>
+      </Link>
 
       <div className={styles.info}>
         <div>
-          <h3 className={styles.title}>{name}</h3>
+          <Link href={`/catalog/${id}`}>
+            <h3 className={styles.title}>{name}</h3>
+          </Link>
           <span className={styles.chapter}>
             {title.type === "NOVEL"
               ? `${chapter}%`

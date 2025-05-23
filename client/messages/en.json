@@ -1,6 +1,11 @@
 {
     "Meta": {
-        "description": "Ink is a modern digital library for reading books, comics, manga, and manhwa online. Create collections, leave reviews, and discover new stories."
+        "description": "Ink is a modern digital library for reading books, comics, manga, and manhwa online. Create collections, leave reviews, and discover new stories.",
+        "profile": "User profile",
+        "profile_description": "View reading progress, collections, reviews, and stats. Connect with others and personalize your digital library profile.",
+        "default_description": "Read online on Ink – a digital library for manga, comics, and novels. Track your reading, write reviews, and discover new stories.",
+        "catalog": "Catalog | Ink",
+        "catalog_description": "Browse all available books, manga, comics and more"
     },
     "UI": {
         "ukrainian": "Ukrainian",

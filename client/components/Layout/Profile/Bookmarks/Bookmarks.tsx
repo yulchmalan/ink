@@ -6,9 +6,7 @@ import TitleCard from "./TitleCard/TitleCard";
 import styles from "./bookmarks.module.scss";
 import clsx from "clsx";
 import Wrapper from "../../Wrapper/Wrapper";
-import { useS3Image } from "@/hooks/useS3Image";
-import { useLocale } from "next-intl";
-import fallbackCover from "@/assets/cover.png";
+import { useLocalizedName } from "@/hooks/useLocalizedName";
 
 interface Props {
   user: User;
@@ -16,19 +14,6 @@ interface Props {
   sortBy?: string;
   sortOrder?: "asc" | "desc";
   list?: string;
-}
-
-function getLocalizedName(
-  name: string,
-  altNames: { lang: string; value: string }[] = [],
-  locale: string
-) {
-  return (
-    altNames.find((n) => n.lang === locale)?.value ||
-    altNames.find((n) => n.lang === "uk")?.value ||
-    altNames.find((n) => n.lang === "en")?.value ||
-    name
-  );
 }
 
 export default function BookMarks({
@@ -39,7 +24,6 @@ export default function BookMarks({
   list = "all",
 }: Props) {
   const lists = user.lists ?? [];
-  const locale = useLocale();
 
   const selectedTitles =
     list === "all"
@@ -50,15 +34,17 @@ export default function BookMarks({
     return <p>Немає творів у цьому списку.</p>;
   }
 
+  let localizedName;
+
   const sortedTitles = [...selectedTitles].sort((a, b) => {
     const at = a.title;
     const bt = b.title;
     if (!at || !bt) return 0;
-
     const getValue = (t: any, s: any) => {
+      localizedName = useLocalizedName(t.name, t.alt_names);
       switch (sortBy) {
         case "title":
-          return getLocalizedName(t.name, t.alt_names, locale) ?? "";
+          return localizedName ?? "";
         case "added":
           return new Date(s.addedAt ?? 0).getTime();
         case "updated":
@@ -85,12 +71,7 @@ export default function BookMarks({
         if (!title || typeof title !== "object" || !("name" in title)) {
           return <li key={idx}>Некоректний тайтл</li>;
         }
-
-        const localizedName = getLocalizedName(
-          title.name,
-          title.alt_names,
-          locale
-        );
+        const localizedName = useLocalizedName(title.name, title.alt_names);
 
         const titleId = title.id;
         const isNovel = title.type === "NOVEL";
@@ -110,6 +91,9 @@ export default function BookMarks({
                 chapterCount,
                 last_open: savedTitle.last_open,
                 type: title.type,
+              }}
+              onEdit={() => {
+                console.log("dfgd");
               }}
               type={style}
             />
