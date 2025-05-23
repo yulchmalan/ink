@@ -20,7 +20,9 @@ const Banner = ({ userId, className }: BannerProps) => {
         src={resolvedUrl}
         className={styles.bannerImage}
         alt="Banner"
+        fill
         priority
+        sizes="100vw"
       />
     </div>
   );
