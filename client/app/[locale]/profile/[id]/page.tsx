@@ -5,7 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { GET_USER } from "@/graphql/queries/getUser";
 
 export async function generateMetadata({ params }: any) {
-  const { locale } = params;
+  const { locale } = await params;
 
   const t = await getTranslations({ locale: locale, namespace: "Meta" });
 
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: any) {
 }
 
 export default async function Page({ params }: any) {
-  const { id } = params;
+  const { id } = await params;
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",

@@ -4,7 +4,7 @@ import { GET_TITLE } from "@/graphql/queries/getTitle";
 import Container from "@/components/Layout/Container/Container";
 
 export async function generateMetadata({ params }: any) {
-  const { id, locale } = params;
+  const { id, locale } = await params;
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: any) {
 }
 
 export default async function Page({ params }: any) {
-  const { id } = params;
+  const { id } = await params;
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",
