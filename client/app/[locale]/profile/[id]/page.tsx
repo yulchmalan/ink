@@ -19,7 +19,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: any) {
   const { id } = params;
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
