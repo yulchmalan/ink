@@ -59,6 +59,7 @@ export default function TitleCard({
                 e.preventDefault();
                 onEdit?.();
               }}
+              aria-label="Edit"
             >
               <Pencil />
             </button>

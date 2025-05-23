@@ -62,11 +62,13 @@ export default function Navbar() {
     <nav className={clsx(styles.navbar, { [styles.navActive]: isNavActive })}>
       <Container className={styles.container}>
         <SimpleIconBtn
+          aria-label={t("menu")}
           icon={<Menu />}
           onClick={toggleNav}
           className={styles.mobileIcon}
         />
         <SimpleIconBtn
+          aria-label={t("search")}
           icon={<Search />}
           onClick={() => setIsSearchOpen(true)}
           className={styles.mobileIcon}
@@ -101,6 +103,7 @@ export default function Navbar() {
           </ul>
           <div className={styles.endFlex}>
             <SimpleIconBtn
+              aria-label={t("search")}
               onClick={() => setIsSearchOpen(true)}
               icon={<Search />}
               className={styles.desktopIcon}

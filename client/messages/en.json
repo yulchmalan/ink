@@ -36,6 +36,8 @@
         "catalog": "Catalog",
         "mainpage": "Home",
         "contacts": "Contacts",
+        "search": "Search",
+        "menu": "BurgerMenu",
         "login": "Login",
         "reg": "Register"
     },

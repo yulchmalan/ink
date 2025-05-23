@@ -31,14 +31,22 @@ export default function TabGrid({ sidebar, children }: Props) {
           }`}
         >
           {sidebar}
-          <button className={styles.closeBtn} onClick={handleClose}>
+          <button
+            className={styles.closeBtn}
+            onClick={handleClose}
+            aria-label="Close sort menu"
+          >
             <Cross />
           </button>
         </aside>
       )}
       <div className={styles.tabGridMain}>
         {children}
-        <button className={styles.openBtn} onClick={handleOpen}>
+        <button
+          className={styles.openBtn}
+          onClick={handleOpen}
+          aria-label="Open sort menu"
+        >
           <Settings />
         </button>
       </div>

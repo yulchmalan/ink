@@ -27,7 +27,11 @@ export default function UserInfoModal({ user }: Props) {
 
   return (
     <>
-      <button onClick={() => setIsOpen(true)} className={styles.infoButton}>
+      <button
+        onClick={() => setIsOpen(true)}
+        className={styles.infoButton}
+        aria-label="User details"
+      >
         <Info />
       </button>
 
