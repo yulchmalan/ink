@@ -2,6 +2,11 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { GET_TITLE } from "@/graphql/queries/getTitle";
 import Container from "@/components/Layout/Container/Container";
+import TitlePageGrid from "@/components/Layout/Grid/TitlePageGrid";
+import TitleCover from "@/components/Layout/Catalog/TitleCover/TitleCover";
+import Wrapper from "@/components/Layout/Wrapper/Wrapper";
+import styles from "./page.module.scss";
+import TitleInfo from "@/components/Layout/Catalog/TitlePage/TitleInfo";
 
 export async function generateMetadata({ params }: any) {
   const { id, locale } = await params;
@@ -58,37 +63,7 @@ export default async function Page({ params }: any) {
 
   return (
     <Container>
-      <h1>{title.name}</h1>
-      {title && (
-        <img
-          src={`https://${process.env.NEXT_PUBLIC_S3_BUCKET}.s3.${process.env.NEXT_PUBLIC_S3_REGION}.amazonaws.com/covers/${title.id}`}
-          alt={title.name}
-          style={{ maxWidth: "300px", borderRadius: "12px" }}
-        />
-      )}
-      <p>
-        <strong>Author:</strong> {title.author?.name}
-      </p>
-      <p>
-        <strong>Franchise:</strong> {title.franchise || "—"}
-      </p>
-      <p>
-        <strong>Translation:</strong> {title.translation}
-      </p>
-      <p>
-        <strong>Status:</strong> {title.status}
-      </p>
-      <p>
-        <strong>Genres:</strong>{" "}
-        {title.genres?.map((g: any) => g.name.en).join(", ") || "—"}
-      </p>
-      <p>
-        <strong>Tags:</strong>{" "}
-        {title.tags?.map((t: any) => t.name.en).join(", ") || "—"}
-      </p>
-      <p style={{ marginTop: "1rem" }}>
-        {title.description || "No description"}
-      </p>
+      <TitleInfo title={title} />
     </Container>
   );
 }

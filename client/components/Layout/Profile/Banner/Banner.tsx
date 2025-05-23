@@ -4,6 +4,7 @@ import styles from "./banner.module.scss";
 import clsx from "clsx";
 import defaultBanner from "@/assets/banner.png";
 import { useS3Image } from "@/hooks/useS3Image";
+import Image from "next/image";
 
 interface BannerProps {
   userId: string;
@@ -15,7 +16,12 @@ const Banner = ({ userId, className }: BannerProps) => {
 
   return (
     <div className={clsx(styles.bannerWrapper, className)}>
-      <img src={resolvedUrl} className={styles.bannerImage} alt="Banner" />
+      <Image
+        src={resolvedUrl}
+        className={styles.bannerImage}
+        alt="Banner"
+        priority
+      />
     </div>
   );
 };

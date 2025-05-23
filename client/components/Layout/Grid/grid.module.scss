@@ -123,3 +123,37 @@
 .tabGridMain {
   width: 100%;
 }
+
+
+
+.titleGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  @media (min-width: 768px) {
+    grid-template-columns: 330px 1fr;
+  }
+}
+
+.titleGridSidebar {
+  position: sticky;
+  top: 100px;
+  max-height: calc(100vh - 110px);
+  align-self: start;
+  width: 95%; 
+  overflow-y: scroll;
+  overflow: auto;
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
+  transition: .3s all ease;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  &::-webkit-scrollbar {
+    display: none; 
+  }
+  @media (min-width: 890px) {
+    top: 130px;
+  }
+}
