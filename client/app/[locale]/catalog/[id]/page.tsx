@@ -3,11 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { GET_TITLE } from "@/graphql/queries/getTitle";
 import Container from "@/components/Layout/Container/Container";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string; locale: string };
-}) {
+export async function generateMetadata({ params }: any) {
   const { id, locale } = params;
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
