@@ -8,7 +8,7 @@ export async function generateMetadata({
 }: {
   params: { id: string; locale: string };
 }) {
-  const { id, locale } = await params;
+  const { id, locale } = params;
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",
@@ -45,7 +45,7 @@ export default async function Page({
 }: {
   params: { id: string; locale: string };
 }) {
-  const { id } = await params;
+  const { id } = params;
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",

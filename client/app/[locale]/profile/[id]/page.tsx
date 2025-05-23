@@ -9,7 +9,7 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const { locale } = await params;
+  const { locale } = params;
 
   const t = await getTranslations({ locale: locale, namespace: "Meta" });
 
@@ -20,7 +20,7 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const { id } = await params;
+  const { id } = params;
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",
