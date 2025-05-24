@@ -1,21 +1,21 @@
 "use client";
 
-import { useState } from "react";
 import clsx from "clsx";
 import styles from "./input.module.scss";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function Input({ label, required, ...props }: InputProps) {
-  const [value, setValue] = useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    props.onChange?.(e);
-  };
-
+export default function Input({
+  label,
+  required,
+  value,
+  onChange,
+  ...props
+}: InputProps) {
   return (
     <div className={styles.inputWrapper}>
       {label && !value && (
@@ -26,7 +26,7 @@ export default function Input({ label, required, ...props }: InputProps) {
       <input
         {...props}
         value={value}
-        onChange={handleChange}
+        onChange={onChange}
         required={required}
         className={styles.input}
       />

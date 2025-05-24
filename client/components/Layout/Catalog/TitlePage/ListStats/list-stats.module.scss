@@ -1,0 +1,33 @@
+.title {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--font-secondary);
+    font-size: 0.95rem;
+}
+
+.total {
+    font-weight: 400;
+    color: var(--font-tertiary);
+    margin-left: 0.25rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    column-gap: 0.75rem;
+    row-gap: 0.5rem;
+}
+
+.label {
+    font-size: 0.95rem;
+}
+
+.percent,
+.count {
+    justify-self: end;
+}
+
+.percent {
+    font-weight: 600;
+}

@@ -17,7 +17,13 @@
         "chapter": "Розділ",
         "level": "Рівень",
         "untilNext": "до наступного рівня",
-        "totalExp": "всього досвіду"
+        "totalExp": "всього досвіду",
+        "inLists": "В списках у",
+        "reading": "Читаю",
+        "planned": "В планах",
+        "completed": "Прочитано",
+        "dropped": "Закинуто",
+        "favorite": "Улюблене"
     },
     "Index": {
         "localeText": "українська",

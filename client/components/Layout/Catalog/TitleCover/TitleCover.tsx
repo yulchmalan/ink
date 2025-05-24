@@ -14,11 +14,7 @@ export default function TitleCover({ id, name, className }: Props) {
 
   return (
     <div className={className}>
-      <img
-        src={url}
-        alt={name}
-        style={{ maxWidth: "300px", borderRadius: "12px" }}
-      />
+      <img src={url} alt={name} />
     </div>
   );
 }

@@ -31,7 +31,7 @@ export default function ProgressCard({
         </div>
         <div className={styles.info}>
           <h3 className={styles.title}>{title}</h3>
-          <ProgressBar value={value} max={max} />
+          <ProgressBar type="chapter" value={value} max={max} />
         </div>
       </a>
       <button className={styles.deleteBtn} onClick={onDelete}>

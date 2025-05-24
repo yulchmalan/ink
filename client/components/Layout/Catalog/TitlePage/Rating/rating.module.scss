@@ -1,0 +1,46 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.avg {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    .total {
+        font-size: 0.875rem;
+        color: var(--font-secondary);
+    }
+    .avgScore {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  column-gap: 8px;
+  align-items: center;
+}
+
+.value,
+.count {
+  justify-self: end;
+}
+
+.value {
+    font-weight: 600;
+}
+
+.bar {
+    flex-grow: 1;
+}
+

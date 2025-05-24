@@ -70,6 +70,7 @@
   
       .links {
         display: flex;
+        flex-wrap: wrap;
         .link {
             padding: 0 20px;
             &:not(:last-child) {

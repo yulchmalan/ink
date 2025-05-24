@@ -17,7 +17,13 @@
         "chapter": "Chapter",
         "level": "Level",
         "untilNext": "until next level",
-        "totalExp": "total experience"
+        "totalExp": "total experience",
+        "inLists": "In lists of",
+        "reading": "Reading",
+        "planned": "Planned",
+        "completed": "Completed",
+        "dropped": "Dropped",
+        "favorite": "Favourite"
     },
     "Index": {
         "localeText": "Ukrainian",

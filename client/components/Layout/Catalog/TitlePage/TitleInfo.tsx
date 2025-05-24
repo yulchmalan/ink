@@ -1,11 +1,41 @@
 "use client";
 
 import styles from "./title-info.module.scss";
+import { useEffect, useState } from "react";
 import TitlePageGrid from "@/components/Layout/Grid/TitlePageGrid";
 import TitleCover from "@/components/Layout/Catalog/TitleCover/TitleCover";
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
 import Tabs from "../../Tabs/Tabs";
+import Dropdown from "@/components/UI/Dropdown/Dropdown";
+import Plus from "@/assets/icons/Plus";
+import Tag from "@/components/UI/Tag/Tag";
+import RatingStats from "./Rating/RatingStats";
+import ListStats from "./ListStats/ListStats";
+import CommentsSection from "./Comment/CommentSection";
+import { useAuth } from "@/contexts/AuthContext";
+import { GET_USER_LISTS_WITH_TITLE } from "@/graphql/queries/getUserListsWithTitle";
+import { ADD_TITLE_TO_LIST } from "@/graphql/mutations/addTitleToList";
+
+const TRANSLATION_LABELS: Record<string, string> = {
+  TRANSLATED: "Перекладено",
+  IN_PROGRESS: "У процесі",
+  NOT_TRANSLATED: "Без перекладу",
+};
+
+const STATUS_LABELS: Record<string, string> = {
+  COMPLETED: "Завершено",
+  ONGOING: "Онґоїнг",
+  ANNOUNCED: "Анонсовано",
+};
+
+const LISTS = [
+  { id: "reading", label: "Читаю" },
+  { id: "planned", label: "В планах" },
+  { id: "completed", label: "Прочитано" },
+  { id: "dropped", label: "Закинуто" },
+  { id: "favorite", label: "Улюблене" },
+];
 
 interface Props {
   title: {
@@ -22,35 +52,149 @@ interface Props {
 }
 
 export default function TitleInfo({ title }: Props) {
+  const [selectedListId, setSelectedListId] = useState<string | undefined>(
+    undefined
+  );
+
+  const { user: currentUser } = useAuth();
+  const currentUserId = currentUser?._id;
+
+  useEffect(() => {
+    const fetchList = async () => {
+      if (!currentUserId) return;
+
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+          },
+          body: JSON.stringify({
+            query: GET_USER_LISTS_WITH_TITLE,
+            variables: { id: currentUserId },
+          }),
+          cache: "no-store",
+        });
+
+        const json = await res.json();
+        const lists = json.data?.user?.lists ?? [];
+
+        for (const list of lists) {
+          const found = list.titles.find((t: any) => t.title.id === title.id);
+          if (found) {
+            setSelectedListId(list.name);
+            return;
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching user lists:", err);
+      }
+    };
+
+    fetchList();
+  }, [currentUserId, title.id]);
+
+  const handleListChange = async (listId: string) => {
+    if (!currentUserId) return;
+    setSelectedListId(listId);
+
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+        },
+        body: JSON.stringify({
+          query: ADD_TITLE_TO_LIST,
+          variables: {
+            userId: currentUserId,
+            input: {
+              listName: listId,
+              titleId: title.id,
+              language: "uk",
+            },
+          },
+        }),
+      });
+    } catch (err) {
+      console.error("Error adding title to list:", err);
+    }
+  };
+
   const tabs = [
     {
       title: "Інформація",
       content: (
-        <div className={styles.info}>
-          <h1>{title.name}</h1>
-          <p>
-            <strong>Author:</strong> {title.author?.name || "—"}
-          </p>
-          <p>
-            <strong>Franchise:</strong> {title.franchise || "—"}
-          </p>
-          <p>
-            <strong>Translation:</strong> {title.translation || "—"}
-          </p>
-          <p>
-            <strong>Status:</strong> {title.status || "—"}
-          </p>
-          <p>
-            <strong>Genres:</strong>{" "}
-            {title.genres?.map((g) => g.name.en).join(", ") || "—"}
-          </p>
-          <p>
-            <strong>Tags:</strong>{" "}
-            {title.tags?.map((t) => t.name.en).join(", ") || "—"}
-          </p>
-          <p style={{ marginTop: "1rem" }}>
-            {title.description || "No description"}
-          </p>
+        <div className={styles.infoSection}>
+          {title.description && (
+            <section>
+              <h2>Опис</h2>
+              <p>{title.description}</p>
+            </section>
+          )}
+
+          {title.author?.name && (
+            <section>
+              <h2>Автор</h2>
+              <p>{title.author.name}</p>
+            </section>
+          )}
+
+          {title.franchise && (
+            <section>
+              <h2>Франшиза</h2>
+              <p>{title.franchise}</p>
+            </section>
+          )}
+
+          <div className={styles.halfGrid}>
+            {title.translation && TRANSLATION_LABELS[title.translation] && (
+              <section>
+                <h2>Переклад</h2>
+                <p>{TRANSLATION_LABELS[title.translation]}</p>
+              </section>
+            )}
+
+            {title.status && STATUS_LABELS[title.status] && (
+              <section>
+                <h2>Статус</h2>
+                <p>{STATUS_LABELS[title.status]}</p>
+              </section>
+            )}
+          </div>
+
+          {Array.isArray(title.genres) && title.genres.length > 0 && (
+            <section>
+              <h2>Жанри</h2>
+              <ul className={styles.tagGroup}>
+                {title.genres.map((g) => (
+                  <li key={g.name.en} className={styles.tag}>
+                    <Tag value={`${g.name.en}`}></Tag>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {Array.isArray(title.tags) && title.tags.length > 0 && (
+            <section>
+              <h2>Теги</h2>
+              <ul className={styles.tagGroup}>
+                {title.tags.map((t) => (
+                  <li key={t.name.en} className={styles.tag}>
+                    <Tag value={`#${t.name.en}`}></Tag>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          <div className={styles.halfGrid}>
+            <RatingStats titleId={title.id} />
+            <ListStats titleId={title.id} />
+          </div>
         </div>
       ),
     },
@@ -60,7 +204,7 @@ export default function TitleInfo({ title }: Props) {
     },
     {
       title: "Коментарі",
-      content: <div>Коментарі</div>,
+      content: <CommentsSection titleId={title.id} />,
     },
   ];
 
@@ -76,10 +220,24 @@ export default function TitleInfo({ title }: Props) {
             />
           )}
           <Button className={styles.primaryBtn}>Почати читати</Button>
+          {currentUserId && (
+            <Dropdown
+              options={LISTS}
+              selectedId={selectedListId}
+              onSelect={handleListChange}
+              placeholder={
+                <>
+                  <Plus />
+                  Додати в плани
+                </>
+              }
+            />
+          )}
         </>
       }
     >
       <Wrapper>
+        <h1 className={styles.h1}>{title.name}</h1>
         <Tabs tabs={tabs}></Tabs>
       </Wrapper>
     </TitlePageGrid>

@@ -9,6 +9,7 @@ import fallbackPfp from "@/assets/pfp.svg";
 import { useState } from "react";
 import clsx from "clsx";
 import { useLocale } from "next-intl";
+import Link from "next/link";
 
 interface CommentProps {
   username: string;
@@ -18,6 +19,7 @@ interface CommentProps {
   likes: number;
   dislikes: number;
   title?: {
+    id: string;
     name: string;
     alt_names?: { lang: string; value: string }[];
   };
@@ -58,9 +60,9 @@ export default function Comment({
   return (
     <div className={styles.comment}>
       <div className={styles.meta}>
-        {localizedTitle && (
-          <span className={styles.chapter}>{localizedTitle}</span>
-        )}
+        <Link href={`/catalog/${title?.id}`} className={styles.chapter}>
+          {localizedTitle}
+        </Link>
       </div>
 
       <div className={styles.body}>

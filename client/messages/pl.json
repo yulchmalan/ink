@@ -17,7 +17,13 @@
         "chapter": "Rozdział",
         "level": "Poziom",
         "untilNext": "do następnego poziomu",
-        "totalExp": "łącznie doświadczenia"
+        "totalExp": "łącznie doświadczenia",
+        "inLists": "Na listach u",
+        "reading": "Czytam",
+        "planned": "W planach",
+        "completed": "Przeczytane",
+        "dropped": "Porzucone",
+        "favorite": "Ulubione"
     },
     "Index": {
         "localeText": "ukraiński",

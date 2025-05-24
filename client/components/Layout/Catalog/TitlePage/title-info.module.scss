@@ -3,6 +3,11 @@
     overflow: hidden;
     position: relative;
     border-radius: 12px;
+    width: 30%;
+    margin: 0 auto;
+    @media (min-width: 768px) {
+        width: 100%;
+    }
     img {
         position: absolute;
         min-width: 100%;
@@ -16,4 +21,41 @@
 
 .primaryBtn {
     width: 100%;
+}
+
+.h1 {
+    padding-bottom: 12px;
+}
+
+.infoSection {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 12px;
+    h2 {
+        font-size: calc(var(--font-size) - 2px);
+        font-weight: 400;
+        color: var(--font-secondary);
+        margin-bottom: 4px;
+    }
+    p {
+        font-size: calc(var(--font-size) - 3px);
+        font-weight: 400;
+    }
+    ul {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+}
+
+.halfGrid {
+    display: grid;
+    column-gap: 48px;
+    row-gap: 12px;
+    grid-template-columns: 1fr;
+    @media (min-width: 1100px) {
+        grid-template-columns: repeat(2, minmax(300px, 1fr));
+    }
 }

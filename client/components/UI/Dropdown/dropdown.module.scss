@@ -1,0 +1,61 @@
+@use '@/styles/variables' as *;
+
+.dropdownWrapper {
+    position: relative;
+    overflow: visible;
+}
+
+.dropdownButton {
+    position: relative;
+    background: transparent;
+    width: 100%;
+    color: $primary;
+    border: 1px solid $primary;
+    padding: 16px 88px 16px 32px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: var(--font-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    svg {
+        height: 20px;
+    }
+    &.opened {
+        .arrow {
+            padding: 16px 16px 16px;
+            svg {
+                transform: rotate(180deg);
+            }
+        }
+    }
+    .arrow {
+        position: absolute;
+        right: 0;
+        padding: 18px 16px 16px;
+        height: 100%;
+        border-left: 1px solid $primary;
+        svg {
+            transition: .3s all ease;
+        }
+    }
+}
+
+.dropdownMenu {
+    color: $primary;
+    margin-top: 0.5rem;
+    border: 1px solid $primary;
+    border-radius: 10px;
+    list-style: none;
+    padding: 8px;
+    font-size: calc(var(--font-size) - 2px);
+    li {
+        padding: 6px 24px;
+        cursor: pointer;
+        border-radius: 4px;
+        &:hover {
+            background-color: var(--surface);
+        }
+    }
+}
