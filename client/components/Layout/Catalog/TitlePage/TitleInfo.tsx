@@ -16,6 +16,7 @@ import CommentsSection from "./Comment/CommentSection";
 import { useAuth } from "@/contexts/AuthContext";
 import { GET_USER_LISTS_WITH_TITLE } from "@/graphql/queries/getUserListsWithTitle";
 import { ADD_TITLE_TO_LIST } from "@/graphql/mutations/addTitleToList";
+import { REMOVE_TITLE_FROM_LIST } from "@/graphql/mutations/removeTitleFromList";
 import Rating from "@/components/UI/Rating/Rating";
 
 const TRANSLATION_LABELS: Record<string, string> = {
@@ -53,48 +54,47 @@ interface Props {
 }
 
 export default function TitleInfo({ title }: Props) {
-  const [selectedListId, setSelectedListId] = useState<string | undefined>(
-    undefined
-  );
-
+  const [selectedListId, setSelectedListId] = useState<string | undefined>();
+  const [userRating, setUserRating] = useState<number | null>(null);
   const { user: currentUser } = useAuth();
   const currentUserId = currentUser?._id;
 
-  useEffect(() => {
-    const fetchList = async () => {
-      if (!currentUserId) return;
+  const fetchListAndRating = async () => {
+    if (!currentUserId) return;
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+        },
+        body: JSON.stringify({
+          query: GET_USER_LISTS_WITH_TITLE,
+          variables: { id: currentUserId },
+        }),
+        cache: "no-store",
+      });
 
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
-          },
-          body: JSON.stringify({
-            query: GET_USER_LISTS_WITH_TITLE,
-            variables: { id: currentUserId },
-          }),
-          cache: "no-store",
-        });
-
-        const json = await res.json();
-        const lists = json.data?.user?.lists ?? [];
-
-        for (const list of lists) {
-          const found = list.titles.find((t: any) => t.title.id === title.id);
-          if (found) {
-            setSelectedListId(list.name);
-            setUserRating(found.rating ?? 0);
-            return;
-          }
+      const json = await res.json();
+      const lists = json.data?.user?.lists ?? [];
+      for (const list of lists) {
+        const found = list.titles.find((t: any) => t.title.id === title.id);
+        if (found) {
+          setSelectedListId(list.name);
+          setUserRating(found.rating ?? 0);
+          return;
         }
-      } catch (err) {
-        console.error("Error fetching user lists:", err);
       }
-    };
 
-    fetchList();
+      setSelectedListId(undefined);
+      setUserRating(null);
+    } catch (err) {
+      console.error("Error fetching user lists:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchListAndRating();
   }, [currentUserId, title.id]);
 
   const handleListChange = async (listId: string) => {
@@ -120,12 +120,39 @@ export default function TitleInfo({ title }: Props) {
           },
         }),
       });
+      fetchListAndRating();
     } catch (err) {
       console.error("Error adding title to list:", err);
     }
   };
 
+  const handleRemoveFromList = async () => {
+    if (!currentUserId) return;
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+        },
+        body: JSON.stringify({
+          query: REMOVE_TITLE_FROM_LIST,
+          variables: {
+            userId: currentUserId,
+            titleId: title.id,
+          },
+        }),
+      });
+
+      setSelectedListId(undefined);
+      setUserRating(null);
+    } catch (err) {
+      console.error("Error removing title:", err);
+    }
+  };
+
   const handleRatingChange = async (rating: number) => {
+    if (!currentUserId) return;
     try {
       await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
         method: "POST",
@@ -142,8 +169,7 @@ export default function TitleInfo({ title }: Props) {
               rating: ${rating},
               language: "uk"
             )
-          }
-        `,
+          }`,
         }),
       });
       setUserRating(rating);
@@ -151,6 +177,7 @@ export default function TitleInfo({ title }: Props) {
       console.error("Error updating rating:", err);
     }
   };
+
   const tabs = [
     {
       title: "Інформація",
@@ -162,21 +189,18 @@ export default function TitleInfo({ title }: Props) {
               <p>{title.description}</p>
             </section>
           )}
-
           {title.author?.name && (
             <section>
               <h2>Автор</h2>
               <p>{title.author.name}</p>
             </section>
           )}
-
           {title.franchise && (
             <section>
               <h2>Франшиза</h2>
               <p>{title.franchise}</p>
             </section>
           )}
-
           <div className={styles.halfGrid}>
             {title.translation && TRANSLATION_LABELS[title.translation] && (
               <section>
@@ -184,7 +208,6 @@ export default function TitleInfo({ title }: Props) {
                 <p>{TRANSLATION_LABELS[title.translation]}</p>
               </section>
             )}
-
             {title.status && STATUS_LABELS[title.status] && (
               <section>
                 <h2>Статус</h2>
@@ -192,33 +215,30 @@ export default function TitleInfo({ title }: Props) {
               </section>
             )}
           </div>
-
           {Array.isArray(title.genres) && title.genres.length > 0 && (
             <section>
               <h2>Жанри</h2>
               <ul className={styles.tagGroup}>
                 {title.genres.map((g) => (
                   <li key={g.name.en} className={styles.tag}>
-                    <Tag value={`${g.name.en}`}></Tag>
+                    <Tag value={`${g.name.en}`} />
                   </li>
                 ))}
               </ul>
             </section>
           )}
-
           {Array.isArray(title.tags) && title.tags.length > 0 && (
             <section>
               <h2>Теги</h2>
               <ul className={styles.tagGroup}>
                 {title.tags.map((t) => (
                   <li key={t.name.en} className={styles.tag}>
-                    <Tag value={`#${t.name.en}`}></Tag>
+                    <Tag value={`#${t.name.en}`} />
                   </li>
                 ))}
               </ul>
             </section>
           )}
-
           <div className={styles.halfGrid}>
             <RatingStats titleId={title.id} />
             <ListStats titleId={title.id} />
@@ -236,25 +256,32 @@ export default function TitleInfo({ title }: Props) {
     },
   ];
 
-  const [userRating, setUserRating] = useState<number | null>(null);
-
   return (
     <TitlePageGrid
       sidebar={
         <>
-          {title && (
-            <TitleCover
-              className={styles.cover}
-              id={title.id}
-              name={title.name}
-            />
-          )}
+          <TitleCover
+            className={styles.cover}
+            id={title.id}
+            name={title.name}
+          />
           <Button className={styles.primaryBtn}>Почати читати</Button>
           {currentUserId && (
             <Dropdown
-              options={LISTS}
+              options={[
+                ...LISTS,
+                ...(selectedListId
+                  ? [{ id: "remove", label: "Видалити зі списків" }]
+                  : []),
+              ]}
               selectedId={selectedListId}
-              onSelect={handleListChange}
+              onSelect={(id) => {
+                if (id === "remove") {
+                  handleRemoveFromList();
+                } else if (id) {
+                  handleListChange(id);
+                }
+              }}
               placeholder={
                 <>
                   <Plus />
@@ -272,14 +299,12 @@ export default function TitleInfo({ title }: Props) {
           {currentUserId && userRating !== null && (
             <Rating
               value={userRating / 2}
-              onChange={(newValue) => {
-                handleRatingChange(newValue * 2);
-              }}
+              onChange={(val) => handleRatingChange(val * 2)}
               size={24}
             />
           )}
         </div>
-        <Tabs tabs={tabs}></Tabs>
+        <Tabs tabs={tabs} />
       </Wrapper>
     </TitlePageGrid>
   );

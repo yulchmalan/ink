@@ -4,6 +4,7 @@ import { ReactElement, useState } from "react";
 import styles from "./dropdown.module.scss";
 import clsx from "clsx";
 import ChevronDown from "@/assets/icons/ChevronDown";
+import Trash from "@/assets/icons/Trash";
 
 interface Option {
   id: string;
@@ -13,7 +14,7 @@ interface Option {
 interface Props {
   options: Option[];
   selectedId?: string;
-  onSelect: (id: string) => void;
+  onSelect: (id: string | null) => void;
   placeholder?: ReactElement;
   disabled?: boolean;
   className?: string;
@@ -35,7 +36,7 @@ export default function Dropdown({
 
   const selectedLabel = options.find((opt) => opt.id === selectedId)?.label;
 
-  const handleSelect = (id: string) => {
+  const handleSelect = (id: string | null) => {
     onSelect(id);
     setIsOpen(false);
   };
@@ -52,11 +53,12 @@ export default function Dropdown({
         disabled={disabled}
         aria-expanded={isOpen}
       >
-        {selectedLabel || placeholder}{" "}
+        {selectedLabel || placeholder}
         <div className={styles.arrow}>
           <ChevronDown />
         </div>
       </button>
+
       {isOpen && (
         <ul className={clsx(styles.dropdownMenu, listClassName)}>
           {options.map((opt) => (
