@@ -47,7 +47,6 @@ export default function ListStats({ titleId }: Props) {
 
         users.forEach((user: any) => {
           user.lists?.forEach((list: any) => {
-            console.log(list.name);
             const name = list.name;
             const containsTitle = list.titles?.some(
               (t: any) => t.title?.id === titleId

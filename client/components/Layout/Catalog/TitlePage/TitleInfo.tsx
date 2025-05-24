@@ -16,6 +16,7 @@ import CommentsSection from "./Comment/CommentSection";
 import { useAuth } from "@/contexts/AuthContext";
 import { GET_USER_LISTS_WITH_TITLE } from "@/graphql/queries/getUserListsWithTitle";
 import { ADD_TITLE_TO_LIST } from "@/graphql/mutations/addTitleToList";
+import Rating from "@/components/UI/Rating/Rating";
 
 const TRANSLATION_LABELS: Record<string, string> = {
   TRANSLATED: "Перекладено",
@@ -84,6 +85,7 @@ export default function TitleInfo({ title }: Props) {
           const found = list.titles.find((t: any) => t.title.id === title.id);
           if (found) {
             setSelectedListId(list.name);
+            setUserRating(found.rating ?? 0);
             return;
           }
         }
@@ -123,6 +125,32 @@ export default function TitleInfo({ title }: Props) {
     }
   };
 
+  const handleRatingChange = async (rating: number) => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+        },
+        body: JSON.stringify({
+          query: `
+          mutation {
+            updateTitleRating(
+              userId: "${currentUserId}",
+              titleId: "${title.id}",
+              rating: ${rating},
+              language: "uk"
+            )
+          }
+        `,
+        }),
+      });
+      setUserRating(rating);
+    } catch (err) {
+      console.error("Error updating rating:", err);
+    }
+  };
   const tabs = [
     {
       title: "Інформація",
@@ -208,6 +236,8 @@ export default function TitleInfo({ title }: Props) {
     },
   ];
 
+  const [userRating, setUserRating] = useState<number | null>(null);
+
   return (
     <TitlePageGrid
       sidebar={
@@ -237,7 +267,18 @@ export default function TitleInfo({ title }: Props) {
       }
     >
       <Wrapper>
-        <h1 className={styles.h1}>{title.name}</h1>
+        <div className={styles.header}>
+          <h1 className={styles.h1}>{title.name}</h1>
+          {currentUserId && userRating !== null && (
+            <Rating
+              value={userRating / 2}
+              onChange={(newValue) => {
+                handleRatingChange(newValue * 2);
+              }}
+              size={24}
+            />
+          )}
+        </div>
         <Tabs tabs={tabs}></Tabs>
       </Wrapper>
     </TitlePageGrid>

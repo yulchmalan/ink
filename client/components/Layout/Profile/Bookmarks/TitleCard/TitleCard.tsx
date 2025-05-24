@@ -22,14 +22,14 @@ interface TitleData {
 interface TitleCardProps {
   title: TitleData;
   type?: "grid" | "row";
-  onEdit?: () => void;
+  // onEdit?: () => void;
 }
 
 export default function TitleCard({
   title,
   type = "grid",
-  onEdit,
-}: TitleCardProps) {
+}: // onEdit,
+TitleCardProps) {
   const { name, id, chapter, chapterCount, added } = title;
   const [loaded, setLoaded] = useState(false);
 
@@ -51,7 +51,7 @@ export default function TitleCard({
             onLoad={() => setLoaded(true)}
             loading="lazy"
           />
-          {type === "grid" && onEdit && (
+          {/* {type === "grid" && onEdit && (
             <button
               className={styles.editBtn}
               onClick={(e) => {
@@ -63,7 +63,7 @@ export default function TitleCard({
             >
               <Pencil />
             </button>
-          )}
+          )} */}
         </div>
       </Link>
 
@@ -86,11 +86,11 @@ export default function TitleCard({
           </div>
         )}
 
-        {type === "row" && onEdit && (
+        {/* {type === "row" && onEdit && (
           <button className={styles.editBtn} onClick={onEdit}>
             <Pencil />
           </button>
-        )}
+        )} */}
       </div>
     </div>
   );

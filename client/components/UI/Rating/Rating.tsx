@@ -11,24 +11,37 @@ type RatingProps = {
   value?: number;
   onChange?: (value: number) => void;
   size?: number;
+  readOnly?: boolean;
 };
 
-export default function Rating({ value, onChange, size = 20 }: RatingProps) {
+export default function Rating({
+  value,
+  onChange,
+  size = 20,
+  readOnly = false,
+}: RatingProps) {
   const [internalValue, setInternalValue] = useState(0);
   const [hoverValue, setHoverValue] = useState<number | null>(null);
 
   const isControlled = value !== undefined;
-  const activeValue = hoverValue ?? (isControlled ? value! : internalValue);
+  const activeValue = hoverValue ?? (isControlled ? value : internalValue);
 
   const handleClick = (index: number, isHalf: boolean) => {
     const newValue = isHalf ? index + 0.5 : index + 1;
-    if (isControlled) return;
-    setInternalValue(newValue);
+
+    if (!isControlled) {
+      setInternalValue(newValue);
+    }
+
     onChange?.(newValue);
   };
 
   return (
-    <div className={styles.rating} onMouseLeave={() => setHoverValue(null)}>
+    <div
+      className={styles.rating}
+      onMouseLeave={() => setHoverValue(null)}
+      style={{ pointerEvents: readOnly ? "none" : "auto" }}
+    >
       {[0, 1, 2, 3, 4].map((i) => {
         const diff = activeValue - i;
         const isFull = diff >= 1;
@@ -39,11 +52,11 @@ export default function Rating({ value, onChange, size = 20 }: RatingProps) {
           <span
             key={i}
             className={clsx(
-              isControlled ? styles.cursorDefault : styles.cursorPointer,
+              readOnly ? styles.cursorDefault : styles.cursorPointer,
               styles.ratingStar
             )}
             onClick={(e) => {
-              if (isControlled) return;
+              if (readOnly) return;
               const rect = (
                 e.currentTarget as HTMLElement
               ).getBoundingClientRect();
@@ -52,7 +65,7 @@ export default function Rating({ value, onChange, size = 20 }: RatingProps) {
               handleClick(i, isHalf);
             }}
             onMouseMove={(e) => {
-              if (isControlled) return;
+              if (readOnly) return;
               const rect = (
                 e.currentTarget as HTMLElement
               ).getBoundingClientRect();
@@ -61,13 +74,7 @@ export default function Rating({ value, onChange, size = 20 }: RatingProps) {
               setHoverValue(isHalf ? i + 0.5 : i + 1);
             }}
           >
-            <Star
-              width={size}
-              height={size}
-              // className={`transition-colors ${
-              //   activeValue >= i + 1 ? "text-yellow-500" : "text-gray-400"
-              // }`}
-            />
+            <Star width={size} height={size} />
           </span>
         );
       })}

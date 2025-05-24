@@ -107,7 +107,7 @@ export default function RatingStats({ titleId }: Props) {
 
           return (
             <React.Fragment key={stars}>
-              <Rating value={stars} size={18} />
+              <Rating readOnly={true} value={stars} size={18} />
               <ProgressBar value={percent} color={getBarColor(stars)} />
               <span className={styles.value}>{Math.round(percent)}%</span>
               <span className={styles.count}>{count}</span>

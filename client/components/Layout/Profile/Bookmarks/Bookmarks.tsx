@@ -91,10 +91,11 @@ export default function BookMarks({
                 chapterCount,
                 last_open: savedTitle.last_open,
                 type: title.type,
+                added: savedTitle.added,
               }}
-              onEdit={() => {
-                console.log("dfgd");
-              }}
+              // onEdit={() => {
+              //   console.log("dfgd");
+              // }}
               type={style}
             />
           </li>
