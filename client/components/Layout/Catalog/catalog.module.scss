@@ -1,0 +1,120 @@
+.titlesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); //вернути потім 130пх
+    gap: 16px;
+}
+
+.catalogGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 32px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr auto ;
+  }
+  .openBtn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    svg {
+      height: 36px;
+    }
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.btn {
+    margin-top: 4px;
+    width: calc(50% - 2px);
+    min-width: 70px;
+}
+
+.sidebarSection {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-height: calc(100vh - 90px);
+    width: 95%; 
+    > div {
+        max-height: calc(100vh - 110px);
+    }
+    .sideContent {
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        -ms-overflow-style: none; 
+        max-height: calc(100vh - 110px - 48px - 48px);
+        &::-webkit-scrollbar {
+            display: none; 
+        }
+        overflow: auto;
+        scrollbar-width: none; 
+        -ms-overflow-style: none; 
+    }
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s all ease;
+    z-index: 100;
+    &.active {
+        visibility: visible;
+        opacity: 1;
+    }
+  .closeBtn {
+    position: absolute;
+    display: block;
+    top: 16px;
+    right: 16px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    svg {
+      height: 20px;
+    }
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+  @media (min-width: 768px) {
+    display: block;
+    left: auto;
+    bottom: auto;
+    transform: translate(0);
+    width: 400px; 
+    position: sticky;
+    top: 100px;
+    max-height: calc(100vh - 110px);
+    align-self: start;
+    z-index: 0;
+  }
+  @media (min-width: 890px) {
+    top: 100px;
+  }
+}
+
+.titles {
+    input {
+        margin: 16px 0;
+    }
+}
+
+.backBtn {
+  margin-bottom: 12px;
+  margin-top: 1px;
+  padding: 6px 12px;
+  font-size: 14px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}

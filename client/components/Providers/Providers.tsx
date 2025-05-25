@@ -15,7 +15,11 @@ export default function Providers({ children, locale, messages }: Props) {
   return (
     <SessionProvider>
       <AuthProvider>
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <NextIntlClientProvider
+          locale={locale}
+          messages={messages}
+          timeZone="Europe/Kyiv"
+        >
           <SocialAuthSync />
           {children}
         </NextIntlClientProvider>

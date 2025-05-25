@@ -7,6 +7,7 @@
     gap: 8px;
     padding: 12px 0;
     border-bottom: 1px solid var(--border);
+    min-height: 86px;
 }
 
 .meta {
@@ -103,11 +104,11 @@
     color: var(--font-secondary);
   }
 
-  &.up svg {
+  &.up.active svg {
     color: #2e7d32;
   }
 
-  &.down svg {
+  &.down.active svg {
     color: #d32f2f;
   }
 

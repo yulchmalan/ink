@@ -16,6 +16,7 @@ import Dots from "@/assets/icons/Dots";
 import Trash from "@/assets/icons/Trash";
 import Pencil from "@/assets/icons/Pencil";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
+import Link from "next/link";
 
 type VoteState = "upvoted" | "downvoted" | "none";
 
@@ -43,6 +44,11 @@ export default function Comment({ comment, onRefresh }: CommentProps) {
 
   const { user: currentUser } = useAuth();
   const currentUserId = currentUser?._id;
+  const currentUserRole = currentUser?.role;
+  const canDelete =
+    currentUserId === user._id ||
+    ["MODERATOR", "ADMIN", "OWNER"].includes(currentUser?.role ?? "");
+
   const [vote, setVote] = useState<VoteState>("none");
   const [localLikes, setLikes] = useState(score.likes);
   const [localDislikes, setDislikes] = useState(score.dislikes);
@@ -91,9 +97,6 @@ export default function Comment({ comment, onRefresh }: CommentProps) {
   const handleVote = async (type: VoteState) => {
     if (!currentUserId) return;
 
-    let newVote: VoteState = vote;
-
-    // Якщо клік повторний — просто знімаємо голос
     if (vote === type) {
       if (type === "upvoted") setLikes((l) => l - 1);
       else setDislikes((d) => d - 1);
@@ -126,7 +129,6 @@ export default function Comment({ comment, onRefresh }: CommentProps) {
       return;
     }
 
-    // Якщо новий голос
     if (type === "upvoted") {
       setLikes((l) => l + 1);
       if (vote === "downvoted") setDislikes((d) => d - 1);
@@ -224,11 +226,15 @@ export default function Comment({ comment, onRefresh }: CommentProps) {
     <div className={styles.comment}>
       <div className={styles.body}>
         <div className={styles.avatar}>
-          <img src={avatar ?? fallbackPfp.src} alt="Avatar" />
+          <Link href={`/user/${user._id}`}>
+            <img src={avatar ?? fallbackPfp.src} alt="Avatar" />
+          </Link>
         </div>
         <div className={styles.content}>
           <div className={styles.userInfo}>
-            <span className={styles.username}>{user.username}</span>
+            <Link href={`/user/${user._id}`} className={styles.username}>
+              {user.username}
+            </Link>
             <span className={styles.date}>
               {formatDistanceToNow(new Date(createdAt), {
                 addSuffix: true,
@@ -236,8 +242,8 @@ export default function Comment({ comment, onRefresh }: CommentProps) {
               })}
             </span>
 
-            {currentUserId === user._id && (
-              <div className={styles.menuWrapper}>
+            {canDelete && (
+              <div className={styles.menuWrapper} ref={menuRef}>
                 <button
                   className={styles.menuBtn}
                   onClick={() => setShowMenu((prev) => !prev)}
@@ -246,14 +252,16 @@ export default function Comment({ comment, onRefresh }: CommentProps) {
                 </button>
                 {showMenu && (
                   <div className={styles.dropdown}>
-                    <button
-                      onClick={() => {
-                        setIsEditing(true);
-                        setShowMenu(false);
-                      }}
-                    >
-                      <Pencil /> Редагувати
-                    </button>
+                    {currentUserId === user._id && (
+                      <button
+                        onClick={() => {
+                          setIsEditing(true);
+                          setShowMenu(false);
+                        }}
+                      >
+                        <Pencil /> Редагувати
+                      </button>
+                    )}
                     <button
                       onClick={() => {
                         handleDelete();
@@ -296,37 +304,37 @@ export default function Comment({ comment, onRefresh }: CommentProps) {
           ) : (
             <p className={styles.message}>{body}</p>
           )}
-
-          {currentUserId === user._id && (
-            <div className={styles.menuWrapper} ref={menuRef}>
-              <button
-                className={styles.menuBtn}
-                onClick={() => setShowMenu((prev) => !prev)}
-              >
-                <Dots />
-              </button>
-              {showMenu && (
-                <div className={styles.dropdown}>
-                  <button
-                    onClick={() => {
-                      setIsEditing(true);
-                      setShowMenu(false);
-                    }}
-                  >
-                    <Pencil /> Редагувати
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleDelete();
-                      setShowMenu(false);
-                    }}
-                  >
-                    <Trash /> Видалити
-                  </button>
-                </div>
+          <div className={styles.footer}>
+            <button
+              className={clsx(
+                styles.voteBtn,
+                styles.up,
+                vote === "upvoted" && styles.active
               )}
-            </div>
-          )}
+              onClick={() => handleVote("upvoted")}
+            >
+              <ChevronUp />
+            </button>
+            <span
+              className={clsx(
+                styles.rating,
+                rating > 0 && styles.positive,
+                rating < 0 && styles.negative
+              )}
+            >
+              {rating}
+            </span>
+            <button
+              className={clsx(
+                styles.voteBtn,
+                styles.down,
+                vote === "downvoted" && styles.active
+              )}
+              onClick={() => handleVote("downvoted")}
+            >
+              <ChevronDown />
+            </button>
+          </div>
         </div>
       </div>
     </div>

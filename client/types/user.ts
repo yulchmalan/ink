@@ -42,7 +42,6 @@ export type Comment = {
   _id: string;
   message: string;
   createdAt: string;
-  // інші поля за потреби
 };
 
 export type Review = {

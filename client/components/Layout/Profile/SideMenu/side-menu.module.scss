@@ -46,8 +46,11 @@
 .list {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 1px;
     list-style: none;
+    label {
+        cursor: pointer;
+    }
 }
 
 .badge {
@@ -61,7 +64,7 @@
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.15s ease, color 0.15s ease;
-    &:not(.radio).active {
+    &:not(.radio):not(.checkbox).active {
         background: $primary-subtle;
         color: $primary;
         font-weight: 500;
@@ -117,4 +120,90 @@
             }
         }
     }
+    &.checkbox { 
+        position: relative;
+        padding-left: calc(var(--font-size) + 20px);
+        text-transform: capitalize;
+        input {
+            display: none;
+        }
+        svg {
+            height: 16px;
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translate(2px, -50%); 
+            z-index: 10;
+            color: var(--surface);
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            border-radius: 4px;
+            height: var(--font-size);
+            width: var(--font-size);
+            box-sizing: border-box;
+            border: $primary-font 1px solid;
+            transition: all .1s linear;
+        }
+        &.active {
+            &::before {
+                border: $primary 1px solid;
+                background-color: $primary;
+            }
+
+            &::after {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+
+.checkbox input {
+  margin-right: 8px;
+}
+
+.rangeWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+
+  input {
+    padding: 6px 8px;
+    border-radius:6px;
+    border: 1px solid var(--border);
+    color: var(--font-secondary);
+  }
+}
+
+.expandable {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  .chevron {
+    color: var(--font-secondary);
+    svg {
+        height: 20px;
+    }
+    transform: rotate(0deg);
+    transition: transform 0.2s ease;
+  }
+}
+
+.rangeWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+
+  span {
+    color: var(--font-secondary);
+  }
 }

@@ -13,6 +13,7 @@ type User = {
   _id: string;
   username: string;
   email: string;
+  role: "USER" | "MODERATOR" | "ADMIN" | "OWNER";
 };
 
 type AuthContextType = {
@@ -75,6 +76,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 _id
                 username
                 email
+                role
               }
             }
           `,

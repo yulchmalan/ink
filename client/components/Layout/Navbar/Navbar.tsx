@@ -19,8 +19,9 @@ import User from "@/assets/icons/User";
 import LogOut from "@/assets/icons/LogOut";
 import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import SearchOverlay from "@/components/Layout/SearchOverlay/SearchOverlay";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 export default function Navbar() {
   const [isNavActive, setIsNavActive] = useState(false);
@@ -31,6 +32,7 @@ export default function Navbar() {
   const t = useTranslations("Nav");
   const { isLoggedIn, user, logout } = useAuth();
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const toggleNav = () => setIsNavActive(!isNavActive);
 
@@ -78,7 +80,9 @@ export default function Navbar() {
           <ul className={styles.navList}>
             <li
               onClick={() => {
-                router.push("/");
+                startTransition(() => {
+                  router.push("/");
+                });
                 setIsNavActive(false);
               }}
             >
@@ -86,7 +90,9 @@ export default function Navbar() {
             </li>
             <li
               onClick={() => {
-                router.push("/catalog");
+                startTransition(() => {
+                  router.push("/catalog");
+                });
                 setIsNavActive(false);
               }}
             >
@@ -94,7 +100,9 @@ export default function Navbar() {
             </li>
             <li
               onClick={() => {
-                router.push("/contacts");
+                startTransition(() => {
+                  router.push("/contacts");
+                });
                 setIsNavActive(false);
               }}
             >
@@ -128,9 +136,13 @@ export default function Navbar() {
                 <li
                   onClick={() => {
                     if (isLoggedIn && user) {
-                      router.push(`/profile/${user._id}`);
+                      startTransition(() => {
+                        router.push(`/profile/${user._id}`);
+                      });
                     } else {
-                      router.push("/register");
+                      startTransition(() => {
+                        router.push("/register");
+                      });
                     }
                     setIsNavActive(false);
                   }}

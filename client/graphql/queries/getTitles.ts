@@ -1,6 +1,18 @@
 export const GET_TITLES = `
-  query GetTitles($filter: TitleFilterInput, $sort: TitleSortInput, $limit: Int, $offset: Int) {
-    titles(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
+  query GetTitles(
+    $filter: TitleFilterInput,
+    $sort: TitleSortInput,
+    $limit: Int,
+    $offset: Int,
+    $userId: ObjectID
+  ) {
+    titles(
+      filter: $filter,
+      sort: $sort,
+      limit: $limit,
+      offset: $offset,
+      userId: $userId
+    ) {
       total
       results {
         id

@@ -34,7 +34,6 @@ export default async function Page() {
 
   return (
     <Container>
-      <h1 style={{ marginBottom: "1rem" }}>All Titles</h1>
       <TitleGrid titles={titles} />
     </Container>
   );

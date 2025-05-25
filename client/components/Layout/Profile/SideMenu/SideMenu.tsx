@@ -1,22 +1,28 @@
 "use client";
 
+import Input from "@/components/Form/Input/Input";
 import styles from "./side-menu.module.scss";
 import clsx from "clsx";
-import { useState, useEffect } from "react";
+import ChevronRight from "@/assets/icons/ChevronRight";
+import Checkbox from "@/assets/icons/Checkbox";
 
 type Item = {
   label: string;
   value: string;
   icon?: string | React.ReactNode;
   badge?: number;
+  checked?: boolean;
+  from?: number;
+  to?: number;
+  expandableTarget?: string;
 };
 
 export type Section = {
   title?: string;
-  type: "list" | "radio" | "icon";
+  type: "list" | "radio" | "icon" | "checkbox" | "range" | "expandable";
   items: Item[];
   secondary?: {
-    type: "radio";
+    type: "radio" | "checkbox";
     items: Item[];
   };
 };
@@ -25,6 +31,9 @@ interface Props {
   data: Section;
   selected?: string;
   selectedSecondary?: string;
+  checkedValues?: string[];
+  rangeFrom?: string;
+  rangeTo?: string;
   onSelect?: (value: string) => void;
 }
 
@@ -32,49 +41,60 @@ export default function SideMenu({
   data,
   selected,
   selectedSecondary,
+  checkedValues = [],
+  rangeFrom = "",
+  rangeTo = "",
   onSelect,
 }: Props) {
-  const [selectedValue, setSelectedValue] = useState<string | null>(
-    selected ?? null
-  );
-  const [secondaryValue, setSecondaryValue] = useState<string | null>(
-    selectedSecondary ?? null
-  );
-
-  useEffect(() => {
-    setSelectedValue(selected ?? null);
-  }, [selected]);
-
-  useEffect(() => {
-    setSecondaryValue(selectedSecondary ?? null);
-  }, [selectedSecondary]);
-
   const handleClick = (value: string, isSecondary = false) => {
-    if (isSecondary) {
-      if (secondaryValue === value) {
-        setSecondaryValue(null);
-        onSelect?.("desc");
-      } else {
-        setSecondaryValue(value);
-        onSelect?.(value);
-      }
-    } else {
-      if (selectedValue === value) {
-        setSelectedValue(null);
-        onSelect?.("date");
-      } else {
-        setSelectedValue(value);
-        onSelect?.(value);
-      }
-    }
+    onSelect?.(value);
   };
 
   const renderItem = (item: Item, isSecondary = false) => {
     const isIcon = data.type === "icon";
-    const isRadio = data.type === "radio" && !isIcon;
+    const isRadio = data.type === "radio";
+    const isCheckbox = data.type === "checkbox";
+    const isExpandable = data.type === "expandable";
     const isActive = isSecondary
-      ? secondaryValue === item.value
-      : selectedValue === item.value;
+      ? selectedSecondary === item.value
+      : selected === item.value;
+
+    if (isCheckbox) {
+      const isChecked = checkedValues.includes(item.value);
+      return (
+        <li
+          key={item.value}
+          className={clsx(styles.item, styles.checkbox, {
+            [styles.active]: isChecked,
+          })}
+        >
+          <label>
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={() => onSelect?.(item.value)}
+            />
+            <Checkbox />
+            {item.label}
+          </label>
+        </li>
+      );
+    }
+
+    if (isExpandable) {
+      return (
+        <li
+          key={item.value}
+          className={clsx(styles.item, styles.expandable)}
+          onClick={() => onSelect?.(item.expandableTarget!)}
+        >
+          {item.label}
+          <span className={styles.chevron}>
+            <ChevronRight />
+          </span>
+        </li>
+      );
+    }
 
     return (
       <li
@@ -101,6 +121,24 @@ export default function SideMenu({
       <ul className={styles.list}>
         {data.items.map((item) => renderItem(item, false))}
       </ul>
+
+      {data.type === "range" && (
+        <div className={styles.rangeWrapper}>
+          <Input
+            type="number"
+            placeholder="Від"
+            value={rangeFrom}
+            onChange={(e) => onSelect?.(`rating-from:${e.target.value}`)}
+          />
+          <span>-</span>
+          <Input
+            type="number"
+            placeholder="До"
+            value={rangeTo}
+            onChange={(e) => onSelect?.(`rating-to:${e.target.value}`)}
+          />
+        </div>
+      )}
 
       {data.secondary && (
         <>

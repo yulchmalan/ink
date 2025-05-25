@@ -33,13 +33,13 @@
     gap: 12px;
     padding-top: 12px;
     h2 {
-        font-size: calc(var(--font-size) - 2px);
+        font-size: calc(var(--font-size) - 1px);
         font-weight: 400;
         color: var(--font-secondary);
         margin-bottom: 4px;
     }
     p {
-        font-size: calc(var(--font-size) - 3px);
+        font-size: calc(var(--font-size) - 2px);
         font-weight: 400;
     }
     ul {

@@ -2,6 +2,7 @@ import User from "../../models/user.model.js";
 import Review from "../../models/review.model.js";
 import Comment from "../../models/comment.model.js";
 import Title from "../../models/title.model.js";
+import TitleRating from "../../models/titleRating.model.js";
 
 const DEFAULT_LISTS = [
   "reading",
@@ -222,6 +223,34 @@ export const userResolvers = {
 
       user.markModified("lists");
       await user.save();
+
+      // ⬇️ Додано: оновлення середнього рейтингу
+      const allUsers = await User.find({ "lists.titles.title": titleId });
+
+      let sum = 0;
+      let count = 0;
+
+      allUsers.forEach((u) => {
+        u.lists.forEach((list) => {
+          list.titles.forEach((t) => {
+            if (
+              t.title.toString() === titleId &&
+              typeof t.rating === "number"
+            ) {
+              sum += t.rating;
+              count++;
+            }
+          });
+        });
+      });
+
+      const avg = count ? Math.round((sum / count) * 10) / 10 : 0;
+
+      await TitleRating.findOneAndUpdate(
+        { titleId },
+        { avgRating: avg, ratingCount: count },
+        { upsert: true, new: true }
+      );
 
       return true;
     },
