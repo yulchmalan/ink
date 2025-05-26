@@ -18,6 +18,7 @@ import { GET_USER_LISTS_WITH_TITLE } from "@/graphql/queries/getUserListsWithTit
 import { ADD_TITLE_TO_LIST } from "@/graphql/mutations/addTitleToList";
 import { REMOVE_TITLE_FROM_LIST } from "@/graphql/mutations/removeTitleFromList";
 import Rating from "@/components/UI/Rating/Rating";
+import { useRouter } from "next/navigation";
 
 const TRANSLATION_LABELS: Record<string, string> = {
   TRANSLATED: "Перекладено",
@@ -39,6 +40,14 @@ const LISTS = [
   { id: "favorite", label: "Улюблене" },
 ];
 
+const GET_CHAPTER_COUNT = `
+  query GetTitle($id: ObjectID!) {
+    getTitle(id: $id) {
+      chapterCount
+    }
+  }
+`;
+
 interface Props {
   title: {
     id: string;
@@ -56,8 +65,11 @@ interface Props {
 export default function TitleInfo({ title }: Props) {
   const [selectedListId, setSelectedListId] = useState<string | undefined>();
   const [userRating, setUserRating] = useState<number | null>(null);
+  const [progress, setProgress] = useState<number | null>(null);
+  const [chapterCount, setChapterCount] = useState<number>(0);
   const { user: currentUser } = useAuth();
   const currentUserId = currentUser?._id;
+  const router = useRouter();
 
   const fetchListAndRating = async () => {
     if (!currentUserId) return;
@@ -82,19 +94,45 @@ export default function TitleInfo({ title }: Props) {
         if (found) {
           setSelectedListId(list.name);
           setUserRating(found.rating ?? 0);
+          setProgress(found.progress ?? null);
           return;
         }
       }
 
       setSelectedListId(undefined);
       setUserRating(null);
+      setProgress(null);
     } catch (err) {
       console.error("Error fetching user lists:", err);
     }
   };
 
+  const fetchChapterCount = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+        },
+        body: JSON.stringify({
+          query: GET_CHAPTER_COUNT,
+          variables: { id: title.id },
+        }),
+        cache: "no-store",
+      });
+
+      const json = await res.json();
+      const count = json.data?.getTitle?.chapterCount;
+      if (typeof count === "number") setChapterCount(count);
+    } catch (err) {
+      console.error("Error fetching chapters:", err);
+    }
+  };
+
   useEffect(() => {
     fetchListAndRating();
+    fetchChapterCount();
   }, [currentUserId, title.id]);
 
   const handleListChange = async (listId: string) => {
@@ -146,6 +184,7 @@ export default function TitleInfo({ title }: Props) {
 
       setSelectedListId(undefined);
       setUserRating(null);
+      setProgress(null);
     } catch (err) {
       console.error("Error removing title:", err);
     }
@@ -176,6 +215,11 @@ export default function TitleInfo({ title }: Props) {
     } catch (err) {
       console.error("Error updating rating:", err);
     }
+  };
+
+  const handleReadClick = () => {
+    const chapter = progress || 1;
+    router.push(`/catalog/${title.id}/reader?c=${chapter}`);
   };
 
   const tabs = [
@@ -248,7 +292,20 @@ export default function TitleInfo({ title }: Props) {
     },
     {
       title: "Розділи",
-      content: <div>Розділи</div>,
+      content: (
+        <div className={styles.chapters}>
+          {Array.from({ length: chapterCount }, (_, i) => (
+            <a
+              key={i + 1}
+              href={`/catalog/${title.id}/reader?c=${i + 1}`}
+              className={styles.chapterCard}
+            >
+              <div className={styles.chapterNumber}>Розділ {i + 1}</div>
+            </a>
+          ))}
+          {chapterCount === 0 && <p>Розділи відсутні.</p>}
+        </div>
+      ),
     },
     {
       title: "Коментарі",
@@ -265,7 +322,9 @@ export default function TitleInfo({ title }: Props) {
             id={title.id}
             name={title.name}
           />
-          <Button className={styles.primaryBtn}>Почати читати</Button>
+          <Button className={styles.primaryBtn} onClick={handleReadClick}>
+            {progress ? "Продовжити читання" : "Почати читати"}
+          </Button>
           {currentUserId && (
             <Dropdown
               options={[

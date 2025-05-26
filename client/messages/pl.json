@@ -5,6 +5,7 @@
         "profile_description": "Przeglądaj postępy w czytaniu, kolekcje, recenzje i statystyki. Łącz się z innymi i personalizuj swój profil w cyfrowej bibliotece.",
         "default_description": "Czytaj online w Ink – cyfrowej bibliotece z mangą, komiksami i powieściami. Śledź postęp, dodawaj recenzje i odkrywaj nowe historie.",
         "catalog": "Katalog | Ink",
+        "not_found": "Nie znaleziono strony lub zasobu",
         "catalog_description": "Przeglądaj wszystkie dostępne książki, mangi, komiksy i więcej"
     },
     "UI": {

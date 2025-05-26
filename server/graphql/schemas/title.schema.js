@@ -53,6 +53,7 @@ export const titleTypeDefs = `#graphql
     createdAt: DateTime
     updatedAt: DateTime
     type: TitleType
+    chapterCount: Int
   }
 
   input CreateTitleInput {

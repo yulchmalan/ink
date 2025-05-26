@@ -66,3 +66,27 @@
     flex-wrap: wrap;
     align-items: center;
 }
+
+.chapters {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.chapterCard {
+  display: block;
+  padding: 1rem;
+  background: var(--background);
+  border-radius: 8px;
+  transition: background 0.2s;
+  text-decoration: none;
+
+  &:hover {
+    background: var(--border);
+  }
+}
+
+.chapterNumber {
+  font-weight: 500;
+}

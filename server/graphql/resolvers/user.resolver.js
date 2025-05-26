@@ -97,24 +97,64 @@ export const userResolvers = {
 
     async updateUser(_, { id, edits }) {
       try {
-        const updates = {};
+        const user = await User.findById(id);
+        if (!user) throw new Error("User not found");
 
-        if (edits.username !== undefined) updates.username = edits.username;
-        if (edits.email !== undefined) updates.email = edits.email;
-        if (edits.bio !== undefined) updates.bio = edits.bio;
-        if (edits.exp !== undefined) updates.exp = edits.exp;
+        if (edits.username !== undefined) user.username = edits.username;
+        if (edits.email !== undefined) user.email = edits.email;
+        if (edits.bio !== undefined) user.bio = edits.bio;
+        if (edits.exp !== undefined) user.exp = edits.exp;
         if (edits.last_online !== undefined)
-          updates.last_online = edits.last_online;
-        if (edits.role !== undefined) updates.role = edits.role;
+          user.last_online = edits.last_online;
+        if (edits.role !== undefined) user.role = edits.role;
 
-        const updatedUser = await User.findByIdAndUpdate(id, updates, {
-          new: true,
-          runValidators: true,
-        });
+        if (edits.lists?.length) {
+          for (const listEdit of edits.lists) {
+            const list = user.lists.find((l) => l.name === listEdit.name);
+            if (!list) continue;
 
-        return updatedUser;
+            for (const editedTitle of listEdit.titles || []) {
+              for (const list of user.lists) {
+                const entry = list.titles.find(
+                  (t) => t.title.toString() === editedTitle.title.toString()
+                );
+                if (!entry) continue;
+
+                if (editedTitle.progress !== undefined)
+                  entry.progress = editedTitle.progress;
+                if (editedTitle.rating !== undefined)
+                  entry.rating = editedTitle.rating;
+                if (editedTitle.last_open !== undefined)
+                  entry.last_open = editedTitle.last_open;
+                if (editedTitle.language !== undefined)
+                  entry.language = editedTitle.language;
+              }
+            }
+
+            for (const editedTitle of listEdit.titles || []) {
+              const entry = list.titles.find(
+                (t) => t.title.toString() === editedTitle.title.toString()
+              );
+              if (!entry) continue;
+
+              if (editedTitle.progress !== undefined)
+                entry.progress = editedTitle.progress;
+              if (editedTitle.rating !== undefined)
+                entry.rating = editedTitle.rating;
+              if (editedTitle.last_open !== undefined)
+                entry.last_open = editedTitle.last_open;
+              if (editedTitle.language !== undefined)
+                entry.language = editedTitle.language;
+            }
+          }
+
+          user.markModified("lists");
+        }
+
+        await user.save();
+        return user;
       } catch (error) {
-        console.error("Error updating user:", error.message);
+        console.error("Error updating user:", error.message, error.stack);
         throw new Error("Failed to update user");
       }
     },

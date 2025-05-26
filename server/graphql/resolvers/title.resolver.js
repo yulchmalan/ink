@@ -2,6 +2,7 @@ import Title from "../../models/title.model.js";
 import Author from "../../models/author.model.js";
 import Label from "../../models/label.model.js";
 import TitleRating from "../../models/titleRating.model.js";
+import { getChapterCount } from "../../lib/s3.js";
 import mongoose from "mongoose";
 
 export const titleResolvers = {
@@ -130,9 +131,18 @@ export const titleResolvers = {
 
     async getTitle(_, { id }) {
       try {
-        return await Title.findById(id);
+        const title = await Title.findById(id);
+        if (!title) throw new Error("Title not found");
+
+        const chapterCount = await getChapterCount(title._id.toString());
+
+        return {
+          ...title.toObject(),
+          id: title._id,
+          chapterCount,
+        };
       } catch (error) {
-        console.error("error fetching title:", error.message);
+        console.error("error fetching title:", error.message, error.stack);
         throw new Error("Failed to fetch title");
       }
     },

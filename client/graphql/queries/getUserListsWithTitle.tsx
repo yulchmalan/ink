@@ -8,6 +8,7 @@ export const GET_USER_LISTS_WITH_TITLE = `
             id
           }
           rating
+          progress
         }
       }
     }

@@ -79,6 +79,28 @@ button {
   }
 }
 
+.comicSwiper {
+  .swiper-pagination {
+    z-index: 101;
+    width: 100vw;
+    height: 20px;
+    position: fixed;
+    bottom: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+  }
+  .swiper-pagination-bullet {
+    width: calc(100% - 4px);
+    height: 6px;
+    border-radius: 3px;
+  }
+  .swiper-pagination-bullet-active {
+    background-color: $primary;
+  }
+  
+}
+
 
 @media (min-width: 690px) {
   .swiperLarge {
