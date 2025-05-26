@@ -1,0 +1,57 @@
+@use '@/styles/variables' as *;
+
+.btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    font-weight: 600;
+    gap: 16px;
+    cursor: pointer;
+    color: var(--font);
+    @media (min-width: 890px) {
+        flex-direction: row;
+        gap: 8px;
+        font-size: calc(var(--font-size) - 3px);
+    }
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-top: 4px;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  li {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: var(--surface-hover);
+    }
+
+    &.active {
+      font-weight: 600;
+      color: $primary;
+    }
+  }
+}

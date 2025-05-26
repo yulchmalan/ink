@@ -1,0 +1,19 @@
+.btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    font-weight: 600;
+    gap: 16px;
+    cursor: pointer;
+    color: var(--font);
+    @media (min-width: 890px) {
+        flex-direction: row;
+        gap: 8px;
+        font-size: calc(var(--font-size) - 3px);
+    }
+
+}

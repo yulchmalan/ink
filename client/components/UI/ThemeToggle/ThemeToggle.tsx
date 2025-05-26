@@ -1,5 +1,8 @@
 "use client";
 
+import Moon from "@/assets/icons/Moon";
+import styles from "./theme-toggle.module.scss";
+import Sun from "@/assets/icons/Sun";
 import { useEffect, useState } from "react";
 
 const ThemeToggle = () => {
@@ -27,7 +30,17 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button onClick={toggleTheme}>{isDark ? "🌙 Темна" : "☀️ Світла"}</button>
+    <button onClick={toggleTheme} className={styles.btn}>
+      {isDark ? (
+        <>
+          <Moon /> Темна
+        </>
+      ) : (
+        <>
+          <Sun /> Світла
+        </>
+      )}
+    </button>
   );
 };
 

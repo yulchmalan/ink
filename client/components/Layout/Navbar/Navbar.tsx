@@ -22,6 +22,8 @@ import Link from "next/link";
 import SearchOverlay from "@/components/Layout/SearchOverlay/SearchOverlay";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import LanguageSwitcher from "@/components/UI/LanguageSwitcher/LanguageSwitcher";
+import ThemeToggle from "@/components/UI/ThemeToggle/ThemeToggle";
 
 export default function Navbar() {
   const [isNavActive, setIsNavActive] = useState(false);
@@ -160,26 +162,24 @@ export default function Navbar() {
                     </>
                   )}
                 </li>
-                {isLoggedIn && (
-                  <li>
-                    <PlusCircle />
-                    Додати
-                  </li>
-                )}
+
                 {isLoggedIn && (
                   <li>
                     <Settings />
                     Налаштування
                   </li>
                 )}
+
+                <li>
+                  <LanguageSwitcher />
+                </li>
+
+                <li>
+                  <ThemeToggle />
+                </li>
+
                 {isLoggedIn && (
-                  <li>
-                    <Bell />
-                    Повідомлення
-                  </li>
-                )}
-                {isLoggedIn && (
-                  <li onClick={logout}>
+                  <li onClick={logout} className={styles.exit}>
                     <LogOut />
                     Вийти
                   </li>
