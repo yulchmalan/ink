@@ -65,6 +65,7 @@ export default function ChapterReader({
       userId: currentUserId,
       titleId,
       progress: currentChapter,
+      last_open: new Date().toISOString(),
     };
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
@@ -84,6 +85,7 @@ export default function ChapterReader({
                 titles: [{
                   title: $titleId,
                   progress: $progress
+                  last_open: $last_open
                 }]
               }]
             }
@@ -94,14 +96,7 @@ export default function ChapterReader({
       `,
         variables,
       }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(">> progress update response", data);
-      })
-      .catch((err) => {
-        console.error(">> progress update error", err);
-      });
+    }).then((res) => res.json());
   }, [currentChapter]);
 
   const goToNext = () => {

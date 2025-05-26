@@ -36,6 +36,7 @@ export default function ComicReader({
       userId: currentUserId,
       titleId,
       progress: currentChapter,
+      last_open: new Date().toISOString(),
     };
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
@@ -46,7 +47,7 @@ export default function ComicReader({
       },
       body: JSON.stringify({
         query: `
-        mutation UpdateProgress($userId: ObjectID!, $titleId: ObjectID!, $progress: Int!) {
+        mutation UpdateProgress($userId: ObjectID!, $titleId: ObjectID!, $progress: Int!, $last_open: DateTime!) {
           updateUser(
             id: $userId,
             edits: {
@@ -54,7 +55,8 @@ export default function ComicReader({
                 name: "reading",
                 titles: [{
                   title: $titleId,
-                  progress: $progress
+                  progress: $progress,
+                  last_open: $last_open
                 }]
               }]
             }
@@ -65,14 +67,7 @@ export default function ComicReader({
       `,
         variables,
       }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(">> comic progress updated", data);
-      })
-      .catch((err) => {
-        console.error(">> comic progress update error", err);
-      });
+    }).then((res) => res.json());
   }, [currentChapter]);
 
   const goToNext = () => {

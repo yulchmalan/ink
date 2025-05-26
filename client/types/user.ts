@@ -15,6 +15,7 @@ export interface TitlePreview {
     value: string;
   }[];
   updatedAt?: Date;
+  chapterCount?: number
 }
 
 export type SavedTitle = {
@@ -24,6 +25,7 @@ export type SavedTitle = {
   progress?: number;
   language?: string;
   added?: string;
+  chapterCount?: number
 };
 
 export type List = {

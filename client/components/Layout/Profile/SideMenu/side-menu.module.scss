@@ -119,6 +119,11 @@
                 height: 1em;
             }
         }
+        &.active {
+            background: $primary-subtle;
+            color: $primary;
+            font-weight: 500;
+        }
     }
     &.checkbox { 
         position: relative;
@@ -207,3 +212,4 @@
     color: var(--font-secondary);
   }
 }
+

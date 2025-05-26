@@ -14,7 +14,6 @@ import AddFriendButton from "../Friends/AddFriendButton/AddFriendButton";
 export const UserInfo = ({ user }: { user: User }) => {
   const { user: currentUser } = useAuth();
 
-  //перевірка чи це залогований юзер (поки не юзаю, але лишаю)
   const isCurrentUser = currentUser?._id === user._id;
 
   return (

@@ -132,7 +132,21 @@ const profileTabs = (user: User) => {
                 <SideMenu
                   key={idx}
                   data={section}
-                  selected={controls.selectedList}
+                  selected={
+                    section.type === "list"
+                      ? controls.selectedList
+                      : section.type === "radio"
+                      ? controls.sortBy
+                      : section.type === "icon"
+                      ? controls.view
+                      : undefined
+                  }
+                  selectedSecondary={
+                    section.type === "radio" &&
+                    section.secondary?.type === "radio"
+                      ? controls.sortOrder
+                      : undefined
+                  }
                   onSelect={handleControlChange}
                 />
               ))}

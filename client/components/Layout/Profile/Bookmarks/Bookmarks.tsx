@@ -76,10 +76,9 @@ export default function BookMarks({
         const titleId = title.id;
         const isNovel = title.type === "NOVEL";
 
-        const chapterCount = isNovel ? 100 : title.content?.chapter ?? 0;
-        const chapter = isNovel
-          ? Math.min(savedTitle.progress ?? 0, 100)
-          : savedTitle.progress ?? 0;
+        const chapterCount = title.chapterCount ?? 0;
+        console.log(chapterCount);
+        const chapter = savedTitle.progress ?? 0;
 
         return (
           <li key={title.id}>
@@ -93,9 +92,6 @@ export default function BookMarks({
                 type: title.type,
                 added: savedTitle.added,
               }}
-              // onEdit={() => {
-              //   console.log("dfgd");
-              // }}
               type={style}
             />
           </li>

@@ -22,14 +22,9 @@ interface TitleData {
 interface TitleCardProps {
   title: TitleData;
   type?: "grid" | "row";
-  // onEdit?: () => void;
 }
 
-export default function TitleCard({
-  title,
-  type = "grid",
-}: // onEdit,
-TitleCardProps) {
+export default function TitleCard({ title, type = "grid" }: TitleCardProps) {
   const { name, id, chapter, chapterCount, added } = title;
   const [loaded, setLoaded] = useState(false);
 
@@ -51,19 +46,6 @@ TitleCardProps) {
             onLoad={() => setLoaded(true)}
             loading="lazy"
           />
-          {/* {type === "grid" && onEdit && (
-            <button
-              className={styles.editBtn}
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                onEdit?.();
-              }}
-              aria-label="Edit"
-            >
-              <Pencil />
-            </button>
-          )} */}
         </div>
       </Link>
 
@@ -73,9 +55,7 @@ TitleCardProps) {
             <h3 className={styles.title}>{name}</h3>
           </Link>
           <span className={styles.chapter}>
-            {title.type === "NOVEL"
-              ? `${chapter}%`
-              : `Розділ ${chapter}/${chapterCount}`}
+            {`Розділ ${chapter}/${chapterCount}`}
           </span>
         </div>
 
@@ -85,12 +65,6 @@ TitleCardProps) {
             <span className={styles.date}>{formattedDate}</span>
           </div>
         )}
-
-        {/* {type === "row" && onEdit && (
-          <button className={styles.editBtn} onClick={onEdit}>
-            <Pencil />
-          </button>
-        )} */}
       </div>
     </div>
   );

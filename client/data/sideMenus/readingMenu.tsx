@@ -26,7 +26,6 @@ export const generateReadingMenu = (
     type: "radio",
     items: [
       { label: "Назвою (А-Я)", value: "title" },
-      { label: "Назвою (A-Z)", value: "title-eng" },
       { label: "Датою додавання", value: "added" },
       { label: "Датою оновлення", value: "updated" },
       { label: "Датою читання", value: "read-date" },

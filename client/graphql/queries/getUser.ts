@@ -25,6 +25,7 @@ export const GET_USER = `
               lang
               value
             }
+            chapterCount
           }
           rating
           progress
