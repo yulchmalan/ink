@@ -1,7 +1,6 @@
 import Title from "../../models/title.model.js";
 import Author from "../../models/author.model.js";
 import Label from "../../models/label.model.js";
-import TitleRating from "../../models/titleRating.model.js";
 import { getChapterCount } from "../../lib/s3.js";
 import mongoose from "mongoose";
 
@@ -51,7 +50,6 @@ export const titleResolvers = {
           },
         ];
 
-        // ⬇️ JOIN з users.lists.titles
         if (userId && filter?.list?.length) {
           pipeline.push(
             {

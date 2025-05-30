@@ -112,9 +112,6 @@ const handler = NextAuth({
 
         if (loginJson.errors) {
           console.error("Login failed:", JSON.stringify(loginJson.errors));
-          console.log("loginJson", loginJson);
-          // console.error("Login failed:", loginJson.errors);
-          // return false;
         }
 
         user.token = loginJson.data.loginUser.token;

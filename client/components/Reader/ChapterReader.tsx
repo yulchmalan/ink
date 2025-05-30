@@ -76,7 +76,7 @@ export default function ChapterReader({
       },
       body: JSON.stringify({
         query: `
-        mutation UpdateProgress($userId: ObjectID!, $titleId: ObjectID!, $progress: Int!) {
+        mutation UpdateProgress($userId: ObjectID!, $titleId: ObjectID!, $progress: Int!, $last_open: DateTime!) {
           updateUser(
             id: $userId,
             edits: {
