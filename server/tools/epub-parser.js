@@ -50,7 +50,6 @@ function cleanNode(node) {
         node.name === "a"
           ? { ...node.attribs, href: "javascript:void(0)" }
           : node.attribs;
-      // якщо тег дозволений, але без дітей — повертаємо без вмісту
       return {
         ...node,
         attribs: newAttribs,
@@ -58,7 +57,6 @@ function cleanNode(node) {
       };
     }
 
-    // якщо не дозволений — повертаємо лише його вміст
     return cleanedChildren;
   }
 
