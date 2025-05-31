@@ -58,15 +58,6 @@
     line-height: 150%;
 }
 
-.cover {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-
-  &.loaded {
-    opacity: 1;
-  }
-}
-
 .skeleton {
   position: absolute;
   inset: 0;

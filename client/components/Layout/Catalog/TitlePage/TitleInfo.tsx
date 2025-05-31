@@ -19,6 +19,7 @@ import { ADD_TITLE_TO_LIST } from "@/graphql/mutations/addTitleToList";
 import { REMOVE_TITLE_FROM_LIST } from "@/graphql/mutations/removeTitleFromList";
 import Rating from "@/components/UI/Rating/Rating";
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 
 const TRANSLATION_LABELS: Record<string, string> = {
   TRANSLATED: "Перекладено",
@@ -48,6 +49,12 @@ const GET_CHAPTER_COUNT = `
   }
 `;
 
+interface LocalizedName {
+  en?: string;
+  uk?: string;
+  pl?: string;
+  [key: string]: string | undefined;
+}
 interface Props {
   title: {
     id: string;
@@ -56,8 +63,8 @@ interface Props {
     franchise?: string;
     translation?: string;
     status?: string;
-    genres?: { name: { en: string } }[];
-    tags?: { name: { en: string } }[];
+    genres?: { name: LocalizedName }[];
+    tags?: { name: LocalizedName }[];
     description?: string;
   };
 }
@@ -70,6 +77,7 @@ export default function TitleInfo({ title }: Props) {
   const { user: currentUser } = useAuth();
   const currentUserId = currentUser?._id;
   const router = useRouter();
+  const locale = useLocale().slice(0, 2);
 
   const fetchListAndRating = async () => {
     if (!currentUserId) return;
@@ -153,7 +161,6 @@ export default function TitleInfo({ title }: Props) {
             input: {
               listName: listId,
               titleId: title.id,
-              language: "uk",
             },
           },
         }),
@@ -206,7 +213,6 @@ export default function TitleInfo({ title }: Props) {
               userId: "${currentUserId}",
               titleId: "${title.id}",
               rating: ${rating},
-              language: "uk"
             )
           }`,
         }),
@@ -265,7 +271,7 @@ export default function TitleInfo({ title }: Props) {
               <ul className={styles.tagGroup}>
                 {title.genres.map((g) => (
                   <li key={g.name.en} className={styles.tag}>
-                    <Tag value={`${g.name.en}`} />
+                    <Tag value={g.name[locale] || g.name.en || ""} />
                   </li>
                 ))}
               </ul>
@@ -277,7 +283,7 @@ export default function TitleInfo({ title }: Props) {
               <ul className={styles.tagGroup}>
                 {title.tags.map((t) => (
                   <li key={t.name.en} className={styles.tag}>
-                    <Tag value={`#${t.name.en}`} />
+                    <Tag value={`#${t.name[locale] || t.name.en || ""} `} />
                   </li>
                 ))}
               </ul>

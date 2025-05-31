@@ -44,7 +44,6 @@ export default function TitleCard({ title, type = "grid" }: TitleCardProps) {
             alt={name}
             className={clsx(styles.cover, { [styles.loaded]: loaded })}
             onLoad={() => setLoaded(true)}
-            loading="lazy"
           />
         </div>
       </Link>

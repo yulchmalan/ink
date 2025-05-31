@@ -24,7 +24,7 @@ export default async function Page() {
     },
     body: JSON.stringify({
       query: GET_TITLES,
-      variables: { limit: 12, offset: 0 },
+      variables: { limit: 100, offset: 0 },
     }),
     cache: "no-store",
   });

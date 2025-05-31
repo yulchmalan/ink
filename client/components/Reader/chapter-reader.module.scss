@@ -9,6 +9,11 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  gap: 12px;
+}
+
+.fullwidth {
+  width: 100%;
 }
 
 .content {
@@ -22,6 +27,7 @@
     color: inherit;
     cursor: help;
   }
+  img { display: none;}
 }
 
 .chapterSwiper {

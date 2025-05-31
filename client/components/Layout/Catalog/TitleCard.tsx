@@ -33,7 +33,6 @@ export default function TitleCard({ id, name, alt_names = [] }: Props) {
           src={cover}
           className={clsx(styles.cover, { [styles.loaded]: loaded })}
           onLoad={() => setLoaded(true)}
-          loading="lazy"
           alt={localizedName}
         />
       </div>

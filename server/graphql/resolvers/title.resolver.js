@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 export const titleResolvers = {
   Query: {
-    async titles(_, { filter, sort, limit = 10, offset = 0, userId }) {
+    async titles(_, { filter, sort, limit = 100, offset = 0, userId }) {
       try {
         const match = {};
 

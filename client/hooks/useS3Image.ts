@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const SUPPORTED_EXTENSIONS = ["webp", "png", "jpg", "jpeg"];
+const SUPPORTED_EXTENSIONS = ["webp"];
 
 export const useS3Image = (
   folder: "covers" | "banners" | "avatars",

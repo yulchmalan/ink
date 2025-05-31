@@ -1,10 +1,11 @@
 "use client";
 
 import styles from "./avatar-button.module.scss";
-import { useEffect, useState, HTMLAttributes } from "react";
+import { HTMLAttributes } from "react";
 import clsx from "clsx";
 import DefaultAvatar from "@/assets/pfp.svg";
 import { useTranslations } from "use-intl";
+import { useS3Image } from "@/hooks/useS3Image";
 
 interface AvatarButtonProps extends HTMLAttributes<HTMLButtonElement> {
   imgSrc?: string;
@@ -16,16 +17,7 @@ export default function AvatarButton({
   ...props
 }: AvatarButtonProps) {
   const t = useTranslations("UI");
-  const [resolvedImg, setResolvedImg] = useState<string>(DefaultAvatar.src);
-
-  useEffect(() => {
-    if (!imgSrc) return;
-
-    const img = new Image();
-    img.src = imgSrc + `?cb=${Date.now()}`;
-    img.onload = () => setResolvedImg(imgSrc);
-    img.onerror = () => setResolvedImg(DefaultAvatar.src);
-  }, [imgSrc]);
+  const resolvedImg = useS3Image("avatars", imgSrc || "", DefaultAvatar.src);
 
   return (
     <button

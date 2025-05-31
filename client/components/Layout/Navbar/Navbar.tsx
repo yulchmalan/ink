@@ -122,7 +122,7 @@ export default function Navbar() {
               <AvatarButton
                 {...(isLoggedIn && user
                   ? {
-                      imgSrc: `https://${process.env.NEXT_PUBLIC_S3_BUCKET}.s3.${process.env.NEXT_PUBLIC_S3_REGION}.amazonaws.com/avatars/${user._id}.jpg`,
+                      imgSrc: user._id,
                     }
                   : {})}
                 onClick={toggleSettings}

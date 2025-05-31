@@ -12,8 +12,6 @@ export function useLocalizedName(
 
   return (
     safeAltNames.find((n) => n.lang === locale)?.value ||
-    safeAltNames.find((n) => n.lang === "uk")?.value ||
-    safeAltNames.find((n) => n.lang === "en")?.value ||
     name
   );
 }
