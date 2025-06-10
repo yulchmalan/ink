@@ -11,3 +11,26 @@
         width: 150px;
     }
 }
+
+.wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.statusDot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.online {
+  background-color: #4caf50;
+}
+
+.offline {
+  background-color: #9e9e9e;
+}

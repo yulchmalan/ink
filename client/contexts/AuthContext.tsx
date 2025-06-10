@@ -89,6 +89,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (json.data?.user) {
         setUser(json.data.user);
         setIsLoggedIn(true);
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+          body: JSON.stringify({
+            query: `
+        mutation {
+          updateUser(id: "${json.data.user._id}", edits: {
+            last_online: "${new Date().toISOString()}"
+          }) {
+            _id
+          }
+        }
+      `,
+          }),
+        }).catch((err) =>
+          console.error("❌ Не вдалося оновити last_online:", err)
+        );
       } else {
         logout();
       }

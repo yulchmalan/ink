@@ -15,13 +15,16 @@ export const UserInfo = ({ user }: { user: User }) => {
   const { user: currentUser } = useAuth();
 
   const isCurrentUser = currentUser?._id === user._id;
+  const isOnline =
+    !!user.last_online &&
+    Date.now() - new Date(user.last_online).getTime() < 2 * 60 * 1000;
 
   return (
     <div className={styles.container}>
       <Banner userId={user._id} />
       <div className={styles.infoWrapper}>
         {user.friends && <AddFriendButton profileUserId={user._id} />}
-        <Pfp userId={user._id} />
+        <Pfp userId={user._id} isOnline={isOnline} />
         <h1 className={styles.name}>
           <Details user={user} />
           <span className={styles.nickname}>{user.username}</span>

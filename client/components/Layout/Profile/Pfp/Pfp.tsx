@@ -8,13 +8,24 @@ interface PfpProps {
   userId: string;
   className?: string;
   alt?: string;
+  isOnline?: boolean;
 }
 
-const Pfp = ({ userId, className, alt = "Avatar" }: PfpProps) => {
+const Pfp = ({ userId, className, alt = "Avatar", isOnline }: PfpProps) => {
   const resolvedImg = useS3Image("avatars", userId, DefaultAvatar.src);
 
   return (
-    <img src={resolvedImg} alt={alt} className={className || styles.pfp} />
+    <div className={styles.wrapper}>
+      <img src={resolvedImg} alt={alt} className={className || styles.pfp} />
+      {isOnline !== undefined && (
+        <span
+          className={`${styles.statusDot} ${
+            isOnline ? styles.online : styles.offline
+          }`}
+          title={isOnline ? "Online" : "Offline"}
+        />
+      )}
+    </div>
   );
 };
 
