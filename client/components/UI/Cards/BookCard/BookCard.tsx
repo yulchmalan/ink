@@ -1,10 +1,13 @@
+"use client";
 import styles from "./book-card.module.scss";
+import fallbackCover from "@/assets/cover.png";
+import { useS3Image } from "@/hooks/useS3Image";
 import clsx from "clsx";
 
 export interface BookCardProps {
   title: string;
-  desc: string;
-  coverUrl: string;
+  desc?: string;
+  coverId: string;
   href: string;
   size?: "large" | "small";
 }
@@ -12,10 +15,12 @@ export interface BookCardProps {
 export default function BookCard({
   title,
   desc,
-  coverUrl,
+  coverId,
   href,
   size = "small",
 }: BookCardProps) {
+  const coverUrl = useS3Image("covers", coverId, fallbackCover.src);
+
   return (
     <a href={href} className={clsx(styles.card, styles[size])}>
       <div className={styles.coverContainer}>

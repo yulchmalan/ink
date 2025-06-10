@@ -3,8 +3,10 @@ import ChapterReader from "@/components/Reader/ChapterReader";
 import ComicReader from "@/components/Reader/ComicReader/ComicReader";
 
 export default async function ReaderPage({ params, searchParams }: any) {
-  const titleId = await params.id;
-  const chapter = Number((await searchParams?.c) ?? 1);
+  const p = await params;
+  const titleId = await p.id;
+  const sp = await searchParams;
+  const chapter = Number(sp?.c ?? 1);
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",

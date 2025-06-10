@@ -10,25 +10,24 @@ import "swiper/scss";
 import "swiper/scss/navigation";
 
 import styles from "./swiper-section.module.scss";
-import BookCard from "@/components/UI/Cards/BookCard/BookCard";
+import BookCard, {
+  BookCardProps,
+} from "@/components/UI/Cards/BookCard/BookCard";
 import Wrapper from "../Wrapper/Wrapper";
-import ShowMore from "../../UI/Buttons/ArrowBtn/ArrowBtn";
+import ArrowBtn from "../../UI/Buttons/ArrowBtn/ArrowBtn";
 import Heading from "../../UI/Heading/Heading";
 import ChevronLeft from "@/assets/icons/ChevronLeft";
 import ChevronRight from "@/assets/icons/ChevronRight";
 
 import { booksData } from "@/data/lib";
-import ArrowBtn from "../../UI/Buttons/ArrowBtn/ArrowBtn";
 import { useTranslations } from "use-intl";
-
-type LibDataKeys = keyof typeof booksData;
 
 type SwiperSize = "small" | "large";
 
 type BookSwiperProps = {
   heading: string;
-  dataName: LibDataKeys;
-  size?: SwiperSize; // default = "small"
+  dataName: keyof typeof booksData;
+  size?: SwiperSize;
 };
 
 export default function BookSwiper({
@@ -39,13 +38,18 @@ export default function BookSwiper({
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const swiperRef = useRef<SwiperType | null>(null);
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<BookCardProps[]>([]);
   const t = useTranslations("UI");
 
   const isLarge = size === "large";
 
   useEffect(() => {
-    setData(booksData[dataName]);
+    booksData[dataName]()
+      .then(setData)
+      .catch((err) => {
+        console.error(`Помилка під час завантаження ${dataName}:`, err);
+        setData([]);
+      });
   }, [dataName]);
 
   useEffect(() => {

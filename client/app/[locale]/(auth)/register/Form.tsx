@@ -82,7 +82,6 @@ const Form = () => {
         }
       } else {
         localStorage.setItem("token", json.data.registerUser.token);
-        alert("Успішна реєстрація");
         redirect();
       }
     } catch (err) {

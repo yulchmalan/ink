@@ -223,7 +223,32 @@ export default function TitleInfo({ title }: Props) {
     }
   };
 
-  const handleReadClick = () => {
+  const handleReadClick = async () => {
+    if (!selectedListId) {
+      try {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+          },
+          body: JSON.stringify({
+            query: ADD_TITLE_TO_LIST,
+            variables: {
+              userId: currentUserId,
+              input: {
+                listName: "reading",
+                titleId: title.id,
+              },
+            },
+          }),
+        });
+        setSelectedListId("reading");
+      } catch (err) {
+        console.error("Error auto-adding to 'reading':", err);
+      }
+    }
+
     const chapter = progress || 1;
     router.push(`/catalog/${title.id}/reader?c=${chapter}`);
   };

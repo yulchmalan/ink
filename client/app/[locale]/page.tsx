@@ -13,6 +13,8 @@ import IndexTabs from "@/components/Layout/Tabs/IndexTabs";
 import CollectionCard from "@/components/UI/Cards/CollectionCard/CollectionCard";
 import ReviewCard from "@/components/UI/Cards/ReviewCard/ReviewCard";
 import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
+import { popularBooks } from "@/data/popularBooks";
+import Recommendations from "@/components/LogicComponents/Recommendations/Recommendations";
 
 export async function generateMetadata() {
   const locale = await getLocale();
@@ -28,6 +30,8 @@ export async function generateMetadata() {
 export default async function Home() {
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: "Index" });
+
+  const popular = await popularBooks();
   const reviewBody =
     "Головна проблема – сюжет, що балансує між штучною напруженістю і повною передбачуваністю. Автор намагається створити атмосферу параної та екзистенційного жаху блаблабалаба блаблабалаба блаблабалабаблаблабалаба блаблабалаба";
   return (
@@ -41,12 +45,13 @@ export default async function Home() {
           size="large"
         />
       </Container>
-      <Container>
+      <Recommendations></Recommendations>
+      {/* <Container>
         <SwiperSection
           heading={t("BasedOnRead")}
           dataName="recommendedBooks"
         ></SwiperSection>
-      </Container>
+      </Container> */}
       <Container>
         <Wrapper className={styles.recentWrapper}>
           <Heading className={styles.pdBottom12}>{t("Continue")}</Heading>
