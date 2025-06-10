@@ -9,7 +9,12 @@
   position: relative;
 }
 
+.avatarWrapper {
+  position: relative;
+}
+
 .avatar {
+    position: relative;
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -21,6 +26,25 @@
         object-fit: cover;
     }
 }
+
+.statusDot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+}
+
+.online {
+  background-color: #4caf50;
+}
+
+.offline {
+  background-color: #9e9e9e;
+}
+
 
 .name {
   font-weight: 600;

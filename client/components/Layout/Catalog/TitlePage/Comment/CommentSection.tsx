@@ -9,12 +9,30 @@ import { useAuth } from "@/contexts/AuthContext";
 import styles from "./comment.module.scss";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
 
+type CommentType = {
+  id: string;
+  body: string;
+  createdAt: string;
+  score: {
+    likes: number;
+    dislikes: number;
+    likedBy: { _id: string }[];
+    dislikedBy: { _id: string }[];
+  };
+  user: {
+    _id: string;
+    username: string;
+  };
+  subject_ID: string;
+  parent_ID?: string;
+};
+
 type Props = {
   titleId: string;
 };
 
 export default function CommentsSection({ titleId }: Props) {
-  const [comments, setComments] = useState<any[]>([]);
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState("");
   const [isSending, setIsSending] = useState(false);
   const { user: currentUser } = useAuth();
@@ -37,7 +55,8 @@ export default function CommentsSection({ titleId }: Props) {
 
       const json = await res.json();
       const fetched = json.data?.comments?.results || [];
-      setComments(fetched);
+      const topLevel = fetched.filter((c: any) => !c.parent_ID);
+      setComments(topLevel);
     } catch (err) {
       console.error("Error fetching comments:", err);
     }
@@ -73,7 +92,7 @@ export default function CommentsSection({ titleId }: Props) {
       const json = await res.json();
       const created = json.data?.createComment;
       if (created) {
-        setComments((prev) => [created, ...prev]);
+        fetchComments();
         setNewComment("");
       }
     } catch (err) {
@@ -105,8 +124,13 @@ export default function CommentsSection({ titleId }: Props) {
       {comments.length === 0 ? (
         <p>Немає коментарів</p>
       ) : (
-        comments.map((c) => (
-          <Comment key={c.id} comment={c} onRefresh={fetchComments} />
+        comments.map((comment) => (
+          <Comment
+            key={comment.id}
+            subjectId={titleId}
+            comment={comment}
+            onRefresh={fetchComments}
+          />
         ))
       )}
     </div>

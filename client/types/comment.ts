@@ -2,12 +2,15 @@ export type CommentType = {
   id: string;
   body: string;
   createdAt: string;
-  score?: {
+  score: {
     likes: number;
     dislikes: number;
+    likedBy: { _id: string }[];
+    dislikedBy: { _id: string }[];
   };
   subject_ID: string;
   user: {
+    _id: string;
     username: string;
   };
   title?: {
@@ -18,4 +21,5 @@ export type CommentType = {
       value: string;
     }[];
   };
+  parent?: { id: string };
 };

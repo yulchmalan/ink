@@ -32,6 +32,7 @@
   &:disabled {
     background-color: $primary-subtle;
     color: $primary-font;
+    cursor: not-allowed;
   }
 }
 
@@ -52,6 +53,7 @@
     cursor: default;
     border: $primary-font 1px solid;
     background-color: rgba($color: $primary-subtle, $alpha: .5);
+    cursor: not-allowed;
     color: $primary-font;
   }
 }

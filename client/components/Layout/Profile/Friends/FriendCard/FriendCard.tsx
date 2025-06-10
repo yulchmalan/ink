@@ -14,6 +14,7 @@ interface Props {
     _id: string;
     username: string;
     createdAt: string;
+    last_online?: string;
   };
   mode: "ACCEPTED" | "RECEIVED" | "PENDING";
   status: string;
@@ -26,6 +27,10 @@ export default function FriendCard({ user, mode, status, isOwner }: Props) {
   const [imgSrc, setImgSrc] = useState(
     `https://${process.env.NEXT_PUBLIC_S3_BUCKET}.s3.${process.env.NEXT_PUBLIC_S3_REGION}.amazonaws.com/avatars/${user._id}.jpg`
   );
+
+  const isOnline =
+    !!user.last_online &&
+    Date.now() - new Date(user.last_online).getTime() < 2 * 60 * 1000;
 
   const { user: currentUser } = useAuth();
 
@@ -116,13 +121,22 @@ export default function FriendCard({ user, mode, status, isOwner }: Props) {
   return (
     <>
       <div className={styles.card}>
-        <div className={styles.avatar} onClick={handleGoToProfile}>
-          <img
-            src={imgSrc}
-            alt="Аватар"
-            onError={() => setImgSrc(fallbackAvatar.src)}
+        <div className={styles.avatarWrapper}>
+          <div className={styles.avatar} onClick={handleGoToProfile}>
+            <img
+              src={imgSrc}
+              alt="Аватар"
+              onError={() => setImgSrc(fallbackAvatar.src)}
+            />
+          </div>
+          <span
+            className={`${styles.statusDot} ${
+              isOnline ? styles.online : styles.offline
+            }`}
+            title={isOnline ? "Online" : "Offline"}
           />
         </div>
+
         <div className={styles.info}>
           <div className={styles.name} onClick={handleGoToProfile}>
             {user.username ?? "Користувач"}

@@ -2,7 +2,9 @@
 
 import { generateReadingMenu } from "@/data/sideMenus/readingMenu";
 import sortMenu from "@/data/sideMenus/sortMenu";
-import friendsMenu from "@/data/sideMenus/friendsMenu";
+// import friendsMenu from "@/data/sideMenus/friendsMenu";
+import { generateFriendsMenu } from "@/data/sideMenus/friendsMenu";
+
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
 import SideMenu from "@/components/Layout/Profile/SideMenu/SideMenu";
 import styles from "@/components/Layout/Profile/UserInfo/user-info.module.scss";
@@ -218,7 +220,8 @@ const profileTabs = (user: User) => {
           sidebar={
             <Wrapper className={styles.sideWrapper}>
               <SideMenu
-                data={friendsMenu}
+                data={generateFriendsMenu(user.friends ?? [])}
+                selected={friendsFilter}
                 onSelect={(v) => setFriendsFilter(v as any)}
               />
             </Wrapper>

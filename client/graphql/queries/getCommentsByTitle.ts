@@ -1,7 +1,7 @@
 export const GET_COMMENTS_BY_TITLE = `
   query GetCommentsByTitle($subjectId: ObjectID!) {
     comments(
-      filter: { subjectId: $subjectId }
+      filter: { subjectId: $subjectId, parentId: null }
       sortBy: CREATED_AT
       sortOrder: DESC
       limit: 100
@@ -25,6 +25,7 @@ export const GET_COMMENTS_BY_TITLE = `
           _id
           username
         }
+        parent_ID
       }
     }
   }

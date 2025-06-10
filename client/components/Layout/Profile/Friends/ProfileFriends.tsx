@@ -42,6 +42,7 @@ export default function ProfileFriends({ user, selfId, mode }: Props) {
                 _id
                 username
                 createdAt
+                last_online
               }
               status
             }

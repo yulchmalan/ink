@@ -16,6 +16,7 @@
 }
 
 .body {
+    padding-left: 12px;
     display: flex;
     gap: 12px;
     align-items: flex-start;
@@ -120,8 +121,9 @@
 
 .inputContainer {
   display: flex;
-  gap: 0.75rem;
+  gap: 12px;
   align-items: center;
+  margin-bottom: 12px;
 }
 
 .sendButton {
@@ -193,4 +195,38 @@
 .editActions {
   display: flex;
   gap: 8px;
+}
+
+.replies {
+  margin-left: 12px;
+  border-left: 1px solid var(--border);
+}
+
+.replyBox {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.replyInput {
+  flex-grow: 1;
+  min-height: 50px;
+  padding: 0.5rem;
+  resize: vertical;
+  font-size: calc(var(--font-size) - 2px);
+  border: 1px solid var(--border);
+  color: var(--font);
+  border-radius: 4px;
+  resize: none;
+}
+
+.replySend {
+  align-self: flex-end;
+}
+
+.replyActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
 }

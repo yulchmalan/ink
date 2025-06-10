@@ -8,6 +8,7 @@ export const GET_USER = `
       exp
       role
       createdAt
+      last_online
       bio
       stats {
         materialsAdded
