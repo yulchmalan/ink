@@ -42,7 +42,7 @@ export const generateReadingMenu = (
     title: "Вигляд",
     type: "icon",
     items: [
-      { label: "Рядки", value: "rows", icon: <Rows /> },
+      { label: "Рядки", value: "row", icon: <Rows /> },
       { label: "Сітка", value: "grid", icon: <Grid /> },
     ],
   },

@@ -12,13 +12,13 @@ function getLevelFromExp(exp: number) {
   let expToReachLevel = 0;
 
   while (true) {
-    const nextLevelExp = 100 * Math.pow(level + 1, 2);
+    const nextLevelExp = 25 * Math.pow(level + 1, 2);
     if (exp < nextLevelExp) break;
     expToReachLevel = nextLevelExp;
     level++;
   }
 
-  const nextExp = 100 * Math.pow(level + 1, 2);
+  const nextExp = 25 * Math.pow(level + 1, 2);
   const currentProgress = exp - expToReachLevel;
   const expToNext = nextExp - expToReachLevel;
 

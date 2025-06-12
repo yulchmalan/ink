@@ -1,0 +1,132 @@
+@use '@/styles/variables' as *;
+
+.reviewPage {
+    width: 100%;
+    position: relative;
+}
+
+.coverWRapper {
+    position: absolute;
+    top: 0;
+    right: 50%;
+    z-index: -1;
+    width: 70vw;
+    height: 100vh;
+    overflow: hidden;
+    transform: translate(50%, -400px);
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+        circle at center,
+        rgba(var(--background-rgb), 0.2) 0%,
+        rgba(var(--background-rgb), 0.3) 40%,
+        rgba(var(--background-rgb), 0.9) 70%,
+        rgba(var(--background-rgb), 1) 80%,
+        );
+        pointer-events: none;
+    }
+    .cover {
+        position: absolute;
+        right: 0;
+        left: 0;
+        object-fit: cover;
+        width: 100%;
+        top: -50%;
+        filter: brightness(0.7);
+    }
+}
+
+.meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}
+
+.tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.info {
+    display: flex;
+    gap: 4px;
+    font-size: var(--font-size);
+    align-items: end;
+}
+
+.highlight {
+    color: $primary;
+    font-weight: 600;
+}
+
+.body {
+    margin: 20px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 900px;
+    white-space: pre-line;
+}
+
+.date {
+    font-size: calc(var(--font-size) - 3px);
+}
+
+.commentSection {
+    max-width: 900px;
+    margin: 20px auto 0;
+}
+
+.footer {
+    background-color: var(--background);
+    border-radius: 4px;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.voteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  svg {
+    height: 16px;
+    width: 16px;
+    color: var(--font-secondary);
+  }
+
+  &.up.active svg {
+    color: #2e7d32;
+  }
+
+  &.down.active svg {
+    color: #d32f2f;
+  }
+
+  &:hover svg {
+    opacity: 0.8;
+  }
+}
+
+.rating {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--font);
+  &.positive {
+    color: #2e7d32;
+  }
+  &.negative {
+    color: #d32f2f;
+  }
+}
+
+.rate {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

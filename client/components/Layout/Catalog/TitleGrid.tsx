@@ -18,6 +18,7 @@ interface Props {
     id: string;
     name: string;
     alt_names?: { lang: string; value: string }[];
+    genres: string[];
   }[];
 }
 
@@ -33,6 +34,20 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
   const [titles, setTitles] = useState(initialTitles);
 
   const genres = useLabels("GENRE");
+
+  const genreCounts = genres.map((genre) => {
+    const count = initialTitles.filter((title) =>
+      title.genres?.some((g: any) =>
+        typeof g === "string" ? g === genre.value : g._id === genre.value
+      )
+    ).length;
+
+    return {
+      ...genre,
+      badge: count,
+    };
+  });
+
   const tags = useLabels("TAG");
 
   const [filters, setFilters] = useState({
@@ -96,8 +111,8 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
       filter.list = filters.list;
     }
 
-    console.log("[applyFilters] filter:", filter); // DEBUG
-    console.log("[applyFilters] sort:", variables.sort); // DEBUG
+    // console.log("[applyFilters] filter:", filter); // DEBUG
+    // console.log("[applyFilters] sort:", variables.sort); // DEBUG
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
       method: "POST",
@@ -160,11 +175,11 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
       updateCheckboxGroup("list");
     else if (value.startsWith("rating-from:")) {
       const val = +value.split(":")[1];
-      console.log("[filters] ratingFrom:", val); // DEBUG
+      // console.log("[filters] ratingFrom:", val); // DEBUG
       setFilters((prev) => ({ ...prev, ratingFrom: val }));
     } else if (value.startsWith("rating-to:")) {
       const val = +value.split(":")[1];
-      console.log("[filters] ratingTo:", val); // DEBUG
+      // console.log("[filters] ratingTo:", val); // DEBUG
       setFilters((prev) => ({ ...prev, ratingTo: val }));
     }
   };

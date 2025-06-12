@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import type { SavedTitle, TitlePreview, User } from "@/types/user";
+import type { SavedTitle, User } from "@/types/user";
 import TitleCard from "./TitleCard/TitleCard";
 import styles from "./bookmarks.module.scss";
 import clsx from "clsx";
@@ -34,19 +34,20 @@ export default function BookMarks({
     return <p>Немає творів у цьому списку.</p>;
   }
 
-  let localizedName;
-
   const sortedTitles = [...selectedTitles].sort((a, b) => {
     const at = a.title;
     const bt = b.title;
     if (!at || !bt) return 0;
-    const getValue = (t: any, s: any) => {
-      localizedName = useLocalizedName(t.name, t.alt_names);
+
+    const nameA = useLocalizedName(at.name, at.alt_names);
+    const nameB = useLocalizedName(bt.name, bt.alt_names);
+
+    const getValue = (t: any, s: any, localizedName: string) => {
       switch (sortBy) {
         case "title":
-          return localizedName ?? "";
+          return localizedName;
         case "added":
-          return new Date(s.addedAt ?? 0).getTime();
+          return new Date(s.added ?? 0).getTime();
         case "updated":
           return new Date(t.updatedAt ?? 0).getTime();
         case "read-date":
@@ -56,8 +57,8 @@ export default function BookMarks({
       }
     };
 
-    const aVal = getValue(at, a);
-    const bVal = getValue(bt, b);
+    const aVal = getValue(at, a, nameA);
+    const bVal = getValue(bt, b, nameB);
 
     if (aVal < bVal) return sortOrder === "asc" ? -1 : 1;
     if (aVal > bVal) return sortOrder === "asc" ? 1 : -1;
@@ -71,13 +72,11 @@ export default function BookMarks({
         if (!title || typeof title !== "object" || !("name" in title)) {
           return <li key={idx}>Некоректний тайтл</li>;
         }
+
         const localizedName = useLocalizedName(title.name, title.alt_names);
 
         const titleId = title.id;
-        const isNovel = title.type === "NOVEL";
-
         const chapterCount = title.chapterCount ?? 0;
-        console.log(chapterCount);
         const chapter = savedTitle.progress ?? 0;
 
         return (

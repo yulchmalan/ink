@@ -7,6 +7,7 @@ import Button from "@/components/UI/Buttons/StandartButton/Button";
 import ChevronRight from "@/assets/icons/ChevronRight";
 import ChevronLeft from "@/assets/icons/ChevronLeft";
 import { useAuth } from "@/contexts/AuthContext";
+import { useProgressAndExp } from "@/hooks/useProgressAndExp";
 
 interface Props {
   titleId: string;
@@ -24,50 +25,22 @@ export default function ComicReader({
   const { user: currentUser } = useAuth();
   const currentUserId = currentUser?._id;
 
+  const { updateProgress } = useProgressAndExp({
+    userId: currentUserId ?? "",
+    titleId,
+  });
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     router.replace(`?c=${currentChapter}`, { scroll: false });
   }, [currentChapter]);
 
   useEffect(() => {
-    if (!currentUserId) return;
+    if (currentUserId) updateProgress(currentChapter);
+  }, [currentUserId, titleId]);
 
-    const variables = {
-      userId: currentUserId,
-      titleId,
-      progress: currentChapter,
-      last_open: new Date().toISOString(),
-    };
-
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
-      },
-      body: JSON.stringify({
-        query: `
-        mutation UpdateProgress($userId: ObjectID!, $titleId: ObjectID!, $progress: Int!, $last_open: DateTime!) {
-          updateUser(
-            id: $userId,
-            edits: {
-              lists: [{
-                name: "reading",
-                titles: [{
-                  title: $titleId,
-                  progress: $progress,
-                  last_open: $last_open
-                }]
-              }]
-            }
-          ) {
-            _id
-          }
-        }
-      `,
-        variables,
-      }),
-    }).then((res) => res.json());
+  useEffect(() => {
+    if (currentUserId) updateProgress(currentChapter);
   }, [currentChapter]);
 
   const goToNext = () => {

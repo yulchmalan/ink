@@ -20,6 +20,7 @@ import { REMOVE_TITLE_FROM_LIST } from "@/graphql/mutations/removeTitleFromList"
 import Rating from "@/components/UI/Rating/Rating";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
+import ReviewSection from "./Review/ReviewSection";
 
 const TRANSLATION_LABELS: Record<string, string> = {
   TRANSLATED: "Перекладено",
@@ -315,7 +316,11 @@ export default function TitleInfo({ title }: Props) {
     },
     {
       title: "Коментарі",
-      content: <CommentsSection titleId={title.id} />,
+      content: <CommentsSection subjectId={title.id} />,
+    },
+    {
+      title: "Рецензії",
+      content: <ReviewSection titleId={title.id} />,
     },
   ];
 

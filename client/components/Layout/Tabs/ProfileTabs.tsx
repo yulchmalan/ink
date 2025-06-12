@@ -32,11 +32,8 @@ const profileTabs = (user: User) => {
   const handleControlChange = (value: string) => {
     if (value === "asc" || value === "desc") {
       setControls((prev) => ({ ...prev, sortOrder: value }));
-    } else if (value === "grid" || value === "rows") {
-      setControls((prev) => ({
-        ...prev,
-        view: value === "grid" ? "grid" : "row",
-      }));
+    } else if (value === "grid" || value === "row") {
+      setControls((prev) => ({ ...prev, view: value }));
     } else if (
       [
         "all",
@@ -47,13 +44,8 @@ const profileTabs = (user: User) => {
         "favorite",
       ].includes(value)
     ) {
-      setControls((prev) => ({
-        ...prev,
-        selectedList: value || "all",
-      }));
-    } else if (value === "") {
-      setControls((prev) => ({ ...prev, selectedList: "all" }));
-    } else {
+      setControls((prev) => ({ ...prev, selectedList: value || "all" }));
+    } else if (["title", "added", "updated", "read-date"].includes(value)) {
       setControls((prev) => ({ ...prev, sortBy: value }));
     }
   };

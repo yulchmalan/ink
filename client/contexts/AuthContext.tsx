@@ -77,6 +77,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 username
                 email
                 role
+                last_online
               }
             }
           `,
@@ -86,9 +87,39 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const json = await res.json();
 
-      if (json.data?.user) {
-        setUser(json.data.user);
+      if (json.data.user) {
+        const userData = json.data.user;
+        setUser(userData);
         setIsLoggedIn(true);
+
+        const last = new Date(userData.last_online || 0).toDateString();
+        const today = new Date().toDateString();
+
+        // 🔁 Якщо юзер не заходив сьогодні — даємо +3 exp
+        if (last !== today) {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+              ...(token && { Authorization: `Bearer ${token}` }),
+            },
+            body: JSON.stringify({
+              query: `
+          mutation {
+            addExpToUser(userId: "${userData._id}", amount: 3) {
+              _id
+              exp
+            }
+          }
+        `,
+            }),
+          }).catch((err) =>
+            console.error("❌ Не вдалося додати досвід за щоденний вхід:", err)
+          );
+        }
+
+        // 🔁 Завжди оновлюємо last_online
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
           method: "POST",
           headers: {
@@ -99,7 +130,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           body: JSON.stringify({
             query: `
         mutation {
-          updateUser(id: "${json.data.user._id}", edits: {
+          updateUser(id: "${userData._id}", edits: {
             last_online: "${new Date().toISOString()}"
           }) {
             _id

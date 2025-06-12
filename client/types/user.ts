@@ -15,7 +15,8 @@ export interface TitlePreview {
     value: string;
   }[];
   updatedAt?: Date;
-  chapterCount?: number
+  chapterCount?: number;
+  last_online?: string;
 }
 
 export type SavedTitle = {

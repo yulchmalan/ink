@@ -30,7 +30,7 @@
     background-color: $primary-dark;
   }
   &:disabled {
-    background-color: $primary-subtle;
+    background-color: var(--tag-bg);
     color: $primary-font;
     cursor: not-allowed;
   }

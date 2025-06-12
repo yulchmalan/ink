@@ -28,10 +28,10 @@ type CommentType = {
 };
 
 type Props = {
-  titleId: string;
+  subjectId: string;
 };
 
-export default function CommentsSection({ titleId }: Props) {
+export default function CommentsSection({ subjectId }: Props) {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -48,7 +48,7 @@ export default function CommentsSection({ titleId }: Props) {
         },
         body: JSON.stringify({
           query: GET_COMMENTS_BY_TITLE,
-          variables: { subjectId: titleId },
+          variables: { subjectId: subjectId },
         }),
         cache: "no-store",
       });
@@ -64,7 +64,7 @@ export default function CommentsSection({ titleId }: Props) {
 
   useEffect(() => {
     fetchComments();
-  }, [titleId]);
+  }, [subjectId]);
 
   const handleSubmit = async () => {
     if (!newComment.trim() || !currentUserId) return;
@@ -82,7 +82,7 @@ export default function CommentsSection({ titleId }: Props) {
           variables: {
             input: {
               userId: currentUserId,
-              subjectId: titleId,
+              subjectId: subjectId,
               body: newComment.trim(),
             },
           },
@@ -127,7 +127,7 @@ export default function CommentsSection({ titleId }: Props) {
         comments.map((comment) => (
           <Comment
             key={comment.id}
-            subjectId={titleId}
+            subjectId={subjectId}
             comment={comment}
             onRefresh={fetchComments}
           />

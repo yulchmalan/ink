@@ -1,12 +1,15 @@
 @use '@/styles/variables' as *;
 
 .card {
+    cursor: pointer;
     overflow: hidden;
     background: var(--surface);
     border-radius: 10px;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    border: var(--border) 1px solid;
 }
 
 .info {
@@ -48,6 +51,6 @@
     .cover {
         position: absolute;
         width: 100%;
-        top: calc(-50%);
+        top: calc(-150%);
     }
 }

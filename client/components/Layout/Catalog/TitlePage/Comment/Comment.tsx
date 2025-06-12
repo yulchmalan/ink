@@ -20,6 +20,7 @@ import Trash from "@/assets/icons/Trash";
 import Pencil from "@/assets/icons/Pencil";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
 import { GET_REPLIES } from "@/graphql/queries/getReplies";
+import Reply from "@/assets/icons/Reply";
 
 type VoteState = "upvoted" | "downvoted" | "none";
 
@@ -229,14 +230,14 @@ export default function Comment({
       <div className={styles.comment}>
         <div className={styles.body}>
           <div className={styles.avatar}>
-            <Link href={`/user/${user._id}`}>
+            <Link href={`/profile/${user._id}`}>
               <img src={avatar ?? fallbackPfp.src} alt="Avatar" />
             </Link>
           </div>
 
           <div className={styles.content}>
             <div className={styles.userInfo}>
-              <Link href={`/user/${user._id}`} className={styles.username}>
+              <Link href={`/profile/${user._id}`} className={styles.username}>
                 {user.username}
               </Link>
               <span className={styles.date}>
@@ -272,6 +273,7 @@ export default function Comment({
                           setShowMenu(false);
                         }}
                       >
+                        <Reply />
                         Відповісти
                       </button>
                       <button

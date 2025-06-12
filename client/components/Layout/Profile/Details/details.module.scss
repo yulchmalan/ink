@@ -21,7 +21,7 @@
     flex-direction: column;
     gap: 24px;
     h2 {
-        font-size: calc(var(--font-size) + 1);
+        font-size: calc(var(--font-size) + 1px);
         font-weight: 600;
         margin-bottom: 12px;
     }

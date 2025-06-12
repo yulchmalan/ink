@@ -8,7 +8,6 @@ import { User } from "@/types/user";
 import Info from "@/assets/icons/Info";
 import GenreStats from "./GenreStats/GenreStats";
 import StatTag from "./Stats/StatTag";
-import ProgressBar from "@/components/UI/ProgressBar/ProgressBar";
 import LevelProgress from "./LevelProgress/LevelProgress";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
 
@@ -45,14 +44,6 @@ export default function UserInfoModal({ user }: Props) {
             <section>
               <h2>Статистика за жанрами</h2>
               <GenreStats />
-            </section>
-            <section>
-              <h2>Статистика</h2>
-              <div className={styles.stats}>
-                <StatTag value={0} label="Створено тайтлів"></StatTag>
-                <StatTag value={0} label="Додано матеріалів"></StatTag>
-                <StatTag value={0} label="Додано коментарів"></StatTag>
-              </div>
             </section>
             <section>
               <h2>Про себе</h2>

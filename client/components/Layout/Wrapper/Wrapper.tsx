@@ -7,5 +7,7 @@ interface WrapperProps {
 }
 
 export default function Wrapper({ children, className }: WrapperProps) {
-  return <div className={clsx(styles.wrapper, className)}>{children}</div>;
+  return (
+    <section className={clsx(styles.wrapper, className)}>{children}</section>
+  );
 }

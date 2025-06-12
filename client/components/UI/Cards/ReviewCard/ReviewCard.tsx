@@ -31,7 +31,7 @@ export default function CollectionCard({
       </div>
       <div className={styles.info}>
         <h3 className={styles.title}>{title}</h3>
-        <Rating value={rating}></Rating>
+        <Rating readOnly={true} value={rating}></Rating>
         <p className={styles.reviewBody}>{body}</p>
         <div className={styles.tags}>
           <Tag type="views" value={views} />

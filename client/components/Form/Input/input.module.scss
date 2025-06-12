@@ -24,11 +24,12 @@
   .input {
     width: 100%;
     padding: 16px 20px;
-    border: 1px solid $cold-grey;
+    border: 1px solid var(--border);
     border-radius: 8px;
     transition: border 0.2s ease;
     font-size: var(--font-size);
     color: var(--font);
+    background-color: transparent;
     &:focus {
       outline: none;
       border-color: $primary; 

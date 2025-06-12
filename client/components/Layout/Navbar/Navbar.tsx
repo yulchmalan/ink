@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import LanguageSwitcher from "@/components/UI/LanguageSwitcher/LanguageSwitcher";
 import ThemeToggle from "@/components/UI/ThemeToggle/ThemeToggle";
+import Dots from "@/assets/icons/Dots";
 
 export default function Navbar() {
   const [isNavActive, setIsNavActive] = useState(false);
@@ -119,14 +120,15 @@ export default function Navbar() {
               className={styles.desktopIcon}
             />
             <div className={styles.PfpContainer} ref={avatarBtnRef}>
-              <AvatarButton
-                {...(isLoggedIn && user
-                  ? {
-                      imgSrc: user._id,
-                    }
-                  : {})}
-                onClick={toggleSettings}
-              />
+              {isLoggedIn && user ? (
+                <AvatarButton imgSrc={user._id} onClick={toggleSettings} />
+              ) : (
+                <SimpleIconBtn
+                  aria-label="Menu"
+                  icon={<Dots />}
+                  onClick={toggleSettings}
+                />
+              )}
             </div>
             <div
               ref={settingsRef}

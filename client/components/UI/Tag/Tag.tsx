@@ -6,10 +6,11 @@ import Eye from "@/assets/icons/Eye";
 import Stack from "@/assets/icons/Stack";
 import Bookmark from "@/assets/icons/Bookmark";
 import Heart from "@/assets/icons/Heart";
+import Message from "@/assets/icons/Message";
 
 interface TagProps {
   value: string | number;
-  type?: "views" | "layers" | "bookmarks" | "likes";
+  type?: "views" | "layers" | "bookmarks" | "likes" | "comments";
   className?: string;
 }
 
@@ -18,6 +19,7 @@ const iconMap = {
   layers: <Stack />,
   bookmarks: <Bookmark />,
   likes: <Heart />,
+  comments: <Message />,
 };
 
 export default function Tag({ value, type, className }: TagProps) {
