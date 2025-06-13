@@ -18,6 +18,7 @@ import ProfileCollections from "../Profile/Collections/ProfileCollections";
 import ProfileFriends from "../Profile/Friends/ProfileFriends";
 import FriendCard from "../Profile/Friends/FriendCard/FriendCard";
 import { useAuth } from "@/contexts/AuthContext";
+import ProfileReviews from "../Profile/Reviews/ProfileReview";
 
 const profileTabs = (user: User) => {
   const { user: currentUser } = useAuth();
@@ -90,6 +91,30 @@ const profileTabs = (user: User) => {
   const [collectionControls, setCollectionControls] = useState(
     defaultCollectionControls
   );
+
+  const defaultReviewControls = {
+    sortBy: "date",
+    sortOrder: "desc" as "asc" | "desc",
+  };
+
+  const [reviewControls, setReviewControls] = useState(defaultReviewControls);
+
+  const handleReviewControlChange = (value: string) => {
+    if (value === "asc" || value === "desc") {
+      setReviewControls((prev) => ({
+        ...prev,
+        sortOrder:
+          prev.sortOrder === value ? defaultReviewControls.sortOrder : value,
+      }));
+    } else if (value === "rating" || value === "date") {
+      setReviewControls((prev) => ({
+        ...prev,
+        sortBy: prev.sortBy === value ? defaultReviewControls.sortBy : value,
+      }));
+    } else {
+      setReviewControls(defaultReviewControls);
+    }
+  };
 
   const handleCollectionControlChange = (value: string) => {
     if (value === "asc" || value === "desc") {
@@ -176,6 +201,29 @@ const profileTabs = (user: User) => {
             user={user}
             sortBy={commentControls.sortBy}
             sortOrder={commentControls.sortOrder}
+          />
+        </TabGrid>
+      ),
+    },
+    {
+      title: "Рецензії",
+      content: (
+        <TabGrid
+          sidebar={
+            <Wrapper className={styles.sideWrapper}>
+              <SideMenu
+                data={sortMenu}
+                selected={reviewControls.sortBy}
+                selectedSecondary={reviewControls.sortOrder}
+                onSelect={handleReviewControlChange}
+              />
+            </Wrapper>
+          }
+        >
+          <ProfileReviews
+            user={user}
+            sortBy={reviewControls.sortBy}
+            sortOrder={reviewControls.sortOrder}
           />
         </TabGrid>
       ),

@@ -316,7 +316,7 @@ export default function TitleInfo({ title }: Props) {
     },
     {
       title: "Коментарі",
-      content: <CommentsSection subjectId={title.id} />,
+      content: <CommentsSection subjectType="TITLE" subjectId={title.id} />,
     },
     {
       title: "Рецензії",

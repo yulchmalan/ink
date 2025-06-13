@@ -181,6 +181,14 @@ export const reviewResolvers = {
       await review.save();
       return review;
     },
+    async incrementReviewViews(_, { id }) {
+      const review = await Review.findById(id);
+      if (!review) throw new Error("Review not found");
+
+      review.views = (review.views ?? 0) + 1;
+      await review.save();
+      return review;
+    },
   },
 
   Review: {

@@ -5,6 +5,7 @@ import Comment from "../Comment";
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
 import type { User } from "@/types/user";
 import type { CommentType } from "@/types/comment";
+import Link from "next/link";
 
 interface Props {
   user: User;
@@ -54,6 +55,7 @@ export default function ProfileComments({ user, sortBy, sortOrder }: Props) {
                 id
                 body
                 createdAt
+                subjectType
                 score {
                   likes
                   dislikes
@@ -101,21 +103,18 @@ export default function ProfileComments({ user, sortBy, sortOrder }: Props) {
     setIsLoading(false);
   };
 
-  // Reset при зміні сортування
   useEffect(() => {
     setComments([]);
     setPage(0);
     setHasMore(true);
-    fetchComments(0); // фетч першої сторінки
+    fetchComments(0);
   }, [sortBy, sortOrder, user._id]);
 
-  // Фетч наступних сторінок
   useEffect(() => {
     if (page === 0) return;
     fetchComments(page);
   }, [page]);
 
-  // Інфініті-скрол
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -136,18 +135,37 @@ export default function ProfileComments({ user, sortBy, sortOrder }: Props) {
 
   return (
     <Wrapper>
-      {comments.map((c) => (
-        <Comment
-          key={c.id}
-          title={c.title}
-          userId={user._id}
-          username={c.user.username}
-          date={new Date(c.createdAt)}
-          message={c.body}
-          likes={c.score?.likes ?? 0}
-          dislikes={c.score?.dislikes ?? 0}
-        />
-      ))}
+      {comments.map((c) => {
+        let href = "#";
+
+        switch (c.subjectType) {
+          case "TITLE":
+            href = `/catalog/${c.subject_ID}`;
+            break;
+          case "REVIEW":
+            href = `/review/${c.subject_ID}`;
+            break;
+          case "COLLECTION":
+            href = `/collection/${c.subject_ID}`;
+            break;
+          default:
+            href = "#";
+        }
+
+        return (
+          <Link key={c.id} href={href} scroll={false}>
+            <Comment
+              title={c.title}
+              userId={user._id}
+              username={c.user.username}
+              date={new Date(c.createdAt)}
+              message={c.body}
+              likes={c.score?.likes ?? 0}
+              dislikes={c.score?.dislikes ?? 0}
+            />
+          </Link>
+        );
+      })}
       {hasMore && <div ref={loaderRef} style={{ height: 40 }} />}
     </Wrapper>
   );

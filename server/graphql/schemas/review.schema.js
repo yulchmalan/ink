@@ -76,5 +76,6 @@ export const reviewTypeDefs = `#graphql
     likeReview(id: ObjectID!, userId: ObjectID!): Review
     dislikeReview(id: ObjectID!, userId: ObjectID!): Review
     clearReviewVote(id: ObjectID!, userId: ObjectID!): Review
+    incrementReviewViews(id: ObjectID!): Review
   }
 `;

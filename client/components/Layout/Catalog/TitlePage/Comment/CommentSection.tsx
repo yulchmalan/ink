@@ -29,9 +29,10 @@ type CommentType = {
 
 type Props = {
   subjectId: string;
+  subjectType: "TITLE" | "REVIEW" | "COLLECTION";
 };
 
-export default function CommentsSection({ subjectId }: Props) {
+export default function CommentsSection({ subjectId, subjectType }: Props) {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -82,7 +83,8 @@ export default function CommentsSection({ subjectId }: Props) {
           variables: {
             input: {
               userId: currentUserId,
-              subjectId: subjectId,
+              subjectId,
+              subjectType, // нове поле
               body: newComment.trim(),
             },
           },

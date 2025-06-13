@@ -59,12 +59,6 @@ export default function Comment({
 
   return (
     <div className={styles.comment}>
-      <div className={styles.meta}>
-        <Link href={`/catalog/${title?.id}`} className={styles.chapter}>
-          {localizedTitle}
-        </Link>
-      </div>
-
       <div className={styles.body}>
         <div className={styles.avatar}>
           <img src={avatar ?? fallbackPfp.src} alt="Avatar" />

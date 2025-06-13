@@ -22,6 +22,7 @@ const GET_REVIEW = `
         }
       }
       user {
+        _id
         username
       }
       title {

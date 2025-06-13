@@ -2,6 +2,7 @@ export type CommentType = {
   id: string;
   body: string;
   createdAt: string;
+  subjectType: string;
   score: {
     likes: number;
     dislikes: number;
