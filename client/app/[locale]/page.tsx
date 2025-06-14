@@ -15,6 +15,7 @@ import ReviewCard from "@/components/UI/Cards/ReviewCard/ReviewCard";
 import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
 import { popularBooks } from "@/data/popularBooks";
 import Recommendations from "@/components/LogicComponents/Recommendations/Recommendations";
+import Link from "next/link";
 
 export async function generateMetadata() {
   const locale = await getLocale();
@@ -31,6 +32,7 @@ const GET_COLLECTIONS = `
   query {
     collections(sortBy: CREATED_AT, sortOrder: DESC, limit: 6) {
       results {
+        id
         name
         views
         score {
@@ -67,6 +69,7 @@ const GET_REVIEWS = `
 `;
 
 type Collection = {
+  id: string;
   name: string;
   views: number;
   bookmarks: number;
@@ -189,41 +192,43 @@ export default async function Home() {
           }
           topRight={
             <div className={styles.section}>
-              <ArrowBtn href="/collections" size="large">
+              <ArrowBtn href="/collection" size="large">
                 {t("Collections")}
               </ArrowBtn>
               <div className={styles.items}>
                 {collections.map((c, i) => (
-                  <CollectionCard
-                    key={i}
-                    title={c.name}
-                    views={c.views}
-                    itemsCount={c.titles.length}
-                    likes={c.score.likes}
-                    dislikes={c.score.dislikes}
-                    titleIds={c.titles.map((t) => t.id)}
-                  />
+                  <Link key={i} href={`/collection/${c.id}`}>
+                    <CollectionCard
+                      title={c.name}
+                      views={c.views}
+                      itemsCount={c.titles.length}
+                      likes={c.score.likes}
+                      dislikes={c.score.dislikes}
+                      titleIds={c.titles.map((t) => t.id)}
+                    />
+                  </Link>
                 ))}
               </div>
             </div>
           }
           bottomRight={
             <div className={styles.section}>
-              <ArrowBtn href="/collections" size="large">
+              <ArrowBtn href="/review" size="large">
                 {t("Reviews")}
               </ArrowBtn>
               <div className={styles.items}>
                 {reviews.map((r, i) => (
-                  <ReviewCard
-                    key={i}
-                    id={r.id}
-                    title={r.name}
-                    titleId={r.title?.id}
-                    body={r.body}
-                    views={r.views}
-                    rating={r.rating}
-                    likes={`${r.score.likes}/${r.score.dislikes}`}
-                  />
+                  <Link key={i} href={`/review/${r.id}`}>
+                    <ReviewCard
+                      id={r.id}
+                      title={r.name}
+                      titleId={r.title?.id}
+                      body={r.body}
+                      views={r.views}
+                      rating={r.rating}
+                      likes={`${r.score.likes}/${r.score.dislikes}`}
+                    />
+                  </Link>
                 ))}
               </div>
             </div>

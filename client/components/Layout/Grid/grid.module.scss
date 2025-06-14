@@ -33,14 +33,6 @@
   gap: 32px;
 }
 
-.topRight,
-.bottomRight {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-
 .tabGrid {
   display: grid;
   grid-template-columns: 1fr;

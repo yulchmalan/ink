@@ -3,12 +3,15 @@
 .card {
     overflow: hidden;
     background: var(--surface);
+    min-width: 200px;
+    max-width: 500px;
     border-radius: 10px;
     padding: 16px 32px 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 16px;
+    cursor: pointer;
 }
 
 .info {
