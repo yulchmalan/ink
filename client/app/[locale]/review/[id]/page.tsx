@@ -33,8 +33,8 @@ const GET_REVIEW = `
   }
 `;
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const p = params;
+export default async function Page({ params }: any) {
+  const { id } = await params;
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",
     headers: {
@@ -43,7 +43,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     },
     body: JSON.stringify({
       query: GET_REVIEW,
-      variables: { id: p.id },
+      variables: { id: id },
     }),
     cache: "no-store",
   });
