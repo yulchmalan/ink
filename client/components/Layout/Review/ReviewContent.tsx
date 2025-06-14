@@ -45,12 +45,16 @@ export default function ReviewContent({ review }: { review: Review }) {
   const { user: currentUser } = useAuth();
   const currentUserId = currentUser?._id;
   const locale = useLocale();
-  const coverUrl = useS3Image("covers", review.title.id, fallbackCover.src);
+  const coverUrl = useS3Image(
+    "covers",
+    review.title?.id ?? "",
+    fallbackCover.src
+  );
   const dateLocale = { uk, en: enUS, pl }[locale as "uk" | "en" | "pl"] ?? enUS;
 
   const [vote, setVote] = useState<VoteState>("none");
-  const [likes, setLikes] = useState(review.score.likes);
-  const [dislikes, setDislikes] = useState(review.score.dislikes);
+  const [likes, setLikes] = useState(review.score?.likes ?? 0);
+  const [dislikes, setDislikes] = useState(review.score?.dislikes ?? 0);
   const [views, setViews] = useState(review.views);
   const rating = likes - dislikes;
   const ratingString = `${likes}/${dislikes}`;
