@@ -5,20 +5,24 @@ import Tag from "../../Tag/Tag";
 import clsx from "clsx";
 import Rating from "../../Rating/Rating";
 import { useCommentsCount } from "@/hooks/useCommentCount";
+import { useS3Image } from "@/hooks/useS3Image";
+import fallbackCover from "@/assets/cover.png";
 
-interface CollectionCardProps {
+interface ReviewCardProps {
   id: string;
+  titleId?: string;
   title: string;
   body: string;
   views: number;
   rating: number;
   likes: string;
-  coverUrl: string;
+  coverUrl?: string;
   className?: string;
 }
 
-export default function CollectionCard({
+export default function ReviewCard({
   id,
+  titleId,
   title,
   body,
   views,
@@ -26,13 +30,19 @@ export default function CollectionCard({
   likes,
   coverUrl,
   className,
-}: CollectionCardProps) {
+}: ReviewCardProps) {
   const commentsCount = useCommentsCount(id);
+
+  const resolvedCover =
+    coverUrl ||
+    (titleId
+      ? useS3Image("covers", titleId, fallbackCover.src)
+      : fallbackCover.src);
 
   return (
     <div className={clsx(styles.card, className)}>
       <div className={styles.coverContainer}>
-        <img src={coverUrl} alt={title} className={styles.cover} />
+        <img src={resolvedCover} alt={title} className={styles.cover} />
       </div>
       <div className={styles.info}>
         <h3 className={styles.title}>{title}</h3>

@@ -27,11 +27,102 @@ export async function generateMetadata() {
   };
 }
 
+const GET_COLLECTIONS = `
+  query {
+    collections(sortBy: CREATED_AT, sortOrder: DESC, limit: 6) {
+      results {
+        name
+        views
+        score {
+          likes
+          dislikes
+        }
+        titles {
+          id
+        }
+      }
+    }
+  }
+`;
+
+const GET_REVIEWS = `
+  query {
+    reviews(sortBy: CREATED_AT, sortOrder: DESC, limit: 6) {
+      results {
+        id
+        name
+        body
+        views
+        rating
+        score {
+          likes
+          dislikes
+        }
+        title {
+          id
+        }
+      }
+    }
+  }
+`;
+
+type Collection = {
+  name: string;
+  views: number;
+  bookmarks: number;
+  score: {
+    likes: number;
+    dislikes: number;
+  };
+  titles: { id: string }[];
+};
+
+type Review = {
+  id: string;
+  name: string;
+  body: string;
+  views: number;
+  rating: number;
+  score: {
+    likes: number;
+    dislikes: number;
+  };
+  title: {
+    id: string;
+    cover?: string;
+  } | null;
+};
+
 export default async function Home() {
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: "Index" });
 
-  const popular = await popularBooks();
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+    },
+    body: JSON.stringify({ query: GET_COLLECTIONS }),
+    cache: "no-store",
+  });
+
+  const collections: Collection[] =
+    (await res.json()).data?.collections?.results || [];
+
+  const reviewRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+    },
+    body: JSON.stringify({ query: GET_REVIEWS }),
+    cache: "no-store",
+  });
+
+  const reviews: Review[] =
+    (await reviewRes.json()).data?.reviews?.results || [];
+
   const reviewBody =
     "Головна проблема – сюжет, що балансує між штучною напруженістю і повною передбачуваністю. Автор намагається створити атмосферу параної та екзистенційного жаху блаблабалаба блаблабалаба блаблабалабаблаблабалаба блаблабалаба";
   return (
@@ -102,60 +193,17 @@ export default async function Home() {
                 {t("Collections")}
               </ArrowBtn>
               <div className={styles.items}>
-                <CollectionCard
-                  title="Фентезі"
-                  views={11200}
-                  itemsCount={10}
-                  bookmarks={2000}
-                  likes={96}
-                  dislikes={12}
-                  titleIds={[]}
-                />
-                <CollectionCard
-                  title="Буддизм"
-                  views={11200}
-                  itemsCount={16}
-                  bookmarks={2000}
-                  likes={96}
-                  dislikes={12}
-                  titleIds={[]}
-                />
-                <CollectionCard
-                  title="Буддизм"
-                  views={11200}
-                  itemsCount={16}
-                  bookmarks={2000}
-                  likes={96}
-                  dislikes={12}
-                  titleIds={[]}
-                />
-                <CollectionCard
-                  title="Буддизм"
-                  views={11200}
-                  itemsCount={16}
-                  bookmarks={2000}
-                  likes={96}
-                  dislikes={12}
-                  titleIds={[]}
-                />
-                <CollectionCard
-                  title="Буддизм"
-                  views={11200}
-                  itemsCount={16}
-                  bookmarks={2000}
-                  likes={96}
-                  dislikes={12}
-                  titleIds={[]}
-                />
-                <CollectionCard
-                  title="Буддизм"
-                  views={11200}
-                  itemsCount={16}
-                  bookmarks={2000}
-                  likes={96}
-                  dislikes={12}
-                  titleIds={[]}
-                />
+                {collections.map((c, i) => (
+                  <CollectionCard
+                    key={i}
+                    title={c.name}
+                    views={c.views}
+                    itemsCount={c.titles.length}
+                    likes={c.score.likes}
+                    dislikes={c.score.dislikes}
+                    titleIds={c.titles.map((t) => t.id)}
+                  />
+                ))}
               </div>
             </div>
           }
@@ -165,54 +213,18 @@ export default async function Home() {
                 {t("Reviews")}
               </ArrowBtn>
               <div className={styles.items}>
-                <ReviewCard
-                  likes="96/12"
-                  views={11200}
-                  title="Не виправдало очікувань"
-                  body={reviewBody}
-                  rating={2.5}
-                  coverUrl={cover.src}
-                ></ReviewCard>
-                <ReviewCard
-                  likes="96/12"
-                  views={11200}
-                  title="Не виправдало очікувань"
-                  body={reviewBody}
-                  rating={2.5}
-                  coverUrl={cover.src}
-                ></ReviewCard>
-                <ReviewCard
-                  likes="96/12"
-                  views={11200}
-                  title="Не виправдало очікувань"
-                  body={reviewBody}
-                  rating={2.5}
-                  coverUrl={cover.src}
-                ></ReviewCard>
-                <ReviewCard
-                  likes="96/12"
-                  views={11200}
-                  title="Не виправдало очікувань"
-                  body={reviewBody}
-                  rating={2.5}
-                  coverUrl={cover.src}
-                ></ReviewCard>
-                <ReviewCard
-                  likes="96/12"
-                  views={11200}
-                  title="Не виправдало очікувань"
-                  body={reviewBody}
-                  rating={2.5}
-                  coverUrl={cover.src}
-                ></ReviewCard>
-                <ReviewCard
-                  likes="96/12"
-                  views={11200}
-                  title="Не виправдало очікувань"
-                  body={reviewBody}
-                  rating={2.5}
-                  coverUrl={cover.src}
-                ></ReviewCard>
+                {reviews.map((r, i) => (
+                  <ReviewCard
+                    key={i}
+                    id={r.id}
+                    title={r.name}
+                    titleId={r.title?.id}
+                    body={r.body}
+                    views={r.views}
+                    rating={r.rating}
+                    likes={`${r.score.likes}/${r.score.dislikes}`}
+                  />
+                ))}
               </div>
             </div>
           }
