@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Container from "@/components/Layout/Container/Container";
 import CollectionContent from "@/components/Layout/Collection/CollectionContent";
+export const dynamic = "force-dynamic";
 
 const GET_COLLECTION = `
   query Collection($id: ObjectID!) {
