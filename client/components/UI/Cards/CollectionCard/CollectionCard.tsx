@@ -10,7 +10,7 @@ interface CollectionCardProps {
   title: string;
   views: number;
   itemsCount: number;
-  bookmarks: number;
+  bookmarks?: number;
   likes: number;
   dislikes: number;
   titleIds: string[];

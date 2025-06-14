@@ -6,6 +6,8 @@
     aspect-ratio: 1 / 1.35;
     overflow: hidden;
     border-radius: 12px;
+    max-width: 100%;
+
 }
 
 .coverContainer {
@@ -53,14 +55,14 @@
 }
 
 .large {
-    width: 8.6rem;
+    min-width: 8.6rem;
     .title {
         font-size: var(--font-size);
     }
 }
 
 .small {
-    width: 8.6rem;
+    min-width: 8.6rem;
     .title {
         font-size: .875rem;
     }
@@ -71,12 +73,12 @@
         display: block;
     }
     .large {
-        width: 10rem;
+        min-width: 10rem;
     }
 }
 
 @media (min-width: 1500px) {
     .large {
-        width: 11.5rem;
+        min-width: 11.5rem;
     }
 }

@@ -13,7 +13,9 @@ interface Props {
 
 export default function SearchOverlay({ isOpen, onClose }: Props) {
   const [query, setQuery] = useState("");
-  const [activeTab, setActiveTab] = useState<"titles" | "users">("titles");
+  const [activeTab, setActiveTab] = useState<
+    "titles" | "users" | "collections" | "reviews"
+  >("titles");
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -37,40 +39,56 @@ export default function SearchOverlay({ isOpen, onClose }: Props) {
       try {
         const queryText =
           activeTab === "titles"
-            ? `
-            query SearchTitles($filter: TitleFilterInput) {
-                titles(filter: $filter, limit: 10, offset: 0) {
-                    results {
-                        id
-                        name
-                        alt_names {
-                            lang
-                            value
-                        }
-                    }
+            ? `query SearchTitles($filter: TitleFilterInput) {
+              titles(filter: $filter, limit: 10, offset: 0) {
+                results {
+                  id
+                  name
+                  alt_names {
+                    lang
+                    value
+                  }
                 }
-            }
-            `
-            : `
-            query SearchUsers($search: String!) {
-                users(search: $search, limit: 10) {
-                    _id
+              }
+            }`
+            : activeTab === "users"
+            ? `query SearchUsers($search: String!) {
+              users(search: $search, limit: 10) {
+                _id
+                username
+              }
+            }`
+            : activeTab === "collections"
+            ? `query SearchCollections($search: String!) {
+              collections(search: $search, limit: 10) {
+                results {
+                  id
+                  name
+                  description
+                }
+              }
+            }`
+            : `query SearchReviews($search: String!) {
+              reviews(search: $search, limit: 10) {
+                results {
+                  id
+                  name
+                  title {
+                    id
+                    name
+                  }
+                  user {
                     username
+                  }
+                  body
                 }
-            }
-            `;
+              }
+            }`;
 
         const variables =
           activeTab === "titles"
-            ? {
-                filter: { name: query },
-                limit: 10,
-                offset: 0,
-              }
-            : {
-                search: query,
-                limit: 10,
-              };
+            ? { filter: { name: query }, limit: 10, offset: 0 }
+            : { search: query, limit: 10 };
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
           method: "POST",
@@ -86,7 +104,11 @@ export default function SearchOverlay({ isOpen, onClose }: Props) {
         const newResults =
           activeTab === "titles"
             ? json.data?.titles?.results
-            : json.data?.users;
+            : activeTab === "users"
+            ? json.data?.users
+            : activeTab === "collections"
+            ? json.data?.collections?.results
+            : json.data?.reviews?.results;
 
         setResults(Array.isArray(newResults) ? newResults : []);
       } catch (err: unknown) {
@@ -123,6 +145,7 @@ export default function SearchOverlay({ isOpen, onClose }: Props) {
                 <SearchResultCard
                   id={item.id}
                   name={item.name}
+                  alt_names={item.alt_names}
                   type="title"
                   onClick={onClose}
                 />
@@ -155,6 +178,56 @@ export default function SearchOverlay({ isOpen, onClose }: Props) {
         </div>
       ),
     },
+    {
+      title: "Колекції",
+      content: (
+        <div className={styles.tabContent}>
+          {loading && <p>Завантаження...</p>}
+          {!loading && results.length === 0 && query && (
+            <p>Нічого не знайдено</p>
+          )}
+          <ul>
+            {results.map((item: any) => (
+              <li key={item.id}>
+                <SearchResultCard
+                  id={item.id}
+                  name={item.name}
+                  description={item.description}
+                  type="collection"
+                  onClick={onClose}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ),
+    },
+    {
+      title: "Рецензії",
+      content: (
+        <div className={styles.tabContent}>
+          {loading && <p>Завантаження...</p>}
+          {!loading && results.length === 0 && query && (
+            <p>Нічого не знайдено</p>
+          )}
+          <ul>
+            {results.map((item: any) => (
+              <li key={item.id}>
+                <SearchResultCard
+                  titleId={item.title?.id}
+                  id={item.id}
+                  body={item.body}
+                  username={item.user?.username}
+                  name={item.name}
+                  type="review"
+                  onClick={onClose}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ),
+    },
   ];
 
   return (
@@ -167,9 +240,13 @@ export default function SearchOverlay({ isOpen, onClose }: Props) {
         />
         <Tabs
           tabs={tabs}
-          activeIndex={activeTab === "titles" ? 0 : 1}
+          activeIndex={["titles", "users", "collections", "reviews"].indexOf(
+            activeTab
+          )}
           onTabChange={(index: number) =>
-            setActiveTab(index === 0 ? "titles" : "users")
+            setActiveTab(
+              ["titles", "users", "collections", "reviews"][index] as any
+            )
           }
         />
       </div>

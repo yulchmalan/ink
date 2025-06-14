@@ -29,6 +29,7 @@ interface CommentProps {
     id: string;
     body: string;
     createdAt: string;
+    subjectType: "TITLE" | "REVIEW" | "COLLECTION";
     score: {
       likes: number;
       dislikes: number;
@@ -43,6 +44,7 @@ interface CommentProps {
     parent_ID?: string;
   };
   subjectId: string;
+  subjectType: "TITLE" | "REVIEW" | "COLLECTION";
   onRefresh?: () => void;
 }
 
@@ -50,6 +52,7 @@ export default function Comment({
   comment,
   onRefresh,
   subjectId,
+  subjectType,
 }: CommentProps) {
   const { id: commentId, body, createdAt, score, user } = comment;
   const { user: currentUser } = useAuth();
@@ -64,33 +67,12 @@ export default function Comment({
   const [likes, setLikes] = useState(score.likes);
   const [dislikes, setDislikes] = useState(score.dislikes);
   const rating = likes - dislikes;
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const [replies, setReplies] = useState<CommentProps["comment"][]>([]);
   useEffect(() => {
-    const fetchReplies = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
-          },
-          body: JSON.stringify({
-            query: GET_REPLIES,
-            variables: { parentId: commentId },
-          }),
-        });
-
-        const json = await res.json();
-        const fetched = json.data?.comments?.results || [];
-        setReplies(fetched);
-      } catch (err) {
-        console.error("Error fetching replies:", err);
-      }
-    };
-
     fetchReplies();
-  }, [commentId]);
+  }, [commentId, refreshTrigger]);
 
   const [showMenu, setShowMenu] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -135,6 +117,28 @@ export default function Comment({
     });
   };
 
+  const fetchReplies = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+        },
+        body: JSON.stringify({
+          query: GET_REPLIES,
+          variables: { parentId: commentId },
+        }),
+      });
+
+      const json = await res.json();
+      const fetched = json.data?.comments?.results || [];
+      setReplies(fetched);
+    } catch (err) {
+      console.error("Error fetching replies:", err);
+    }
+  };
+
   const handleVote = async (type: VoteState) => {
     if (!currentUserId) return;
 
@@ -170,7 +174,9 @@ export default function Comment({
     });
 
     const json = await res.json();
-    if (json.data?.deleteComment) onRefresh?.();
+    if (json.data?.deleteComment) {
+      onRefresh?.(); // достатньо
+    }
   };
 
   const handleEdit = async () => {
@@ -198,6 +204,7 @@ export default function Comment({
 
   const handleReply = async () => {
     if (!replyText.trim() || !currentUserId) return;
+    console.log("subjectType", subjectType);
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
       method: "POST",
@@ -210,6 +217,7 @@ export default function Comment({
           createComment(input: {
             userId: "${currentUserId}",
             subjectId: "${subjectId}",
+            subjectType: ${subjectType},
             body: """${replyText.trim()}""",
             parentId: "${commentId}"
           }) { id }
@@ -221,6 +229,8 @@ export default function Comment({
     if (json.data?.createComment) {
       setReplyText("");
       setShowReplyInput(false);
+
+      await fetchReplies();
       onRefresh?.();
     }
   };
@@ -247,35 +257,35 @@ export default function Comment({
                 })}
               </span>
 
-              {canDelete && (
-                <div className={styles.menuWrapper} ref={menuRef}>
-                  <button
-                    className={styles.menuBtn}
-                    onClick={() => setShowMenu((prev) => !prev)}
-                  >
-                    <Dots />
-                  </button>
-                  {showMenu && (
-                    <div className={styles.dropdown}>
-                      {currentUserId === user._id && (
-                        <button
-                          onClick={() => {
-                            setIsEditing(true);
-                            setShowMenu(false);
-                          }}
-                        >
-                          <Pencil /> Редагувати
-                        </button>
-                      )}
+              <div className={styles.menuWrapper} ref={menuRef}>
+                <button
+                  className={styles.menuBtn}
+                  onClick={() => setShowMenu((prev) => !prev)}
+                >
+                  <Dots />
+                </button>
+                {showMenu && (
+                  <div className={styles.dropdown}>
+                    {currentUserId === user._id && (
                       <button
                         onClick={() => {
-                          setShowReplyInput(true);
+                          setIsEditing(true);
                           setShowMenu(false);
                         }}
                       >
-                        <Reply />
-                        Відповісти
+                        <Pencil /> Редагувати
                       </button>
+                    )}
+                    <button
+                      onClick={() => {
+                        setShowReplyInput(true);
+                        setShowMenu(false);
+                      }}
+                    >
+                      <Reply />
+                      Відповісти
+                    </button>
+                    {canDelete && (
                       <button
                         onClick={() => {
                           handleDelete();
@@ -284,10 +294,10 @@ export default function Comment({
                       >
                         <Trash /> Видалити
                       </button>
-                    </div>
-                  )}
-                </div>
-              )}
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             {isEditing ? (
@@ -382,10 +392,11 @@ export default function Comment({
         <div className={styles.replies}>
           {replies.map((reply) => (
             <Comment
+              subjectType={subjectType}
               key={reply.id}
               comment={reply}
               subjectId={subjectId}
-              onRefresh={onRefresh}
+              onRefresh={() => setRefreshTrigger((x) => x + 1)}
             />
           ))}
         </div>

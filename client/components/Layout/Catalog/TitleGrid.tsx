@@ -12,6 +12,7 @@ import { GET_TITLES } from "@/graphql/queries/getTitles";
 import { useLabels } from "@/hooks/useLabels";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
 import { useAuth } from "@/contexts/AuthContext";
+import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
 
 interface Props {
   titles: {
@@ -111,9 +112,6 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
       filter.list = filters.list;
     }
 
-    // console.log("[applyFilters] filter:", filter); // DEBUG
-    // console.log("[applyFilters] sort:", variables.sort); // DEBUG
-
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
       method: "POST",
       headers: {
@@ -129,8 +127,6 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
 
     const json = await res.json();
     const results = json.data?.titles?.results;
-
-    console.log("[applyFilters] results count:", results?.length); // DEBUG
 
     if (Array.isArray(results)) setTitles(results);
   };
@@ -157,7 +153,6 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
           ? list.filter((v) => v !== value)
           : [...list, value];
         const updated = { ...prev, [field]: newList };
-        console.log(`[filters] ${field}:`, updated[field]); // DEBUG
         return updated;
       });
     };
@@ -175,11 +170,9 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
       updateCheckboxGroup("list");
     else if (value.startsWith("rating-from:")) {
       const val = +value.split(":")[1];
-      // console.log("[filters] ratingFrom:", val); // DEBUG
       setFilters((prev) => ({ ...prev, ratingFrom: val }));
     } else if (value.startsWith("rating-to:")) {
       const val = +value.split(":")[1];
-      // console.log("[filters] ratingTo:", val); // DEBUG
       setFilters((prev) => ({ ...prev, ratingTo: val }));
     }
   };
@@ -315,7 +308,10 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
         </Wrapper>
       }
     >
-      <h1>Каталог</h1>
+      <div className={styles.header}>
+        <h1>Каталог</h1>
+        <ArrowBtn href="/collection">Колекції</ArrowBtn>
+      </div>
       <Input
         value={search}
         onChange={(e) => setSearch(e.target.value)}

@@ -1,40 +1,32 @@
 import { notFound } from "next/navigation";
-import ReviewContent from "@/components/Layout/Review/ReviewContent";
 import Container from "@/components/Layout/Container/Container";
+import CollectionContent from "@/components/Layout/Collection/CollectionContent";
 
-const GET_REVIEW = `
-  query Review($id: ObjectID!) {
-    review(id: $id) {
+const GET_COLLECTION = `
+  query Collection($id: ObjectID!) {
+    collection(id: $id) {
       id
       name
-      body
-      rating
-      views
+      description
       createdAt
-      score {
-        likes
-        dislikes
-        likedBy {
-          _id
-        }
-        dislikedBy {
-          _id
-        }
-      }
       user {
         _id
         username
       }
-      title {
+      titles {
         id
         name
+        cover
+        alt_names {
+          value
+          lang
+        }
       }
     }
   }
 `;
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const p = params;
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",
     headers: {
@@ -42,19 +34,19 @@ export default async function Page({ params }: { params: { id: string } }) {
       "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
     },
     body: JSON.stringify({
-      query: GET_REVIEW,
-      variables: { id: p.id },
+      query: GET_COLLECTION,
+      variables: { id: params.id },
     }),
     cache: "no-store",
   });
 
   const json = await res.json();
-  const review = json.data?.review;
-  if (!review) return notFound();
+  const collection = json.data?.collection;
+  if (!collection) return notFound();
 
   return (
     <Container>
-      <ReviewContent review={review} />
+      <CollectionContent collection={collection} />
     </Container>
   );
 }

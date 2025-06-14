@@ -1,0 +1,275 @@
+@use '@/styles/variables' as *;
+.titlesGrid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(8.6rem, 1fr));
+    gap: 16px;
+    @media (min-width: 690px) {
+        grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    }
+    @media (min-width: 1500px) {
+        grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+    }
+}
+
+.collectionPage {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+}
+
+.addCard {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1.35;
+    background: radial-gradient(circle,rgba(214, 43, 87, 0.6) 0%, rgba(252, 136, 166, 0.2) 100%);
+    overflow: hidden;
+    border-radius: 12px;
+    min-width: 8.6rem;
+    max-width: 100%;
+    @media (min-width: 690px) {
+        min-width: 10rem;
+    }
+    @media (min-width: 1500px) {
+        min-width: 11.5rem;
+    }
+    svg {
+        width: 40px;
+        height: 40px;
+        color: $white;
+    }
+}
+
+.title {
+    position: relative;
+    padding-right: 40px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+}
+
+.header {
+    margin-bottom: 20px;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 4px;
+}
+
+.highlight {
+    color: $primary;
+    font-weight: 600;
+}
+
+.actionsWrapper {
+  position: absolute;
+  right: 0;
+  top: -10px;
+  z-index: 10;
+}
+
+.dotsBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--font);
+  }
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 20;
+
+  button {
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    &:hover {
+      background: var(--background);
+    }
+    svg {
+      height: 16px;
+    }
+  }
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal {
+  background: var(--surface);
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.editTextarea {
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  padding: 0.75rem;
+  resize: none;
+  font-family: inherit;
+  background: var(--bg);
+  color: var(--font);
+  overflow: hidden;
+  min-height: 2.5em;
+}
+
+.saveButton {
+  align-self: flex-start;
+}
+
+.editButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bookCardWrapper {
+  position: relative;
+
+  &:hover .removeBtn {
+    opacity: 1;
+  }
+}
+
+.removeBtn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: var(--tag-bg);
+  border: none;
+  border-radius: 50%;
+  line-height: 1;
+  padding: 4px;
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+  svg {
+    width: 16px;
+    height: 16px;
+    color: $primary;
+  }
+}
+
+.tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.footer {
+    margin-top: 20px;
+    background-color: var(--background);
+    border-radius: 4px;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.voteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  svg {
+    height: 16px;
+    width: 16px;
+    color: var(--font-secondary);
+  }
+
+  &.up.active svg {
+    color: #2e7d32;
+  }
+
+  &.down.active svg {
+    color: #d32f2f;
+  }
+
+  &:hover svg {
+    opacity: 0.8;
+  }
+}
+
+.rating {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--font);
+  &.positive {
+    color: #2e7d32;
+  }
+  &.negative {
+    color: #d32f2f;
+  }
+}
+
+.rate {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

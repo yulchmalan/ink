@@ -9,6 +9,7 @@ export const GET_REPLIES = `
       results {
         id
         body
+        subjectType
         createdAt
         score {
           likes

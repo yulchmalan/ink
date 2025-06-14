@@ -53,12 +53,14 @@ export default function ReviewContent({ review }: { review: Review }) {
   const [dislikes, setDislikes] = useState(review.score.dislikes);
   const [views, setViews] = useState(review.views);
   const rating = likes - dislikes;
+  const ratingString = `${likes}/${dislikes}`;
 
   const [showMenu, setShowMenu] = useState(false);
-  const isPrivileged =
+  const canEdit = currentUserId === review.user._id;
+  const canDelete =
+    canEdit ||
     currentUser?.role === "MODERATOR" ||
-    currentUser?.role === "OWNER" ||
-    currentUserId === review.user._id;
+    currentUser?.role === "OWNER";
   const [isEditing, setIsEditing] = useState(false);
   const [editedBody, setEditedBody] = useState(review.body);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -137,26 +139,51 @@ export default function ReviewContent({ review }: { review: Review }) {
   }, [review.id]);
 
   useEffect(() => {
-    const incrementViews = async () => {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+    const fetchViews = async () => {
+      const viewKey = `review_view_${review.id}`;
+      const lastViewed = localStorage.getItem(viewKey);
+      const today = new Date().toISOString().split("T")[0];
+
+      const shouldIncrement = lastViewed !== today;
+
+      const query = shouldIncrement
+        ? `
+        mutation {
+          incrementReviewViews(id: "${review.id}") {
+            id
+            views
+          }
+        }`
+        : `
+        query {
+          review(id: "${review.id}") {
+            id
+            views
+          }
+        }`;
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
         },
-        body: JSON.stringify({
-          query: `
-          mutation {
-            incrementReviewViews(id: "${review.id}") {
-              id
-            }
-          }
-        `,
-        }),
+        body: JSON.stringify({ query }),
       });
+
+      const json = await res.json();
+      const data = shouldIncrement
+        ? json.data.incrementReviewViews
+        : json.data.review;
+
+      if (shouldIncrement) {
+        localStorage.setItem(viewKey, today);
+      }
+
+      setViews(data.views);
     };
 
-    incrementViews();
+    fetchViews();
   }, [review.id]);
 
   const handleEdit = () => {
@@ -207,7 +234,7 @@ export default function ReviewContent({ review }: { review: Review }) {
       </div>
       <div className={styles.header}>
         <div className={styles.meta}>
-          {isPrivileged && (
+          {(canEdit || canDelete) && (
             <div className={styles.actionsWrapper}>
               <button
                 className={styles.dotsBtn}
@@ -218,12 +245,16 @@ export default function ReviewContent({ review }: { review: Review }) {
 
               {showMenu && (
                 <div id="review-dropdown" className={styles.dropdown}>
-                  <button onClick={handleEdit}>
-                    <Pencil /> Редагувати
-                  </button>
-                  <button onClick={() => setShowConfirmModal(true)}>
-                    <Trash /> Видалити
-                  </button>
+                  {canEdit && (
+                    <button onClick={handleEdit}>
+                      <Pencil /> Редагувати
+                    </button>
+                  )}
+                  {canDelete && (
+                    <button onClick={() => setShowConfirmModal(true)}>
+                      <Trash /> Видалити
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -243,6 +274,7 @@ export default function ReviewContent({ review }: { review: Review }) {
               </Link>
             </p>
             <p className={styles.date}>
+              |{" "}
               {formatDistanceToNow(new Date(review.createdAt), {
                 addSuffix: true,
                 locale: dateLocale,
@@ -306,11 +338,11 @@ export default function ReviewContent({ review }: { review: Review }) {
         ) : (
           <p>{review.body}</p>
         )}
-        {rating > 0 && <Rating readOnly={true} value={review.rating / 2} />}
+        {<Rating readOnly={true} value={review.rating / 2} />}
         <div className={styles.footer}>
           <div className={styles.tags}>
             <Tag type="views" value={views} />
-            <Tag type="likes" value={rating} />
+            <Tag type="likes" value={ratingString} />
             <Tag type="comments" value={commentsCount} />
           </div>
           <div className={styles.rate}>

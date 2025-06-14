@@ -127,8 +127,8 @@ export default function ProfileReviews({ user, sortBy, sortOrder }: Props) {
                 title={r.name}
                 body={r.body}
                 rating={r.rating / 2}
+                likes={`${r.score?.likes.toString()}/${r.score?.dislikes.toString()}`}
                 views={r.views}
-                likes={(r.score?.likes - r.score?.dislikes).toString()}
                 coverUrl={coverUrl}
               />
             </div>

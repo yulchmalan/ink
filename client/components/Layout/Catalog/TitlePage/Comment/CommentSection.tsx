@@ -24,6 +24,7 @@ type CommentType = {
     username: string;
   };
   subject_ID: string;
+  subjectType: "TITLE" | "REVIEW" | "COLLECTION";
   parent_ID?: string;
 };
 
@@ -49,15 +50,14 @@ export default function CommentsSection({ subjectId, subjectType }: Props) {
         },
         body: JSON.stringify({
           query: GET_COMMENTS_BY_TITLE,
-          variables: { subjectId: subjectId },
+          variables: { subjectId },
         }),
         cache: "no-store",
       });
 
       const json = await res.json();
       const fetched = json.data?.comments?.results || [];
-      const topLevel = fetched.filter((c: any) => !c.parent_ID);
-      setComments(topLevel);
+      setComments(fetched); // всі коментарі, не фільтруй!
     } catch (err) {
       console.error("Error fetching comments:", err);
     }
@@ -84,7 +84,7 @@ export default function CommentsSection({ subjectId, subjectType }: Props) {
             input: {
               userId: currentUserId,
               subjectId,
-              subjectType, // нове поле
+              subjectType,
               body: newComment.trim(),
             },
           },
@@ -103,6 +103,8 @@ export default function CommentsSection({ subjectId, subjectType }: Props) {
       setIsSending(false);
     }
   };
+
+  const topLevelComments = comments.filter((c) => !c.parent_ID);
 
   return (
     <div className={styles.commentSection}>
@@ -123,11 +125,12 @@ export default function CommentsSection({ subjectId, subjectType }: Props) {
         </div>
       )}
 
-      {comments.length === 0 ? (
+      {topLevelComments.length === 0 ? (
         <p>Немає коментарів</p>
       ) : (
-        comments.map((comment) => (
+        topLevelComments.map((comment) => (
           <Comment
+            subjectType={subjectType}
             key={comment.id}
             subjectId={subjectId}
             comment={comment}

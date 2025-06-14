@@ -118,3 +118,9 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+}

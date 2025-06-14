@@ -181,7 +181,7 @@ export default function ReviewSection({ titleId }: Props) {
                 body={r.body}
                 views={r.views}
                 rating={r.rating / 2}
-                likes={r.score?.likes.toString()}
+                likes={`${r.score?.likes.toString()}/${r.score?.dislikes.toString()}`}
                 coverUrl={coverUrl}
               />
             </div>

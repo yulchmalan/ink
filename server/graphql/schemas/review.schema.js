@@ -64,6 +64,7 @@ export const reviewTypeDefs = `#graphql
       sortOrder: SortOrder = DESC
       limit: Int = 10
       offset: Int = 0
+      search: String
     ): PaginatedReviews!
 
     review(id: ObjectID!): Review

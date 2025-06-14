@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import CollectionCard from "@/components/UI/Cards/CollectionCard/CollectionCard";
 import { User } from "@/types/user";
 import styles from "./profile-collections.module.scss";
+import Link from "next/link";
 
 interface Collection {
   id: string;
@@ -140,16 +141,21 @@ export default function ProfileCollections({ user, sortBy, sortOrder }: Props) {
     <div className={styles.wrapper}>
       {collections.length === 0 && !isLoading && <p>Немає колекцій</p>}
       {collections.map((collection) => (
-        <CollectionCard
+        <Link
           key={collection.id}
-          title={collection.name}
-          views={collection.views}
-          itemsCount={collection.titles.length}
-          bookmarks={0}
-          likes={collection.score.likes ?? 0}
-          dislikes={collection.score.dislikes ?? 0}
-          titleIds={collection.titles.map((t) => t.id)}
-        />
+          href={`/collection/${collection.id}`}
+          className={styles.cardLink}
+        >
+          <CollectionCard
+            title={collection.name}
+            views={collection.views}
+            itemsCount={collection.titles.length}
+            bookmarks={0}
+            likes={collection.score.likes ?? 0}
+            dislikes={collection.score.dislikes ?? 0}
+            titleIds={collection.titles.map((t) => t.id)}
+          />
+        </Link>
       ))}
       {hasMore && <div ref={loaderRef} style={{ height: 40 }} />}
     </div>

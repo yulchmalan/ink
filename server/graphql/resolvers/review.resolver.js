@@ -15,11 +15,14 @@ export const reviewResolvers = {
         sortOrder = "DESC",
         limit = 10,
         offset = 0,
+        search,
       }
     ) {
       try {
         const query = {};
-
+        if (search) {
+          query.name = { $regex: search, $options: "i" };
+        }
         if (filter.userId) query.user_ID = filter.userId;
         if (filter.titleId) query.title_ID = filter.titleId;
         if (filter.minRating !== undefined)
