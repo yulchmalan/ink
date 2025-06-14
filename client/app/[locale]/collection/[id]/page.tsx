@@ -26,7 +26,8 @@ const GET_COLLECTION = `
   }
 `;
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: any) {
+  const { id } = await params;
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",
     headers: {
@@ -35,7 +36,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     },
     body: JSON.stringify({
       query: GET_COLLECTION,
-      variables: { id: params.id },
+      variables: { id: id },
     }),
     cache: "no-store",
   });
