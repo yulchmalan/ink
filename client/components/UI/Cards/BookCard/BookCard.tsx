@@ -24,7 +24,6 @@ export default function BookCard({
 }: BookCardProps) {
   const localizedTitle = useLocalizedName(title, alt_names);
   const coverUrl = useS3Image("covers", coverId, fallbackCover.src);
-  console.log("altNames", alt_names);
   return (
     <a href={href} className={clsx(styles.card, styles[size])}>
       <div className={styles.coverContainer}>

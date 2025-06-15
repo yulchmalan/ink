@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Trash from "@/assets/icons/Trash";
 import Bookmark from "@/assets/icons/Bookmark";
 import Eye from "@/assets/icons/Eye";
+import Heart from "@/assets/icons/Heart";
 
 export interface UpdateCardProps {
   title: string;
@@ -12,7 +13,7 @@ export interface UpdateCardProps {
   coverUrl: string;
   href: string;
   className?: string;
-  views: number;
+  rating: number | null;
   saves: number;
 }
 
@@ -22,7 +23,7 @@ export default function UpdateCard({
   href,
   desc,
   className,
-  views,
+  rating,
   saves,
 }: UpdateCardProps) {
   const formatCount = (num: number) => {
@@ -42,12 +43,12 @@ export default function UpdateCard({
         </div>
         <div className={styles.bottomInfo}>
           <div>
-            <Eye />
-            <p>{formatCount(views)}</p>
+            <Heart />
+            <p>{rating !== null ? rating.toFixed(1) : "—"}</p>
           </div>
           <div>
             <Bookmark />
-            <p>{formatCount(saves)}</p>
+            <p>{saves}</p>
           </div>
         </div>
       </div>

@@ -1,12 +1,16 @@
+"use client";
+
+import { useS3Image } from "@/hooks/useS3Image";
 import Cross from "@/assets/icons/Cross";
+import Trash from "@/assets/icons/Trash";
 import ProgressBar from "../../ProgressBar/ProgressBar";
 import styles from "./progress-card.module.scss";
 import clsx from "clsx";
-import Trash from "@/assets/icons/Trash";
+import fallbackCover from "@/assets/cover.png";
 
 export interface ProgressCardProps {
   title: string;
-  coverUrl: string;
+  coverId: string;
   href: string;
   value: number;
   max?: number;
@@ -16,13 +20,15 @@ export interface ProgressCardProps {
 
 export default function ProgressCard({
   title,
-  coverUrl,
+  coverId,
   href,
   value,
   max,
   onDelete,
   className,
 }: ProgressCardProps) {
+  const coverUrl = useS3Image("covers", coverId, fallbackCover.src);
+
   return (
     <div className={clsx(styles.card, className)}>
       <a href={href}>

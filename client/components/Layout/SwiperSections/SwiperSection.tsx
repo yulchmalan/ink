@@ -14,7 +14,6 @@ import BookCard, {
   BookCardProps,
 } from "@/components/UI/Cards/BookCard/BookCard";
 import Wrapper from "../Wrapper/Wrapper";
-import ArrowBtn from "../../UI/Buttons/ArrowBtn/ArrowBtn";
 import Heading from "../../UI/Heading/Heading";
 import ChevronLeft from "@/assets/icons/ChevronLeft";
 import ChevronRight from "@/assets/icons/ChevronRight";
@@ -71,9 +70,6 @@ export default function BookSwiper({
     <Wrapper className={clsx(styles.wrapper, "wrapper")}>
       <div className={styles.heading}>
         <Heading>{heading}</Heading>
-        {isLarge && (
-          <ArrowBtn href={`/catalogue/${dataName}`}>{t("showMore")}</ArrowBtn>
-        )}
       </div>
 
       <div className={styles.swiperWrapper}>

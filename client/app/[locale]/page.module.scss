@@ -9,10 +9,9 @@
 
 .recentWrapper {
     > div {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        align-items: stretch;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 16px;
         .progCard {
             display: none;
             &:nth-child(1),
@@ -21,10 +20,6 @@
             }
         }
     }
-}
-
-.recent {
-    min-height: 100%;
 }
 
 .section {
@@ -40,7 +35,6 @@
   gap: 16px;
   a {
     min-width: 200px;
-    max-width: 500px;
     height: 100%;
     > div {
         height: 100%;
@@ -54,18 +48,6 @@
             display: flex;
         }
     }
-}
-
-@media (min-width: 690px) {
-    .recentWrapper {
-        > div {
-            flex-direction: row;
-        }
-    }
-}
-
-@media (min-width: 1024px) {
-   
 }
 
 @media (min-width: 1150px) {

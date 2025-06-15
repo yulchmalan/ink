@@ -7,5 +7,5 @@ export const booksData: Record<
   () => Promise<BookCardProps[]>
 > = {
   popularBooks,
-  // recommendedBooks,
+  recommendedBooks,
 };

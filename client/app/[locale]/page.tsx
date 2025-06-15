@@ -1,11 +1,7 @@
 import Container from "@/components/Layout/Container/Container";
-import LanguageSwitcher from "@/components/UI/LanguageSwitcher/LanguageSwitcher";
-import ThemeToggle from "@/components/UI/ThemeToggle/ThemeToggle";
 import { getTranslations, getLocale } from "next-intl/server";
 import SwiperSection from "@/components/Layout/SwiperSections/SwiperSection";
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
-import ProgressCard from "@/components/UI/Cards/ProgressCard/ProgressCard";
-import cover from "../../assets/cover.png";
 import styles from "./page.module.scss";
 import Heading from "@/components/UI/Heading/Heading";
 import IndexGrid from "@/components/Layout/Grid/IndexGrid";
@@ -13,9 +9,8 @@ import IndexTabs from "@/components/Layout/Tabs/IndexTabs";
 import CollectionCard from "@/components/UI/Cards/CollectionCard/CollectionCard";
 import ReviewCard from "@/components/UI/Cards/ReviewCard/ReviewCard";
 import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
-import { popularBooks } from "@/data/popularBooks";
-import Recommendations from "@/components/LogicComponents/Recommendations/Recommendations";
 import Link from "next/link";
+import RecommendedAndContinue from "@/components/Layout/RecommendedAndContinue/RecommendedAndContinue";
 
 export async function generateMetadata() {
   const locale = await getLocale();
@@ -126,62 +121,9 @@ export default async function Home() {
   const reviews: Review[] =
     (await reviewRes.json()).data?.reviews?.results || [];
 
-  const reviewBody =
-    "Головна проблема – сюжет, що балансує між штучною напруженістю і повною передбачуваністю. Автор намагається створити атмосферу параної та екзистенційного жаху блаблабалаба блаблабалаба блаблабалабаблаблабалаба блаблабалаба";
   return (
     <>
-      {/* <LanguageSwitcher></LanguageSwitcher> */}
-      {/* <ThemeToggle></ThemeToggle> */}
-      <Container>
-        <SwiperSection
-          heading={t("Popular")}
-          dataName="popularBooks"
-          size="large"
-        />
-      </Container>
-      <Recommendations></Recommendations>
-      {/* <Container>
-        <SwiperSection
-          heading={t("BasedOnRead")}
-          dataName="recommendedBooks"
-        ></SwiperSection>
-      </Container> */}
-      <Container>
-        <Wrapper className={styles.recentWrapper}>
-          <Heading className={styles.pdBottom12}>{t("Continue")}</Heading>
-          <div>
-            <ProgressCard
-              value={5}
-              title="blabla"
-              href="/titles/:id"
-              coverUrl={cover.src}
-              className={styles.progCard}
-            ></ProgressCard>
-            <ProgressCard
-              value={50}
-              title="blabla"
-              href="/titles/:id"
-              coverUrl={cover.src}
-              className={styles.progCard}
-              max={150}
-            ></ProgressCard>
-            <ProgressCard
-              value={5}
-              title="blabla"
-              href="/titles/:id"
-              coverUrl={cover.src}
-              className={styles.progCard}
-            ></ProgressCard>
-            <ProgressCard
-              value={5}
-              title="blabla"
-              href="/titles/:id"
-              coverUrl={cover.src}
-              className={styles.progCard}
-            ></ProgressCard>
-          </div>
-        </Wrapper>
-      </Container>
+      <RecommendedAndContinue />
       <Container>
         <IndexGrid
           sidebar={

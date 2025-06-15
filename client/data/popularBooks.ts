@@ -4,7 +4,7 @@ export const popularBooks = async (): Promise<BookCardProps[]> => {
   const locale =
     typeof window !== "undefined"
       ? window.location.pathname.split("/")[1] || "uk"
-      : "uk"; // fallback на українську
+      : "uk"; 
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",

@@ -4,7 +4,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import styles from "./user-info.module.scss";
 import Tabs from "../../Tabs/Tabs";
 import Banner from "../Banner/Banner";
-import Info from "@/assets/icons/Info";
 import profileTabs from "@/components/Layout/Tabs/ProfileTabs";
 import Pfp from "../Pfp/Pfp";
 import Details from "../Details/Details";
