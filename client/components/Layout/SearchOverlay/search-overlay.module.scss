@@ -47,6 +47,7 @@
   text-decoration: none;
   color: inherit;
   transition: background 0.2s ease;
+  cursor: pointer;
 
   &:hover {
     background: var(--background);

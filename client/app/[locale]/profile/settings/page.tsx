@@ -8,6 +8,9 @@ import styles from "./settings.module.scss";
 import clsx from "clsx";
 import Container from "@/components/Layout/Container/Container";
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
+import fallbackPfp from "@/assets/pfp.svg";
+import fallbackBanner from "@/assets/banner.png";
+import { useS3Image } from "@/hooks/useS3Image";
 
 export default function ProfileSettingsPage() {
   const { user } = useAuth();
@@ -27,16 +30,23 @@ export default function ProfileSettingsPage() {
   const MIN_BANNER_WIDTH = 1200;
   const MIN_BANNER_HEIGHT = 400;
 
+  const resolvedAvatarUrl = useS3Image(
+    "avatars",
+    user?._id ?? "",
+    fallbackPfp.src
+  );
+  const resolvedBannerUrl = useS3Image(
+    "banners",
+    user?._id ?? "",
+    fallbackBanner.src
+  );
+
   useEffect(() => {
     if (user) {
       setUsername(user.username);
       setBio(user.bio || "");
-      setAvatarPreview(
-        `https://inkdyplom.s3.eu-central-1.amazonaws.com/avatars/${user._id}.webp`
-      );
-      setBannerPreview(
-        `https://inkdyplom.s3.eu-central-1.amazonaws.com/banners/${user._id}.webp`
-      );
+      setAvatarPreview(resolvedAvatarUrl);
+      setBannerPreview(resolvedBannerUrl);
     }
   }, [user]);
 

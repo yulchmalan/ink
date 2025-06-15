@@ -41,7 +41,12 @@ type Review = {
   title: { id: string; name: string };
 };
 
-export default function ReviewContent({ review }: { review: Review }) {
+export default function ReviewContent({
+  initialReview,
+}: {
+  initialReview: Review;
+}) {
+  const [review, setReview] = useState(initialReview);
   const { user: currentUser } = useAuth();
   const currentUserId = currentUser?._id;
   const locale = useLocale();
@@ -307,23 +312,40 @@ export default function ReviewContent({ review }: { review: Review }) {
               <Button
                 className={styles.saveButton}
                 onClick={async () => {
-                  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
-                    },
-                    body: JSON.stringify({
-                      query: `
-                mutation {
-                  updateReview(id: "${review.id}", body: """${editedBody}""") {
-                    id
+                  const res = await fetch(
+                    `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+                      },
+                      body: JSON.stringify({
+                        query: `
+                          mutation {
+                            editReview(
+                              id: "${review.id}"
+                              edits: { body: """${editedBody}""" }
+                            ) {
+                              id
+                              body
+                            }
+                          }
+                        `,
+                      }),
+                    }
+                  );
+
+                  const json = await res.json();
+                  const updated = json.data?.editReview;
+
+                  if (updated) {
+                    setReview((prev: Review) => ({
+                      ...prev,
+                      body: updated.body,
+                    }));
+                    setIsEditing(false);
                   }
-                }
-              `,
-                    }),
-                  });
-                  setIsEditing(false);
                 }}
               >
                 Зберегти

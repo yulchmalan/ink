@@ -54,7 +54,7 @@ export default async function Page({ params }: any) {
 
   return (
     <Container>
-      <ReviewContent review={review} />
+      <ReviewContent initialReview={review} />
     </Container>
   );
 }

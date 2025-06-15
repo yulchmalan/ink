@@ -1,12 +1,18 @@
-.pfp {
+.wrapper {
     display: block;
     height: 100px;
     width: 100px;
     border-radius: 20px;
 }
 
+.pfp {
+    min-width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 @media (min-width: 900px) {
-    .pfp {
+    .wrapper {
         height: 150px;
         width: 150px;
     }

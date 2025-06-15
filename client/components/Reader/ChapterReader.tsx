@@ -46,7 +46,15 @@ export default function ChapterReader({
         const res = await fetch(url);
         if (!res.ok) throw new Error(`Status ${res.status}`);
         const text = await res.text();
-        setHtml(text);
+
+        const formatHtml = (raw: string) => {
+          return raw
+            .split(/\n{2,}/)
+            .map((p) => `<p>${p.trim()}</p>`)
+            .join("\n");
+        };
+
+        setHtml(formatHtml(text));
       } catch (err) {
         console.warn("Розділ не знайдено:", err);
         setHtml(

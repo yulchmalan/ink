@@ -105,6 +105,7 @@ export default function SearchOverlayForCollection({
             {results.map((item: any) => (
               <li key={item.id}>
                 <SearchResultCard
+                  asLink={false}
                   id={item.id}
                   alt_names={item.alt_names}
                   name={item.name}

@@ -8,37 +8,38 @@ import { useS3Image } from "@/hooks/useS3Image";
 import clsx from "clsx";
 import { useLocalizedName } from "@/hooks/useLocalizedName";
 
-interface TitleCardProps {
+interface CommonProps {
+  onClick?: () => void;
+  asLink?: boolean;
+}
+
+interface TitleCardProps extends CommonProps {
   id: string;
   name: string;
   alt_names?: { lang: string; value: string }[];
   type: "title";
-  onClick?: () => void;
 }
 
-interface UserCardProps {
+interface UserCardProps extends CommonProps {
   id: string;
   username: string;
   type: "user";
-  onClick?: () => void;
 }
 
-interface CollectionCardProps {
+interface CollectionCardProps extends CommonProps {
   id: string;
   name: string;
   description?: string;
   type: "collection";
-  onClick?: () => void;
 }
 
-interface ReviewCardProps {
+interface ReviewCardProps extends CommonProps {
   id: string;
   name: string;
   titleId: string;
   body?: string;
   username?: string;
   type: "review";
-  onClick?: () => void;
 }
 
 type Props =
@@ -52,6 +53,7 @@ export default function SearchResultCard(props: Props) {
   const isUser = props.type === "user";
   const isReview = props.type === "review";
   const isCollection = props.type === "collection";
+  const asLink = props.asLink !== false;
 
   let href = "#";
   let displayName = "";
@@ -86,8 +88,8 @@ export default function SearchResultCard(props: Props) {
       break;
   }
 
-  return (
-    <Link href={href} className={styles.card} onClick={props.onClick}>
+  const content = (
+    <>
       {!isCollection && (
         <div
           className={clsx(
@@ -109,6 +111,16 @@ export default function SearchResultCard(props: Props) {
           <p className={styles.meta}>Автор: {props.username}</p>
         )}
       </div>
+    </>
+  );
+
+  return asLink ? (
+    <Link href={href} className={styles.card} onClick={props.onClick}>
+      {content}
     </Link>
+  ) : (
+    <div className={styles.card} onClick={props.onClick}>
+      {content}
+    </div>
   );
 }
