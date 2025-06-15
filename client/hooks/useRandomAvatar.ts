@@ -7,7 +7,8 @@ import avatar6 from "@/assets/avatars/avatar6.png";
 
 const avatars = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6];
 
-export const useRandomAvatar = () => {
-  const randomIndex = Math.floor(Math.random() * avatars.length);
-  return avatars[randomIndex];
+export const getDeterministicAvatar = (userId: string) => {
+  const hash = [...userId].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const index = hash % avatars.length;
+  return avatars[index];
 };

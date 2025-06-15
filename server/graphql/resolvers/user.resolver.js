@@ -133,7 +133,7 @@ export const userResolvers = {
 
           user.markModified("lists");
         }
-
+        user.updatedAt = new Date();
         await user.save();
         return user;
       } catch (error) {

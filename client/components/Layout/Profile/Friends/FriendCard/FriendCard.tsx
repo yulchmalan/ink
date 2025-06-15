@@ -3,11 +3,12 @@
 import styles from "./friend-card.module.scss";
 import Trash from "@/assets/icons/Trash";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
-import { useState } from "react";
-import { useRandomAvatar } from "@/hooks/useRandomAvatar";
+import { useMemo, useState } from "react";
+import { getDeterministicAvatar } from "@/hooks/useRandomAvatar";
 import { useAuth } from "@/contexts/AuthContext";
 import Check from "@/assets/icons/Check";
 import { useRouter } from "next/navigation";
+import { useS3Image } from "@/hooks/useS3Image";
 
 interface Props {
   user: {
@@ -23,10 +24,11 @@ interface Props {
 
 export default function FriendCard({ user, mode, status, isOwner }: Props) {
   const [showModal, setShowModal] = useState(false);
-  const fallbackAvatar = useRandomAvatar();
-  const [imgSrc, setImgSrc] = useState(
-    `https://${process.env.NEXT_PUBLIC_S3_BUCKET}.s3.${process.env.NEXT_PUBLIC_S3_REGION}.amazonaws.com/avatars/${user._id}.jpg`
+  const fallbackAvatar = useMemo(
+    () => getDeterministicAvatar(user._id),
+    [user._id]
   );
+  const imgSrc = useS3Image("avatars", user._id, fallbackAvatar.src);
 
   const isOnline =
     !!user.last_online &&
@@ -123,11 +125,7 @@ export default function FriendCard({ user, mode, status, isOwner }: Props) {
       <div className={styles.card}>
         <div className={styles.avatarWrapper}>
           <div className={styles.avatar} onClick={handleGoToProfile}>
-            <img
-              src={imgSrc}
-              alt="Аватар"
-              onError={() => setImgSrc(fallbackAvatar.src)}
-            />
+            <img src={imgSrc} alt="Аватар" />
           </div>
           <span
             className={`${styles.statusDot} ${

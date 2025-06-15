@@ -1,0 +1,86 @@
+.container {
+    display: flex;
+    flex-direction: column; 
+    gap: 32px;
+}
+
+.imageRow {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.dropzone {
+  flex: 1;
+  border: 3px dashed var(--border);
+  min-width: 140px;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+
+  input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+
+.preview {
+    flex-shrink: 0;
+    width: 200px;
+    max-height: 200px;
+    border-radius: 6px;
+    img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border: 1px solid var(--border-color);
+    }
+    }
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+
+.success {
+  margin-top: 1rem;
+  color: green; // або просто зелений
+  font-weight: 600;
+}
+
+.label {
+  font-size: calc(var(--font-size) + 4px);
+  font-weight: 600;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: var(--font-size);
+  font-family: var(--font-family);
+  resize: vertical;
+}
+
+.bannerPreview {
+    width: 500px;
+    height: 300px;
+    overflow: hidden;
+}

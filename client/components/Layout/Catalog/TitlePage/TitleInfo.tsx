@@ -21,6 +21,7 @@ import Rating from "@/components/UI/Rating/Rating";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import ReviewSection from "./Review/ReviewSection";
+import CollectionSection from "./Collection/CollectionSection";
 
 const TRANSLATION_LABELS: Record<string, string> = {
   TRANSLATED: "Перекладено",
@@ -321,6 +322,10 @@ export default function TitleInfo({ title }: Props) {
     {
       title: "Рецензії",
       content: <ReviewSection titleId={title.id} />,
+    },
+    {
+      title: "Колекції",
+      content: <CollectionSection titleId={title.id} />,
     },
   ];
 

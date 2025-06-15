@@ -57,7 +57,7 @@ export default function CommentsSection({ subjectId, subjectType }: Props) {
 
       const json = await res.json();
       const fetched = json.data?.comments?.results || [];
-      setComments(fetched); // всі коментарі, не фільтруй!
+      setComments(fetched);
     } catch (err) {
       console.error("Error fetching comments:", err);
     }
@@ -94,8 +94,30 @@ export default function CommentsSection({ subjectId, subjectType }: Props) {
       const json = await res.json();
       const created = json.data?.createComment;
       if (created) {
-        fetchComments();
         setNewComment("");
+        fetchComments();
+
+        // Нарахування досвіду
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            query: `
+            mutation {
+              addExpToUser(userId: "${currentUserId}", amount: 1) {
+                _id
+                exp
+              }
+            }
+          `,
+          }),
+        }).catch((err) =>
+          console.error("Не вдалося додати досвід за коментар:", err)
+        );
       }
     } catch (err) {
       console.error("Error sending comment:", err);

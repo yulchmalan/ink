@@ -149,6 +149,7 @@ export default function CollectionContent({ collection, isCreating }: Props) {
         headers: {
           "Content-Type": "application/json",
           "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           query: `
@@ -168,8 +169,34 @@ export default function CollectionContent({ collection, isCreating }: Props) {
 
       const json = await res.json();
       const newId = json.data?.createCollection?.id;
-      if (newId) router.push(`/collection/${newId}`);
+
+      if (newId) {
+        // +5 exp за створення колекції
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            query: `
+            mutation {
+              addExpToUser(userId: "${currentUserId}", amount: 5) {
+                _id
+                exp
+              }
+            }
+          `,
+          }),
+        }).catch((err) =>
+          console.error("Не вдалося додати досвід за створення колекції:", err)
+        );
+
+        router.push(`/collection/${newId}`);
+      }
     } else {
+      // редагування
       await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
         method: "POST",
         headers: {
@@ -183,7 +210,7 @@ export default function CollectionContent({ collection, isCreating }: Props) {
               id
             }
           }
-      `,
+        `,
           variables: {
             id: collection.id,
             edits: {
@@ -450,9 +477,13 @@ export default function CollectionContent({ collection, isCreating }: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
-                  setIsEditing(false);
-                  setEditedName(collection.name);
-                  setEditedDescription(collection.description || "");
+                  if (isCreating) {
+                    router.back();
+                  } else {
+                    setIsEditing(false);
+                    setEditedName(collection.name);
+                    setEditedDescription(collection.description || "");
+                  }
                 }}
               >
                 Скасувати
@@ -495,16 +526,18 @@ export default function CollectionContent({ collection, isCreating }: Props) {
             <Tag type="comments" value={commentsCount} />
           </div>
           <div className={styles.rate}>
-            <button
-              className={clsx(
-                styles.voteBtn,
-                styles.up,
-                vote === "upvoted" && styles.active
-              )}
-              onClick={() => handleVote("upvoted")}
-            >
-              <ChevronUp />
-            </button>
+            {currentUserId && (
+              <button
+                className={clsx(
+                  styles.voteBtn,
+                  styles.up,
+                  vote === "upvoted" && styles.active
+                )}
+                onClick={() => handleVote("upvoted")}
+              >
+                <ChevronUp />
+              </button>
+            )}
             <span
               className={clsx(
                 styles.rating,
@@ -514,16 +547,18 @@ export default function CollectionContent({ collection, isCreating }: Props) {
             >
               {rating}
             </span>
-            <button
-              className={clsx(
-                styles.voteBtn,
-                styles.down,
-                vote === "downvoted" && styles.active
-              )}
-              onClick={() => handleVote("downvoted")}
-            >
-              <ChevronDown />
-            </button>
+            {currentUserId && (
+              <button
+                className={clsx(
+                  styles.voteBtn,
+                  styles.down,
+                  vote === "downvoted" && styles.active
+                )}
+                onClick={() => handleVote("downvoted")}
+              >
+                <ChevronDown />
+              </button>
+            )}
           </div>
         </div>
       </Wrapper>

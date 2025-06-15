@@ -7,7 +7,6 @@ import React, { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
 import SimpleIconBtn from "@/components/UI/Buttons/SimpleIcon/SimpleIconBtn";
-import PlusCircle from "@/assets/icons/PlusCircle";
 import Log from "@/assets/icons/Log";
 import Search from "@/assets/icons/Search";
 import Bell from "@/assets/icons/Bell";
@@ -165,8 +164,16 @@ export default function Navbar() {
                   )}
                 </li>
 
-                {isLoggedIn && (
-                  <li>
+                {isLoggedIn && user && (
+                  <li
+                    onClick={() => {
+                      startTransition(() => {
+                        router.push("/profile/settings");
+                      });
+                      setIsSettingsOpen(false);
+                      setIsNavActive(false);
+                    }}
+                  >
                     <Settings />
                     Налаштування
                   </li>

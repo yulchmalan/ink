@@ -27,6 +27,9 @@ export const collectionResolvers = {
       if (filter.name) {
         query.name = { $regex: filter.name, $options: "i" };
       }
+      if (filter.titleId) {
+        query.titles = { $in: [new Types.ObjectId(filter.titleId)] };
+      }
 
       const sortDirection = sortOrder === "ASC" ? 1 : -1;
 

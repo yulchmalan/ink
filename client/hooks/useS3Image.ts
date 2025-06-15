@@ -5,7 +5,7 @@ const SUPPORTED_EXTENSIONS = ["webp"];
 export const useS3Image = (
   folder: "covers" | "banners" | "avatars",
   id: string,
-  fallback: string
+  fallback: string,
 ) => {
   const [url, setUrl] = useState<string | null>(null); 
 

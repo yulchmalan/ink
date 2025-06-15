@@ -13,6 +13,7 @@ type User = {
   _id: string;
   username: string;
   email: string;
+  bio?: string;
   role: "USER" | "MODERATOR" | "ADMIN" | "OWNER";
 };
 
@@ -78,6 +79,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 email
                 role
                 last_online
+                bio
               }
             }
           `,
@@ -95,7 +97,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const last = new Date(userData.last_online || 0).toDateString();
         const today = new Date().toDateString();
 
-        // 🔁 Якщо юзер не заходив сьогодні — даємо +3 exp
         if (last !== today) {
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
             method: "POST",
@@ -115,11 +116,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         `,
             }),
           }).catch((err) =>
-            console.error("❌ Не вдалося додати досвід за щоденний вхід:", err)
+            console.error("Не вдалося додати досвід за щоденний вхід:", err)
           );
         }
 
-        // 🔁 Завжди оновлюємо last_online
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
           method: "POST",
           headers: {
@@ -139,7 +139,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       `,
           }),
         }).catch((err) =>
-          console.error("❌ Не вдалося оновити last_online:", err)
+          console.error("Не вдалося оновити last_online:", err)
         );
       } else {
         logout();

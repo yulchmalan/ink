@@ -49,12 +49,14 @@ export default function ReviewSection({ titleId }: Props) {
   const handleCreate = async () => {
     if (!currentUser?._id || !name.trim() || !body.trim()) return;
     setIsSending(true);
+
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           query: CREATE_REVIEW,
@@ -69,10 +71,38 @@ export default function ReviewSection({ titleId }: Props) {
           },
         }),
       });
-      setName("");
-      setBody("");
-      setRating(0);
-      fetchReviews();
+
+      const json = await res.json();
+      const created = json.data?.createReview;
+
+      if (created) {
+        // нарахування 5 exp
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            query: `
+            mutation {
+              addExpToUser(userId: "${currentUser._id}", amount: 5) {
+                _id
+                exp
+              }
+            }
+          `,
+          }),
+        }).catch((err) =>
+          console.error("Не вдалося додати досвід за рецензію:", err)
+        );
+
+        setName("");
+        setBody("");
+        setRating(0);
+        fetchReviews();
+      }
     } catch (err) {
       console.error("Error creating review:", err);
     } finally {

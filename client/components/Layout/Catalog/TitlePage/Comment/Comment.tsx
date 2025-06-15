@@ -330,16 +330,20 @@ export default function Comment({
             )}
 
             <div className={styles.footer}>
-              <button
-                className={clsx(
-                  styles.voteBtn,
-                  styles.up,
-                  vote === "upvoted" && styles.active
-                )}
-                onClick={() => handleVote("upvoted")}
-              >
-                <ChevronUp />
-              </button>
+              {currentUserId && (
+                <>
+                  <button
+                    className={clsx(
+                      styles.voteBtn,
+                      styles.up,
+                      vote === "upvoted" && styles.active
+                    )}
+                    onClick={() => handleVote("upvoted")}
+                  >
+                    <ChevronUp />
+                  </button>
+                </>
+              )}
               <span
                 className={clsx(
                   styles.rating,
@@ -349,16 +353,20 @@ export default function Comment({
               >
                 {rating}
               </span>
-              <button
-                className={clsx(
-                  styles.voteBtn,
-                  styles.down,
-                  vote === "downvoted" && styles.active
-                )}
-                onClick={() => handleVote("downvoted")}
-              >
-                <ChevronDown />
-              </button>
+              {currentUserId && (
+                <>
+                  <button
+                    className={clsx(
+                      styles.voteBtn,
+                      styles.down,
+                      vote === "downvoted" && styles.active
+                    )}
+                    onClick={() => handleVote("downvoted")}
+                  >
+                    <ChevronDown />
+                  </button>
+                </>
+              )}
             </div>
 
             {showReplyInput && (
