@@ -73,15 +73,6 @@ export default function Comment({
           <p className={styles.message}>{message}</p>
 
           <div className={styles.footer}>
-            <button
-              className={styles.reportBtn}
-              onClick={() => setReported(true)}
-              disabled={reported}
-              title="Поскаржитись на коментар"
-            >
-              <Flag />
-            </button>
-
             <span
               className={clsx(styles.rating, {
                 [styles.positive]: rating >= 0,

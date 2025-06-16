@@ -35,7 +35,7 @@ export default function ProfileCollections({ user, sortBy, sortOrder }: Props) {
     if (isLoading || !hasMore) return;
     setIsLoading(true);
 
-    const graphqlSortBy = sortBy === "rating" ? "RATING" : "CREATED_AT";
+    const graphqlSortBy = sortBy;
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {

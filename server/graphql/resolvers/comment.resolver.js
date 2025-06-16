@@ -73,6 +73,7 @@ export const commentResolvers = {
                 score: 1,
                 subject_ID: 1,
                 user_ID: 1,
+                subjectType: 1,
               },
             },
           ]);

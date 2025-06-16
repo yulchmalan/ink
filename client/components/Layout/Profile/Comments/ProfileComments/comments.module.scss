@@ -1,0 +1,33 @@
+@use '@/styles/variables' as *;
+
+.button {
+    padding: 4px;
+    font-size: var(--font-size);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all linear .3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 4px;
+    color: $white;
+    background-color: $primary;
+    border: none;
+    svg {
+        height: 24px;
+    }
+}
+
+.pageInfo {
+    font-size: calc(var(--font-size) * 0.9);
+    font-weight: 600;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 24px;
+}

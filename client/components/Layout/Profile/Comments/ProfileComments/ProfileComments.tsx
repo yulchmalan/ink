@@ -1,15 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Comment from "../Comment";
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
 import type { User } from "@/types/user";
 import type { CommentType } from "@/types/comment";
 import Link from "next/link";
+import Button from "@/components/UI/Buttons/StandartButton/Button";
+import ChevronLeft from "@/assets/icons/ChevronLeft";
+import ChevronRight from "@/assets/icons/ChevronRight";
+import styles from "./comments.module.scss";
 
 interface Props {
   user: User;
-  sortBy: string; // "date" | "rating"
+  sortBy: string;
   sortOrder: "asc" | "desc";
 }
 
@@ -18,15 +22,13 @@ const BATCH_SIZE = 5;
 export default function ProfileComments({ user, sortBy, sortOrder }: Props) {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const loaderRef = useRef<HTMLDivElement | null>(null);
 
   const fetchComments = async (pageToFetch: number) => {
-    if (isLoading || !hasMore) return;
     setIsLoading(true);
 
-    const graphqlSortBy = sortBy === "rating" ? "RATING" : "CREATED_AT";
+    const graphqlSortBy = sortBy;
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
       method: "POST",
@@ -90,48 +92,21 @@ export default function ProfileComments({ user, sortBy, sortOrder }: Props) {
     const results: CommentType[] = json.data?.comments?.results ?? [];
     const total: number = json.data?.comments?.total ?? 0;
 
-    setComments((prev) => {
-      const merged = [...prev, ...results];
-      const unique = Array.from(new Map(merged.map((c) => [c.id, c])).values());
-      return unique;
-    });
-
-    if ((pageToFetch + 1) * BATCH_SIZE >= total) {
-      setHasMore(false);
-    }
-
+    setComments(results);
+    setTotalPages(Math.ceil(total / BATCH_SIZE));
     setIsLoading(false);
   };
 
   useEffect(() => {
-    setComments([]);
     setPage(0);
-    setHasMore(true);
-    fetchComments(0);
   }, [sortBy, sortOrder, user._id]);
 
   useEffect(() => {
-    if (page === 0) return;
     fetchComments(page);
-  }, [page]);
+  }, [page, sortBy, sortOrder, user._id]);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && hasMore && !isLoading) {
-          setPage((prev) => prev + 1);
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    const target = loaderRef.current;
-    if (target) observer.observe(target);
-
-    return () => {
-      if (target) observer.unobserve(target);
-    };
-  }, [hasMore, isLoading]);
+  const handlePrev = () => setPage((p) => Math.max(p - 1, 0));
+  const handleNext = () => setPage((p) => Math.min(p + 1, totalPages - 1));
 
   return (
     <Wrapper>
@@ -148,8 +123,6 @@ export default function ProfileComments({ user, sortBy, sortOrder }: Props) {
           case "COLLECTION":
             href = `/collection/${c.subject_ID}`;
             break;
-          default:
-            href = "#";
         }
 
         return (
@@ -166,7 +139,28 @@ export default function ProfileComments({ user, sortBy, sortOrder }: Props) {
           </Link>
         );
       })}
-      {hasMore && <div ref={loaderRef} style={{ height: 40 }} />}
+
+      {totalPages > 1 && (
+        <div className={styles.pagination}>
+          <button
+            onClick={handlePrev}
+            disabled={page === 0}
+            className={styles.button}
+          >
+            <ChevronLeft />
+          </button>
+          <span className={styles.pageInfo}>
+            {page + 1} / {totalPages}
+          </span>
+          <button
+            onClick={handleNext}
+            disabled={page + 1 >= totalPages}
+            className={styles.button}
+          >
+            <ChevronRight />
+          </button>
+        </div>
+      )}
     </Wrapper>
   );
 }

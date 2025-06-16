@@ -25,7 +25,7 @@ export default function ProfileReviews({ user, sortBy, sortOrder }: Props) {
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
-  const graphqlSortBy = sortBy === "rating" ? "RATING" : "CREATED_AT";
+  const graphqlSortBy = sortBy.toUpperCase();
 
   const fetchReviews = async () => {
     setIsLoading(true);

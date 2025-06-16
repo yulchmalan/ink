@@ -199,7 +199,9 @@ const profileTabs = (user: User) => {
         >
           <ProfileComments
             user={user}
-            sortBy={commentControls.sortBy}
+            sortBy={
+              commentControls.sortBy === "rating" ? "RATING" : "CREATED_AT"
+            }
             sortOrder={commentControls.sortOrder}
           />
         </TabGrid>
@@ -222,7 +224,9 @@ const profileTabs = (user: User) => {
         >
           <ProfileReviews
             user={user}
-            sortBy={reviewControls.sortBy}
+            sortBy={
+              reviewControls.sortBy === "rating" ? "RATING" : "CREATED_AT"
+            }
             sortOrder={reviewControls.sortOrder}
           />
         </TabGrid>
