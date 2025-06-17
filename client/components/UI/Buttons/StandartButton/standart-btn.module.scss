@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  user-select: none;
   gap: 4px;
   svg {
     height: 24px;
@@ -41,10 +42,10 @@
   border: 1px solid $primary;
   background-color: transparent;
   &:hover {
-    background-color: $primary-subtle;
+    background-color: var(--tag-bg);
   }
   &:focus-visible {
-    background-color: $primary-subtle;
+    background-color: var(--tag-bg);
   }
   &:active {
     background-color: $primary-light;
@@ -52,7 +53,7 @@
   &:disabled {
     cursor: default;
     border: $primary-font 1px solid;
-    background-color: rgba($color: $primary-subtle, $alpha: .5);
+    background-color: rgba($color: $primary-subtle, $alpha: .4);
     cursor: not-allowed;
     color: $primary-font;
   }

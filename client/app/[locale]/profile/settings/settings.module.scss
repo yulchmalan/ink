@@ -76,6 +76,8 @@
 }
 
 .textarea {
+  background-color: transparent;
+  color: var(--font);
   width: 100%;
   min-height: 100px;
   padding: 12px;
@@ -87,7 +89,8 @@
 }
 
 .bannerPreview {
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
     height: 300px;
     overflow: hidden;
 }
@@ -122,4 +125,10 @@
   display: flex;
   justify-content: space-between;
   gap: 6px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-direction: row-reverse;
 }

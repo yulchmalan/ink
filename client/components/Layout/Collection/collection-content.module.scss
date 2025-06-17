@@ -53,6 +53,7 @@
     justify-content: space-between;
     width: 100%;
     gap: 12px;
+
 }
 
 .header {
@@ -91,10 +92,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--font);
   svg {
     width: 24px;
     height: 24px;
-    stroke: var(--font);
+    color: var(--font);
   }
 }
 
@@ -111,8 +113,10 @@
   gap: 4px;
   z-index: 20;
 
+  color: var(--font);
   button {
     border-radius: 6px;
+    color: var(--font);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -168,7 +172,7 @@
   padding: 0.75rem;
   resize: none;
   font-family: inherit;
-  background: var(--bg);
+  background-color: transparent;
   color: var(--font);
   overflow: hidden;
   min-height: 2.5em;

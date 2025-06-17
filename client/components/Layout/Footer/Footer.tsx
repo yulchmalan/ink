@@ -101,13 +101,13 @@ export default function Footer() {
         <div className={styles.bottom}>
           <span>©2025 Ink, {t("rights")}</span>
           <div className={styles.links}>
-            <Link href="#" className={styles.link}>
+            <Link href="/terms" className={styles.link}>
               {t("terms")}
             </Link>
-            <Link href="#" className={styles.link}>
+            <Link href="/privacy-policy" className={styles.link}>
               {t("privacy")}
             </Link>
-            <Link href="#" className={styles.link}>
+            <Link href="/cookie-policy" className={styles.link}>
               {t("cookie")}
             </Link>
           </div>

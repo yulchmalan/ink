@@ -36,6 +36,7 @@ export default function RecommendedAndContinue() {
                   lists {
                     titles {
                       progress
+                      last_open
                     }
                   }
                 }
@@ -48,9 +49,11 @@ export default function RecommendedAndContinue() {
         const json = await res.json();
         const lists = json.data?.user?.lists || [];
 
-        const allTitles = lists.flatMap((l: any) => l.titles);
+        const allTitles = lists.flatMap((l: any) => l.titles || []);
 
-        const hasAnyProgress = allTitles.some((t: any) => t.progress != 0);
+        const hasAnyProgress = allTitles.some(
+          (t: any) => t.progress > 0 && t.last_open
+        );
         const hasAnySaved = allTitles.length > 0;
 
         setHasProgress(hasAnyProgress);

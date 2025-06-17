@@ -137,6 +137,7 @@
   position: absolute;
   top: 8px;
   right: 8px;
+  color: var(--font);
 }
 
 .menuBtn {
@@ -151,6 +152,7 @@
 
 .dropdown {
   position: absolute;
+  color: var(--font);
   top: 24px;
   right: 0;
   background: var(--surface);
@@ -160,6 +162,7 @@
 
   button {
     border-radius: 6px;
+  color: var(--font);
     display: flex;
     align-items: center;
     gap: 0.5rem;

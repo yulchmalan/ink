@@ -167,7 +167,7 @@ export default async function Home() {
                       titleId={r.title?.id}
                       body={r.body}
                       views={r.views}
-                      rating={r.rating}
+                      rating={r.rating / 2}
                       likes={`${r.score.likes}/${r.score.dislikes}`}
                     />
                   </Link>

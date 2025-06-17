@@ -171,7 +171,6 @@ export default function CollectionContent({ collection, isCreating }: Props) {
       const newId = json.data?.createCollection?.id;
 
       if (newId) {
-        // +5 exp за створення колекції
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
           method: "POST",
           headers: {

@@ -215,11 +215,11 @@ export default function ProfileSettingsPage() {
     const file = e.dataTransfer.files[0];
     if (!file) return;
 
-    const validTypes = ["image/png", "image/jpeg", "image/jpg"];
+    const validTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
     if (!validTypes.includes(file.type)) {
       setErrors((prev) => ({
         ...prev,
-        [type]: "Файл має бути .jpg, .jpeg або .png",
+        [type]: "Файл має бути .jpg, .jpeg, .png або .webp",
       }));
       return;
     }
@@ -325,7 +325,7 @@ export default function ProfileSettingsPage() {
               <p>Перетягни або натисни для вибору аватарки</p>
               <input
                 type="file"
-                accept="image/png,image/jpeg,image/jpg"
+                accept="image/png,image/jpeg,image/jpg,image/webp"
                 onChange={(e) => handleFileChange(e, "avatar")}
               />
             </div>
@@ -349,7 +349,7 @@ export default function ProfileSettingsPage() {
               <p>Перетягни або натисни для вибору банера</p>
               <input
                 type="file"
-                accept="image/png,image/jpeg,image/jpg"
+                accept="image/png,image/jpeg,image/jpg,image/webp"
                 onChange={(e) => handleFileChange(e, "banner")}
               />
             </div>
@@ -362,7 +362,7 @@ export default function ProfileSettingsPage() {
           </div>
           {errors.banner && <p className={styles.error}>{errors.banner}</p>}
         </Wrapper>
-        <Wrapper>
+        <Wrapper className={styles.actions}>
           <Button onClick={handleSave}>Зберегти</Button>
           <Button
             className={styles.deleteBtn}

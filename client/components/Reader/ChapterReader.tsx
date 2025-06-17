@@ -99,11 +99,11 @@ export default function ChapterReader({
           Повернутися
         </Button>
         <Button onClick={goToPrev} disabled={currentChapter === 1}>
-          <ChevronLeft /> Попередня
+          <ChevronLeft />
         </Button>
         <h1>Глава {currentChapter}</h1>
         <Button onClick={goToNext} disabled={currentChapter === totalChapters}>
-          Наступна <ChevronRight />
+          <ChevronRight />
         </Button>
       </div>
 
@@ -114,11 +114,11 @@ export default function ChapterReader({
 
       <div className={styles.nav}>
         <Button onClick={goToPrev} disabled={currentChapter === 1}>
-          <ChevronLeft /> Попередня
+          <ChevronLeft />
         </Button>
         <h1>Глава {currentChapter}</h1>
         <Button onClick={goToNext} disabled={currentChapter === totalChapters}>
-          Наступна <ChevronRight />
+          <ChevronRight />
         </Button>
       </div>
     </div>

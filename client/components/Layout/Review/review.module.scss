@@ -150,6 +150,7 @@
   right: 0;
   top: -10px;
   z-index: 10;
+  color: var(--font);
 }
 
 .dotsBtn {
@@ -160,14 +161,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--font);
   svg {
     width: 24px;
     height: 24px;
     stroke: var(--font);
+    color: var(--font);
   }
 }
 
 .dropdown {
+  color: var(--font);
   position: absolute;
   top: 100%;
   right: 0;
@@ -190,6 +194,7 @@
     border: none;
     width: 100%;
     cursor: pointer;
+  color: var(--font);
     &:hover {
       background: var(--background);
     }
