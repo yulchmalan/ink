@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "./not-found.module.scss";
+import styles from "@/app/not-found.module.scss";
 import { Metadata } from "next";
 import "@/styles/globals.scss";
 
