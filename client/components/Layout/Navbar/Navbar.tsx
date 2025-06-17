@@ -44,6 +44,38 @@ export default function Navbar() {
     }
   };
 
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    if (!user?._id) return;
+
+    const fetchUnread = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+        },
+        body: JSON.stringify({
+          query: `
+          query {
+            notifications(userId: "${user._id}") {
+              read
+            }
+          }
+        `,
+        }),
+      });
+
+      const json = await res.json();
+      const all = json.data?.notifications || [];
+      const unread = all.filter((n: { read: boolean }) => !n.read).length;
+      setUnreadCount(unread);
+    };
+
+    fetchUnread();
+  }, [user?._id]);
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
@@ -141,10 +173,12 @@ export default function Navbar() {
                     if (isLoggedIn && user) {
                       startTransition(() => {
                         router.push(`/profile/${user._id}`);
+                        toggleSettings();
                       });
                     } else {
                       startTransition(() => {
                         router.push("/register");
+                        toggleSettings();
                       });
                     }
                     setIsNavActive(false);
@@ -169,6 +203,7 @@ export default function Navbar() {
                     onClick={() => {
                       startTransition(() => {
                         router.push("/profile/settings");
+                        toggleSettings();
                       });
                       setIsSettingsOpen(false);
                       setIsNavActive(false);
@@ -176,6 +211,25 @@ export default function Navbar() {
                   >
                     <Settings />
                     Налаштування
+                  </li>
+                )}
+
+                {isLoggedIn && user && (
+                  <li
+                    onClick={() => {
+                      startTransition(() => {
+                        router.push("/profile/notifications");
+                        toggleSettings();
+                      });
+                      setIsSettingsOpen(false);
+                      setIsNavActive(false);
+                    }}
+                  >
+                    <Bell />
+                    {unreadCount > 0 && (
+                      <span className={styles.badge}>{unreadCount}</span>
+                    )}
+                    Сповіщення
                   </li>
                 )}
 
@@ -188,7 +242,13 @@ export default function Navbar() {
                 </li>
 
                 {isLoggedIn && (
-                  <li onClick={logout} className={styles.exit}>
+                  <li
+                    onClick={() => {
+                      logout();
+                      toggleSettings();
+                    }}
+                    className={styles.exit}
+                  >
                     <LogOut />
                     Вийти
                   </li>

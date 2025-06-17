@@ -65,11 +65,10 @@
     cursor: pointer;
     transition: background-color 0.15s ease, color 0.15s ease;
     &:not(.radio):not(.checkbox).active {
-        background: $primary-subtle;
+            background: var(--tag-bg);
         color: $primary;
         font-weight: 500;
     }
-
     &.radio {
         position: relative;
         padding-left: calc(var(--font-size) + 20px);
@@ -120,7 +119,7 @@
             }
         }
         &.active {
-            background: $primary-subtle;
+            background: var(--tag-bg);
             color: $primary;
             font-weight: 500;
         }

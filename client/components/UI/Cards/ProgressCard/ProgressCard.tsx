@@ -10,16 +10,18 @@ import fallbackCover from "@/assets/cover.png";
 
 export interface ProgressCardProps {
   title: string;
+  titleId: string;
   coverId: string;
   href: string;
   value: number;
   max?: number;
-  onDelete?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onDelete?: (titleId: string) => void;
   className?: string;
 }
 
 export default function ProgressCard({
   title,
+  titleId,
   coverId,
   href,
   value,
@@ -28,6 +30,38 @@ export default function ProgressCard({
   className,
 }: ProgressCardProps) {
   const coverUrl = useS3Image("covers", coverId, fallbackCover.src);
+
+  async function resetProgress(userId: string, titleId: string) {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+      },
+      body: JSON.stringify({
+        query: `
+        mutation resetProgress($userId: ObjectID!, $titleId: ObjectID!) {
+      updateUser(id: $userId, edits: {
+        lists: [
+          { name: "reading", titles: [{ title: $titleId, progress: 0 }] },
+          { name: "planned", titles: [{ title: $titleId, progress: 0 }] },
+          { name: "completed", titles: [{ title: $titleId, progress: 0 }] },
+          { name: "dropped", titles: [{ title: $titleId, progress: 0 }] },
+          { name: "favorite", titles: [{ title: $titleId, progress: 0 }] }
+        ]
+      }) {
+        _id
+      }
+    }
+      `,
+        variables: { userId, titleId },
+      }),
+    });
+
+    const { data } = await res.json();
+    return data?.updateUser;
+  }
 
   return (
     <div className={clsx(styles.card, className)}>
@@ -40,7 +74,7 @@ export default function ProgressCard({
           <ProgressBar type="chapter" value={value} max={max} />
         </div>
       </a>
-      <button className={styles.deleteBtn} onClick={onDelete}>
+      <button className={styles.deleteBtn} onClick={() => onDelete?.(titleId)}>
         <Cross className={styles.cross} />
         <Trash className={styles.trash} />
       </button>

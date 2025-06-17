@@ -62,7 +62,7 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
     ratingTo: undefined as number | undefined,
   });
 
-  const [sortBy, setSortBy] = useState("name");
+  const [sortBy, setSortBy] = useState("CREATED_AT");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   useEffect(() => {

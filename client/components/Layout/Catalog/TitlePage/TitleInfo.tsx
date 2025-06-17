@@ -338,7 +338,11 @@ export default function TitleInfo({ title }: Props) {
             id={title.id}
             name={title.name}
           />
-          <Button className={styles.primaryBtn} onClick={handleReadClick}>
+          <Button
+            className={styles.primaryBtn}
+            onClick={handleReadClick}
+            disabled={chapterCount === 0}
+          >
             {progress ? "Продовжити читання" : "Почати читати"}
           </Button>
           {currentUserId && (

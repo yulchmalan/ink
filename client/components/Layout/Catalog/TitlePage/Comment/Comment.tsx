@@ -69,6 +69,8 @@ export default function Comment({
   const rating = likes - dislikes;
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
   const [replies, setReplies] = useState<CommentProps["comment"][]>([]);
   useEffect(() => {
     fetchReplies();
@@ -103,6 +105,13 @@ export default function Comment({
       setVote("downvoted");
     else setVote("none");
   }, [currentUserId, score]);
+
+  useEffect(() => {
+    if (isEditing && textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [isEditing, editedText]);
 
   const fetchVote = async (mutation: string) => {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
@@ -303,6 +312,7 @@ export default function Comment({
             {isEditing ? (
               <div className={styles.editBox}>
                 <textarea
+                  ref={textareaRef}
                   value={editedText}
                   onChange={(e) => setEditedText(e.target.value)}
                   className={styles.editTextarea}

@@ -83,6 +83,7 @@ export const continueReading = async (): Promise<ProgressCardProps[]> => {
   return titles.map((t): ProgressCardProps => {
     const alt = t.title.alt_names?.find((n) => n.lang === locale)?.value;
     return {
+      titleId: t.title.id,
       title: alt || t.title.name,
       coverId: t.title.id,
       href: `/catalog/${t.title.id}`,
