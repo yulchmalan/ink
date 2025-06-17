@@ -2,7 +2,7 @@ import Container from "@/components/Layout/Container/Container";
 import styles from "./faq.module.scss";
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
 
-export const faqItems = [
+const faqItems = [
   {
     question: "Чим Ink відрізняється від інших платформ для читання?",
     answer: `Ink поєднує в собі найкраще від світу книг і коміксів. Ви можете не лише читати улюблені твори, а й:
