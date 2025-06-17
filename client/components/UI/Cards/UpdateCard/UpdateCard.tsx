@@ -44,7 +44,7 @@ export default function UpdateCard({
         <div className={styles.bottomInfo}>
           <div>
             <Heart />
-            <p>{rating !== null ? rating.toFixed(1) : "—"}</p>
+            <p>{rating !== null ? rating.toFixed(1) : "0"}</p>
           </div>
           <div>
             <Bookmark />

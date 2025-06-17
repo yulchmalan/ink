@@ -256,7 +256,13 @@ export default function Navbar() {
                 {!isLoggedIn && (
                   <li className={styles.listItemBtn}>
                     <Link href="/login" className={styles.fullWidth}>
-                      <Button className={styles.fullWidth}>
+                      <Button
+                        className={styles.fullWidth}
+                        onClick={() => {
+                          setIsNavActive(false);
+                          toggleSettings();
+                        }}
+                      >
                         {t("login")}
                         <Log />
                       </Button>
@@ -266,7 +272,14 @@ export default function Navbar() {
                 {!isLoggedIn && (
                   <li className={styles.listItemBtn}>
                     <Link href="/register" className={styles.fullWidth}>
-                      <Button variant="secondary" className={styles.fullWidth}>
+                      <Button
+                        variant="secondary"
+                        className={styles.fullWidth}
+                        onClick={() => {
+                          setIsNavActive(false);
+                          toggleSettings();
+                        }}
+                      >
                         {t("reg")}
                       </Button>
                     </Link>

@@ -91,3 +91,35 @@
     height: 300px;
     overflow: hidden;
 }
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalWindow {
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  max-width: 400px;
+  width: 100%;
+}
+
+.modalControl {
+  flex-grow: 1;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}

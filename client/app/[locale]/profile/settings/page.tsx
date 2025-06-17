@@ -26,6 +26,8 @@ export default function ProfileSettingsPage() {
     avatar?: string;
     banner?: string;
   }>({});
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const MIN_BANNER_WIDTH = 1200;
   const MIN_BANNER_HEIGHT = 400;
@@ -138,7 +140,7 @@ export default function ProfileSettingsPage() {
     }
 
     if (errors.avatar || errors.banner) {
-      return; // вже є помилки, зупиняємо
+      return;
     }
 
     setErrors(newErrors);
@@ -168,12 +170,41 @@ export default function ProfileSettingsPage() {
       }),
     });
 
-    // зупинити, якщо валідація не пройшла
     if (avatarFile && !errors.avatar) await upload(avatarFile, "avatars");
     if (bannerFile && !errors.banner) await upload(bannerFile, "banners");
 
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!user?._id) return;
+    setDeleting(true);
+
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.NEXT_PUBLIC_API_KEY!,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          query: `
+          mutation {
+            deleteUser(id: "${user._id}")
+          }
+        `,
+        }),
+      });
+
+      localStorage.removeItem("token");
+      window.location.href = "/";
+    } catch (err) {
+      console.error("Помилка при видаленні акаунту:", err);
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const handleDrop = async (
@@ -262,78 +293,115 @@ export default function ProfileSettingsPage() {
   };
 
   return (
-    <Container className={styles.container}>
-      <h1>Налаштування профілю</h1>
+    <>
+      <Container className={styles.container}>
+        <h1>Налаштування профілю</h1>
 
-      <Wrapper className={styles.info}>
-        <label className={styles.label}>Нікнейм</label>
-        <Input
-          label="Нікнейм"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <label className={styles.label}>Опис</label>
-        <textarea
-          className={styles.textarea}
-          placeholder="Опис профілю"
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-          rows={4}
-        />
-      </Wrapper>
+        <Wrapper className={styles.info}>
+          <label className={styles.label}>Нікнейм</label>
+          <Input
+            label="Нікнейм"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <label className={styles.label}>Опис</label>
+          <textarea
+            className={styles.textarea}
+            placeholder="Опис профілю"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            rows={4}
+          />
+        </Wrapper>
 
-      <Wrapper>
-        <label className={styles.label}>Аватар</label>
-        <div className={styles.imageRow}>
-          <div
-            className={styles.dropzone}
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => handleDrop(e, "avatar")}
-          >
-            <p>Перетягни або натисни для вибору аватарки</p>
-            <input
-              type="file"
-              accept="image/png,image/jpeg,image/jpg"
-              onChange={(e) => handleFileChange(e, "avatar")}
-            />
-          </div>
-
-          {avatarPreview && (
-            <div className={clsx(styles.preview, styles.avatarPreview)}>
-              <img src={avatarPreview} alt="Avatar preview" />
+        <Wrapper>
+          <label className={styles.label}>Аватар</label>
+          <div className={styles.imageRow}>
+            <div
+              className={styles.dropzone}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => handleDrop(e, "avatar")}
+            >
+              <p>Перетягни або натисни для вибору аватарки</p>
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/jpg"
+                onChange={(e) => handleFileChange(e, "avatar")}
+              />
             </div>
-          )}
-        </div>
-        {errors.avatar && <p className={styles.error}>{errors.avatar}</p>}
-      </Wrapper>
-      <Wrapper>
-        <label className={styles.label}>Банер</label>
-        <div className={styles.imageRow}>
-          <div
-            className={styles.dropzone}
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => handleDrop(e, "banner")}
-          >
-            <p>Перетягни або натисни для вибору банера</p>
-            <input
-              type="file"
-              accept="image/png,image/jpeg,image/jpg"
-              onChange={(e) => handleFileChange(e, "banner")}
-            />
-          </div>
 
-          {bannerPreview && (
-            <div className={clsx(styles.preview, styles.bannerPreview)}>
-              <img src={bannerPreview} alt="Banner preview" />
+            {avatarPreview && (
+              <div className={clsx(styles.preview, styles.avatarPreview)}>
+                <img src={resolvedAvatarUrl} alt="Avatar preview" />
+              </div>
+            )}
+          </div>
+          {errors.avatar && <p className={styles.error}>{errors.avatar}</p>}
+        </Wrapper>
+        <Wrapper>
+          <label className={styles.label}>Банер</label>
+          <div className={styles.imageRow}>
+            <div
+              className={styles.dropzone}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => handleDrop(e, "banner")}
+            >
+              <p>Перетягни або натисни для вибору банера</p>
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/jpg"
+                onChange={(e) => handleFileChange(e, "banner")}
+              />
             </div>
-          )}
+
+            {bannerPreview && (
+              <div className={clsx(styles.preview, styles.bannerPreview)}>
+                <img src={resolvedBannerUrl} alt="Banner preview" />
+              </div>
+            )}
+          </div>
+          {errors.banner && <p className={styles.error}>{errors.banner}</p>}
+        </Wrapper>
+        <Wrapper>
+          <Button onClick={handleSave}>Зберегти</Button>
+          <Button
+            className={styles.deleteBtn}
+            onClick={() => setShowDeleteModal(true)}
+            variant="secondary"
+          >
+            Видалити акаунт
+          </Button>
+          {saved && <p className={styles.success}>Зміни збережено!</p>}
+        </Wrapper>
+      </Container>
+      {showDeleteModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalWindow}>
+            <h2>Підтвердження</h2>
+            <p>
+              Ти впевнений(-а), що хочеш видалити акаунт? Цю дію не можна
+              скасувати.
+            </p>
+            <div className={styles.modalActions}>
+              <Button
+                onClick={() => setShowDeleteModal(false)}
+                variant="secondary"
+                className={styles.modalControl}
+              >
+                Скасувати
+              </Button>
+              <Button
+                onClick={handleDeleteAccount}
+                disabled={deleting}
+                variant="primary"
+                className={styles.modalControl}
+              >
+                {deleting ? "Видалення..." : "Так, видалити"}
+              </Button>
+            </div>
+          </div>
         </div>
-        {errors.banner && <p className={styles.error}>{errors.banner}</p>}
-      </Wrapper>
-      <Wrapper>
-        <Button onClick={handleSave}>Зберегти</Button>
-        {saved && <p className={styles.success}>Зміни збережено!</p>}
-      </Wrapper>
-    </Container>
+      )}
+    </>
   );
 }

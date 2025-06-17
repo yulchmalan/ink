@@ -13,6 +13,7 @@ import { useLabels } from "@/hooks/useLabels";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
 import { useAuth } from "@/contexts/AuthContext";
 import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
+import { useSearchParams } from "next/navigation";
 
 interface Props {
   titles: {
@@ -24,6 +25,7 @@ interface Props {
 }
 
 export default function TitleGrid({ titles: initialTitles }: Props) {
+  const searchParams = useSearchParams();
   const auth = typeof window !== "undefined" ? useAuth() : null;
   const currentUser = auth?.user;
   const menuSections = generateCatalogMenu();
@@ -64,6 +66,24 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
 
   const [sortBy, setSortBy] = useState("CREATED_AT");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const typeParam = searchParams.get("type");
+    if (typeParam && ["COMIC", "NOVEL"].includes(typeParam)) {
+      setFilters((prev) => ({
+        ...prev,
+        type: [typeParam],
+      }));
+      setReady(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (ready && filters.type.length > 0) {
+      applyFilters();
+    }
+  }, [ready, filters.type]);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -75,7 +95,9 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
 
   useEffect(() => {
     if (!currentUser) return;
-    applyFilters();
+    if (debouncedSearch !== "") {
+      applyFilters();
+    }
   }, [debouncedSearch]);
 
   const applyFilters = async () => {

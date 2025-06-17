@@ -380,7 +380,7 @@ export const userResolvers = {
       for (const list of user.lists) {
         for (const entry of list.titles) {
           if (entry.title.toString() === titleId) {
-            entry.progress = 0;
+            entry.last_open = null;
             changed = true;
           }
         }

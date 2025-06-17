@@ -26,16 +26,13 @@ export default function Footer() {
               <h4>{t("col1_heading")}</h4>
               <ul>
                 <li>
-                  <Link href="#">{t("col1_1")}</Link>
+                  <Link href="/privacy-policy">{t("col1_1")}</Link>
                 </li>
                 <li>
-                  <Link href="#">{t("col1_2")}</Link>
+                  <Link href="/public-offer">{t("col1_2")}</Link>
                 </li>
                 <li>
-                  <Link href="#">{t("col1_3")}</Link>
-                </li>
-                <li>
-                  <Link href="#">{t("col1_4")}</Link>
+                  <Link href="/dmca">{t("col1_3")}</Link>
                 </li>
               </ul>
             </div>
@@ -43,13 +40,13 @@ export default function Footer() {
               <h4>{t("col2_heading")}</h4>
               <ul>
                 <li>
-                  <Link href="#">{t("col2_1")}</Link>
+                  <Link href="/">{t("col2_1")}</Link>
                 </li>
                 <li>
-                  <Link href="#">{t("col2_2")}</Link>
+                  <Link href="/catalog">{t("col2_2")}</Link>
                 </li>
                 <li>
-                  <Link href="#">{t("col2_3")}</Link>
+                  <Link href="/faq">{t("col2_3")}</Link>
                 </li>
               </ul>
             </div>
@@ -57,7 +54,7 @@ export default function Footer() {
               <h4>{t("col3_heading")}</h4>
               <ul>
                 <li>
-                  <Link href="#">{t("col3_1")}</Link>
+                  <Link href="/contacts">{t("col3_1")}</Link>
                 </li>
               </ul>
             </div>
@@ -65,29 +62,35 @@ export default function Footer() {
               <h4>{t("col4_heading")}</h4>
               <ul>
                 <li>
-                  <Link href="#">{t("col4_1")}</Link>
+                  <Link href="/catalog?type=NOVEL">{t("col4_1")}</Link>
                 </li>
                 <li>
-                  <Link href="#">{t("col4_2")}</Link>
-                </li>
-                <li>
-                  <Link href="#">{t("col4_3")}</Link>
-                </li>
-                <li>
-                  <Link href="#">{t("col4_4")}</Link>
+                  <Link href="/catalog?type=COMIC">{t("col4_2")}</Link>
                 </li>
               </ul>
             </div>
             <div className={styles.column}>
               <h4>{t("col5_heading")}</h4>
               <div className={styles.socials}>
-                <Link href="#" className={styles.social}>
+                <Link
+                  href="https://t.me/ink_platform"
+                  target="_blank"
+                  className={styles.social}
+                >
                   <Telegram />
                 </Link>
-                <Link href="#" className={styles.social}>
+                <Link
+                  href="https://twitter.com/ink_platform"
+                  target="_blank"
+                  className={styles.social}
+                >
                   <Twitter />
                 </Link>
-                <Link href="#" className={styles.social}>
+                <Link
+                  href="https://youtube.com/ink_platform"
+                  target="_blank"
+                  className={styles.social}
+                >
                   <YouTube />
                 </Link>
               </div>

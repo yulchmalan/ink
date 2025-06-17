@@ -76,7 +76,6 @@ export default function ReviewSection({ titleId }: Props) {
       const created = json.data?.createReview;
 
       if (created) {
-        // нарахування 5 exp
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
           method: "POST",
           headers: {
