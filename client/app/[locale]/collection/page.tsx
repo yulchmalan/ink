@@ -1,15 +1,16 @@
 import CollectionSection from "@/components/Layout/Collection/CollectionSection";
 import Container from "@/components/Layout/Container/Container";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata() {
+  const t = await getTranslations("Catalog");
+
   return {
-    title: "Колекції | Ink",
-    description:
-      "Переглянь унікальні підбірки книг, романів і коміксів, створені користувачами Ink. Відкрий щось нове для читання!",
+    title: t("collections_title"),
+    description: t("collections_desc"),
     openGraph: {
-      title: "Колекції | Ink",
-      description:
-        "Оглянь добірки творів на платформі Ink — від особистих рекомендацій до тематичних серій.",
+      title: t("collections_title"),
+      description: t("collections_opengraph"),
       type: "website",
     },
   };

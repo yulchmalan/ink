@@ -14,6 +14,7 @@ import Button from "@/components/UI/Buttons/StandartButton/Button";
 import { useAuth } from "@/contexts/AuthContext";
 import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface Props {
   titles: {
@@ -25,10 +26,12 @@ interface Props {
 }
 
 export default function TitleGrid({ titles: initialTitles }: Props) {
+  const t = useTranslations("Catalog");
+
   const searchParams = useSearchParams();
   const auth = typeof window !== "undefined" ? useAuth() : null;
   const currentUser = auth?.user;
-  const menuSections = generateCatalogMenu();
+  const menuSections = generateCatalogMenu(t);
   const [activeSubmenu, setActiveSubmenu] = useState<"genres" | "tags" | null>(
     null
   );
@@ -299,11 +302,11 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
             ) : (
               <>
                 <button className={styles.backBtn} onClick={handleBack}>
-                  Назад
+                  {t("back")}
                 </button>
                 <SideMenu
                   data={{
-                    title: activeSubmenu === "genres" ? "Жанри" : "Теги",
+                    title: activeSubmenu === "genres" ? t("genres") : t("tags"),
                     type: "checkbox",
                     items: activeSubmenu === "genres" ? genres : tags,
                   }}
@@ -321,23 +324,23 @@ export default function TitleGrid({ titles: initialTitles }: Props) {
               className={styles.btn}
               onClick={resetFilters}
             >
-              Скинути
+              {t("cancel")}
             </Button>
             <Button className={styles.btn} onClick={applyFilters}>
-              Застосувати
+              {t("use")}
             </Button>
           </div>
         </Wrapper>
       }
     >
       <div className={styles.header}>
-        <h1>Каталог</h1>
-        <ArrowBtn href="/collection">Колекції</ArrowBtn>
+        <h1>{t("catalog")}</h1>
+        <ArrowBtn href="/collection">{t("collections")}</ArrowBtn>
       </div>
       <Input
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Пошук"
+        placeholder={t("search")}
       />
       <div className={styles.titlesGrid}>
         {titles?.map((title) => (

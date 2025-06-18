@@ -1,81 +1,49 @@
 import Container from "@/components/Layout/Container/Container";
-import styles from "./faq.module.scss";
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
+import { getTranslations } from "next-intl/server";
+import styles from "./faq.module.scss";
 
-export const metadata = {
-  title: "Часті питання | Ink",
-  description:
-    "Знайдіть відповіді на популярні питання про платформу Ink: читання, списки, реєстрація, публікація творів та мобільний застосунок.",
-  openGraph: {
-    title: "Часті питання | Ink",
-    description:
-      "Як користуватись Ink? Чи потрібна реєстрація? Де зберігається прогрес? Тут зібрано найчастіші питання й відповіді.",
-    type: "website",
-    url: "https://ink-three.vercel.app/faq",
-  },
-  twitter: {
-    card: "summary",
-    title: "Часті питання | Ink",
-    description:
-      "Детальні відповіді на все, що ви хотіли знати про Ink: функції, можливості, плани та підтримка авторів.",
-  },
-};
+export async function generateMetadata() {
+  const t = await getTranslations("FAQ");
+  return {
+    title: t("meta_title"),
+    description: t("meta_description"),
+    openGraph: {
+      title: t("meta_title"),
+      description: t("meta_og_desc"),
+      type: "website",
+      url: "https://ink-three.vercel.app/faq",
+    },
+    twitter: {
+      card: "summary",
+      title: t("meta_title"),
+      description: t("meta_tw_desc"),
+    },
+  };
+}
 
-const faqItems = [
-  {
-    question: "Чим Ink відрізняється від інших платформ для читання?",
-    answer: `Ink поєднує в собі найкраще від світу книг і коміксів. Ви можете не лише читати улюблені твори, а й:
-- Створювати колекції, залишати відгуки, коментувати розділи
-- Отримувати персоналізовані рекомендації на основі ваших вподобань
-- Зберігати прогрес читання та синхронізувати його між пристроями
-- Використовувати гейміфікацію: заробляти досвід, рівні та досягнення за активність на платформі.`,
-  },
-  {
-    question: "Як працюють списки читання на Ink?",
-    answer: `Кожен користувач має набір списків: "Читаю", "У планах", "Прочитане", "Закинуте", "Улюблене" та "Все".
-Ви можете додавати твори в будь-який список, а також створювати свої власні — наприклад, "Манга на літо" або "Темні романи".
-Це зручно для навігації, статистики та подальших рекомендацій.`,
-  },
-  {
-    question: "Яку інформацію про твір я можу побачити?",
-    answer: `На сторінці кожного твору ви знайдете:
-- Основну інформацію (жанри, статус, переклад, тип, альт. назви)
-- Обкладинку та короткий опис
-- Рейтинг і кількість користувачів, які зберегли твір у свої списки
-- Розділи (якщо це комікс), або повний текст (якщо роман)
-- Коментарі інших читачів з рейтингами та відповідями`,
-  },
-  {
-    question: "Чи можу я читати без реєстрації?",
-    answer: `Так, більшість творів доступна для ознайомлення без авторизації. Але:
-- Ви не зможете зберігати прогрес
-- Не зможете залишати коментарі або ставити оцінки
-- Не отримаєте рекомендацій на основі своїх вподобань
-Тому ми радимо зареєструватися або увійти через Google, Discord чи GitHub — це займає кілька секунд.`,
-  },
-  {
-    question: "Чи можу я поділитися власним твором?",
-    answer: `Так! Ми підтримуємо авторів. Ви можете завантажити свою новелу або комікс, обрати жанри, додати обкладинку, метадані й розділи.
-Після модерації твір стане доступним на платформі. Автори також можуть отримувати лайки, підписників і відгуки.`,
-  },
-  {
-    question: "Чи планується мобільний застосунок?",
-    answer: `Так, ми працюємо над PWA-версією, яка вже зараз підтримує додавання на головний екран і офлайн-доступ до збережених розділів.
-У майбутньому планується повноцінний застосунок Ink для Android та iOS.`,
-  },
-];
+export default async function FAQPage() {
+  const t = await getTranslations("FAQ");
 
-export default function FAQPage() {
+  const items = [
+    { q: t("q1"), a: t("a1") },
+    { q: t("q2"), a: t("a2") },
+    { q: t("q3"), a: t("a3") },
+    { q: t("q4"), a: t("a4") },
+    { q: t("q5"), a: t("a5") },
+    { q: t("q6"), a: t("a6") },
+  ];
+
   return (
     <Container>
-      <Wrapper>
+      <Wrapper className={styles.wrapper}>
         <div className={styles.faqPage}>
-          <h1>Часті питання</h1>
+          <h1>{t("title")}</h1>
           <div className={styles.accordion}>
-            {faqItems.map((item, idx) => (
+            {items.map((item, idx) => (
               <details key={idx} className={styles.item}>
-                <summary>{item.question}</summary>
-                <p>{item.answer}</p>
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
               </details>
             ))}
           </div>

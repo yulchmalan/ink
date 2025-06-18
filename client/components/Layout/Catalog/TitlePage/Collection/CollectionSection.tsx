@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import CollectionCard from "@/components/UI/Cards/CollectionCard/CollectionCard";
 import styles from "./collection.module.scss";
+import { useTranslations } from "next-intl";
 
 type Props = {
   titleId: string;
@@ -10,7 +11,7 @@ type Props = {
 export default function CollectionSection({ titleId }: Props) {
   const [collections, setCollections] = useState<any[]>([]);
   const router = useRouter();
-
+  const t = useTranslations("Collection");
   useEffect(() => {
     const fetchCollections = async () => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
@@ -53,11 +54,7 @@ export default function CollectionSection({ titleId }: Props) {
   }, [titleId]);
 
   if (collections.length === 0) {
-    return (
-      <p className={styles.empty}>
-        Цей тайтл поки не входить до жодної колекції.
-      </p>
-    );
+    return <p className={styles.empty}>{t("no_collections")}</p>;
   }
 
   return (

@@ -1,19 +1,20 @@
 import type { Section } from "@/components/Layout/Profile/SideMenu/SideMenu";
+import { useTranslations } from "next-intl";
 
-const sortMenu: Section = {
-  title: "Сортувати за",
+export const generateSortMenu = (
+  t: ReturnType<typeof useTranslations<"Profile">>
+): Section => ({
+  title: t("sort_by"),
   type: "radio",
   items: [
-    { label: "За датою", value: "date" },
-    { label: "За рейтингом", value: "rating" },
+    { label: t("sort_date"), value: "date" },
+    { label: t("sort_rating"), value: "rating" },
   ],
   secondary: {
     type: "radio",
     items: [
-      { label: "Зростанням", value: "asc" },
-      { label: "Спаданням", value: "desc" },
+      { label: t("sort_asc"), value: "asc" },
+      { label: t("sort_desc"), value: "desc" },
     ],
   },
-};
-
-export default sortMenu;
+});

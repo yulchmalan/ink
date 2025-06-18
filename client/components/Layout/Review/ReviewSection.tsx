@@ -10,12 +10,14 @@ import SideMenu from "@/components/Layout/Profile/SideMenu/SideMenu";
 import { generateReviewMenu } from "@/data/sideMenus/reviewMenu";
 import styles from "./review.module.scss";
 import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
+import { useTranslations } from "next-intl";
 
 interface Props {
   initialReviews: any[];
 }
 
 export default function ReviewSection({ initialReviews }: Props) {
+  const t = useTranslations("Review");
   const [reviews, setReviews] = useState(initialReviews);
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("CREATED_AT");
@@ -86,7 +88,7 @@ export default function ReviewSection({ initialReviews }: Props) {
     <CatalogGrid
       sidebar={
         <Wrapper>
-          {generateReviewMenu().map((section, idx) => (
+          {generateReviewMenu(t).map((section, idx) => (
             <SideMenu
               key={idx}
               data={section}
@@ -99,14 +101,14 @@ export default function ReviewSection({ initialReviews }: Props) {
       }
     >
       <div className={styles.header}>
-        <h1>Рецензії</h1>
-        <ArrowBtn href="/catalog">Каталог</ArrowBtn>
+        <h1>{t("title")}</h1>
+        <ArrowBtn href="/catalog">{t("catalog")}</ArrowBtn>
       </div>
       <div className={styles.searchRow}>
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Пошук рецензій"
+          placeholder={t("search_placeholder")}
         />
       </div>
       <div className={styles.grid}>

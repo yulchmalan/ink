@@ -1,9 +1,12 @@
+"use client"
+
 import type { Section } from "@/components/Layout/Profile/SideMenu/SideMenu";
 import type { Friend } from "@/types/user";
+import { useTranslations } from "next-intl";
 
 type FriendStatus = "ACCEPTED" | "RECEIVED" | "PENDING";
 
-export const generateFriendsMenu = (friends: Friend[]): Section => {
+export const generateFriendsMenu = (friends: Friend[], t: ReturnType<typeof useTranslations<"Profile">>): Section => {
   
   const countByStatus: Record<FriendStatus, number> = {
     ACCEPTED: 0,
@@ -22,20 +25,20 @@ export const generateFriendsMenu = (friends: Friend[]): Section => {
 
   return {
     type: "list",
-    title: "Керування",
+    title: t("actions"),
     items: [
       {
-        label: "Список Друзів",
+        label: t("friends_list"),
         value: "ACCEPTED",
         badge: countByStatus.ACCEPTED,
       },
       {
-        label: "Заявки",
+        label: t("friend_requests_received"),
         value: "RECEIVED",
         badge: countByStatus.RECEIVED,
       },
       {
-        label: "Відправлені заявки",
+        label: t("friend_requests_sent"),
         value: "PENDING",
         badge: countByStatus.PENDING,
       },

@@ -3,11 +3,11 @@
 import styles from "./title-card.module.scss";
 import clsx from "clsx";
 import { format } from "date-fns";
-import Pencil from "@/assets/icons/Pencil";
 import { useS3Image } from "@/hooks/useS3Image";
 import fallbackCover from "@/assets/cover.png";
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface TitleData {
   id: string;
@@ -25,6 +25,8 @@ interface TitleCardProps {
 }
 
 export default function TitleCard({ title, type = "grid" }: TitleCardProps) {
+  const t = useTranslations("Profile");
+
   const { name, id, chapter, chapterCount, added } = title;
   const [loaded, setLoaded] = useState(false);
 
@@ -54,13 +56,13 @@ export default function TitleCard({ title, type = "grid" }: TitleCardProps) {
             <h3 className={styles.title}>{name}</h3>
           </Link>
           <span className={styles.chapter}>
-            {`Розділ ${chapter}/${chapterCount}`}
+            {t("chapter") + ` ${chapter}/${chapterCount}`}
           </span>
         </div>
 
         {type === "row" && (
           <div className={styles.meta}>
-            <span className={styles.label}>Додано</span>
+            <span className={styles.label}>{t("sort_added")}</span>
             <span className={styles.date}>{formattedDate}</span>
           </div>
         )}

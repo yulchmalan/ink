@@ -3,7 +3,7 @@
 import styles from "./collection-content.module.scss";
 import { formatDistanceToNow } from "date-fns";
 import { uk, enUS, pl } from "date-fns/locale";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import Wrapper from "../Wrapper/Wrapper";
 import CommentsSection from "../Catalog/TitlePage/Comment/CommentSection";
@@ -45,6 +45,7 @@ interface Props {
 
 export default function CollectionContent({ collection, isCreating }: Props) {
   const locale = useLocale();
+  const t = useTranslations("Collection");
   const dateLocale = { uk, en: enUS, pl }[locale as "uk" | "en" | "pl"] ?? enUS;
   const { user: currentUser } = useAuth();
   const currentUserId = currentUser?._id;
@@ -402,12 +403,12 @@ export default function CollectionContent({ collection, isCreating }: Props) {
                   <div id="collection-dropdown" className={styles.dropdown}>
                     {canEdit && (
                       <button onClick={() => setIsEditing(true)}>
-                        <Pencil /> Редагувати
+                        <Pencil /> {t("collection_edit")}
                       </button>
                     )}
                     {canDelete && (
                       <button onClick={() => setShowConfirmModal(true)}>
-                        <Trash /> Видалити
+                        <Trash /> {t("collection_delete")}
                       </button>
                     )}
                   </div>
@@ -420,17 +421,17 @@ export default function CollectionContent({ collection, isCreating }: Props) {
                 className={clsx(styles.editTextarea, styles.titleInput)}
                 value={editedName}
                 onChange={(e) => setEditedName(e.target.value)}
-                placeholder="Назва колекції"
+                placeholder={t("collection_edit_name_placeholder")}
               />
             ) : (
               <h1>{editedName}</h1>
             )}
-            <ArrowBtn href="/collection">Колекції</ArrowBtn>
+            <ArrowBtn href="/collection">{t("collections")}</ArrowBtn>
           </div>
 
           {isEditing ? (
             <textarea
-              placeholder="Опис колекції"
+              placeholder={t("collection_edit_desc_placeholder")}
               ref={textareaRef}
               className={styles.editTextarea}
               value={editedDescription}
@@ -449,7 +450,7 @@ export default function CollectionContent({ collection, isCreating }: Props) {
 
           <div className={styles.meta}>
             <span>
-              Автор:{" "}
+              {t("author")}:{" "}
               <Link href={`/profile/${collection.user._id}`}>
                 <span className={styles.highlight}>
                   {collection.user.username}
@@ -467,7 +468,7 @@ export default function CollectionContent({ collection, isCreating }: Props) {
 
           {isEditing && (
             <div className={styles.editButtons}>
-              <Button onClick={handleSave}>Зберегти</Button>
+              <Button onClick={handleSave}>{t("collection_save")}</Button>
               <Button
                 variant="secondary"
                 onClick={() => {
@@ -480,7 +481,7 @@ export default function CollectionContent({ collection, isCreating }: Props) {
                   }
                 }}
               >
-                Скасувати
+                {t("collection_cancel")}
               </Button>
             </div>
           )}
@@ -488,26 +489,30 @@ export default function CollectionContent({ collection, isCreating }: Props) {
 
         <div className={styles.titlesGrid}>
           {!isCreating && canEdit && (
-            <div className={styles.addCard} onClick={() => setShowSearch(true)}>
+            <div
+              className={styles.addCard}
+              onClick={() => setShowSearch(true)}
+              title={t("collection_add_title")}
+            >
               <PlusCircle />
             </div>
           )}
-          {titles.map((t) => (
-            <div key={t.id} className={styles.bookCardWrapper}>
+          {titles.map((title) => (
+            <div key={title.id} className={styles.bookCardWrapper}>
               {canEdit && (
                 <button
                   className={styles.removeBtn}
-                  onClick={() => handleRemoveTitle(t.id)}
-                  title="Видалити з колекції"
+                  onClick={() => handleRemoveTitle(title.id)}
+                  title={t("collection_remove_title")}
                 >
                   <Cross />
                 </button>
               )}
               <BookCard
-                alt_names={t.alt_names}
-                title={t.name}
-                href={`/catalog/${t.id}`}
-                coverId={t.id}
+                alt_names={title.alt_names}
+                title={title.name}
+                href={`/catalog/${title.id}`}
+                coverId={title.id}
                 size="large"
               />
             </div>
@@ -564,14 +569,16 @@ export default function CollectionContent({ collection, isCreating }: Props) {
       {showConfirmModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
-            <p>Ви впевнені, що хочете видалити цю колекцію?</p>
+            <p>{t("collection_confirm_delete")}</p>
             <div className={styles.modalActions}>
-              <Button onClick={handleDelete}>Видалити</Button>
+              <Button onClick={handleDelete}>
+                {t("collection_confirm_delete_yes")}
+              </Button>
               <Button
                 variant="secondary"
                 onClick={() => setShowConfirmModal(false)}
               >
-                Скасувати
+                {t("collection_confirm_delete_no")}
               </Button>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
 import styles from "./notifications.module.scss";
 import Tabs from "@/components/Layout/Tabs/Tabs";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 type NotificationType = "REPLY" | "FRIEND_REQUEST" | "FRIEND_ACCEPTED";
 
@@ -21,6 +21,7 @@ type Notification = {
 
 export default function NotificationContent() {
   const locale = useLocale();
+  const t = useTranslations("Profile");
   const { user } = useAuth();
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
@@ -107,11 +108,8 @@ export default function NotificationContent() {
             >
               {n.sender.username}
             </button>{" "}
-            відповів(-ла) на ваш коментар:{" "}
-            <em>
-              “{n.subject?.body?.slice(0, 100) || "коментар видалено"}...”
-            </em>
-            .{" "}
+            {t("replied")}:{" "}
+            <em>“{n.subject?.body?.slice(0, 100) || t("deleted")}...”</em>.{" "}
             <button
               className={styles.viewBtn}
               onClick={() =>
@@ -125,7 +123,7 @@ export default function NotificationContent() {
                 )
               }
             >
-              Переглянути
+              {t("check")}
             </button>
           </span>
         )}
@@ -137,7 +135,7 @@ export default function NotificationContent() {
             >
               {n.sender.username}
             </button>{" "}
-            надіслав(-ла) вам запит у друзі.
+            {t("request")}.
           </span>
         )}
         {n.type === "FRIEND_ACCEPTED" && n.sender && (
@@ -148,7 +146,7 @@ export default function NotificationContent() {
             >
               {n.sender.username}
             </button>{" "}
-            прийняв(-ла) ваш запит у друзі.
+            {t("accepted")}.
           </span>
         )}
         <span className={styles.time}>
@@ -164,12 +162,12 @@ export default function NotificationContent() {
     );
   }
 
-  if (!user) return <p>Будь ласка, увійдіть, щоб переглядати сповіщення.</p>;
+  if (!user) return <p>{t("login_to_check")}</p>;
 
   const UnreadTab = (
     <ul className={styles.list}>
       {unread.length === 0 ? (
-        <p>Немає нових сповіщень.</p>
+        <p>{t("no_new")}</p>
       ) : (
         unread.map(renderNotification)
       )}
@@ -178,21 +176,17 @@ export default function NotificationContent() {
 
   const ReadTab = (
     <ul className={styles.list}>
-      {read.length === 0 ? (
-        <p>Немає прочитаних.</p>
-      ) : (
-        read.map(renderNotification)
-      )}
+      {read.length === 0 ? <p>{t("no_read")}</p> : read.map(renderNotification)}
     </ul>
   );
 
   return (
     <>
-      <h1>Сповіщення</h1>
+      <h1>{t("notifications")}</h1>
       <Tabs
         tabs={[
-          { title: "Непрочитані", content: UnreadTab },
-          { title: "Прочитані", content: ReadTab },
+          { title: t("not_read"), content: UnreadTab },
+          { title: t("read"), content: ReadTab },
         ]}
       />
     </>

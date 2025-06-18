@@ -9,15 +9,16 @@ import Pfp from "../Pfp/Pfp";
 import Details from "../Details/Details";
 import type { User } from "@/types/user";
 import AddFriendButton from "../Friends/AddFriendButton/AddFriendButton";
+import { useTranslations } from "next-intl";
 
 export const UserInfo = ({ user }: { user: User }) => {
   const { user: currentUser } = useAuth();
+  const t = useTranslations("Profile");
 
   const isCurrentUser = currentUser?._id === user._id;
   const isOnline =
     !!user.last_online &&
     Date.now() - new Date(user.last_online).getTime() < 2 * 60 * 1000;
-
   return (
     <div className={styles.container}>
       <Banner userId={user._id} />
@@ -29,7 +30,7 @@ export const UserInfo = ({ user }: { user: User }) => {
           <span className={styles.nickname}>{user.username}</span>
         </h1>
       </div>
-      <Tabs type="profile" tabs={profileTabs(user)} />
+      <Tabs type="profile" tabs={profileTabs(user, t, currentUser?._id)} />
     </div>
   );
 };

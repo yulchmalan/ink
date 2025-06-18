@@ -12,6 +12,7 @@ import Input from "@/components/Form/Input/Input";
 import Rating from "@/components/UI/Rating/Rating";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 
 type Review = {
   id: string;
@@ -35,6 +36,7 @@ type Props = {
 };
 
 export default function ReviewSection({ titleId }: Props) {
+  const t = useTranslations("Review");
   const [reviews, setReviews] = useState<Review[]>([]);
   const router = useRouter();
   const coverUrl = useS3Image("covers", titleId, fallbackCover.src);
@@ -163,17 +165,17 @@ export default function ReviewSection({ titleId }: Props) {
       {currentUser?._id && (
         <div className={clsx(styles.form, { [styles.active]: isFormActive })}>
           <h3 onClick={() => setIsFormActive((prev) => !prev)}>
-            Залишити рецензію
+            {t("leave_review")}
           </h3>
           {isFormActive && (
             <div className={styles.formBody}>
               <Input
-                label="Заголовок"
+                label={t("review_title")}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
               <textarea
-                placeholder="Текст рецензії"
+                placeholder={t("review_text")}
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 className={styles.textarea}
@@ -188,7 +190,7 @@ export default function ReviewSection({ titleId }: Props) {
                 onClick={handleCreate}
                 disabled={isSending || !name || !body}
               >
-                Опублікувати
+                {t("submit")}
               </Button>
             </div>
           )}
@@ -196,7 +198,7 @@ export default function ReviewSection({ titleId }: Props) {
       )}
       <div className={styles.reviewSection}>
         {reviews.length === 0 ? (
-          <p>Рецензій поки немає.</p>
+          <p>{t("no_reviews")}</p>
         ) : (
           reviews.map((r) => (
             <div

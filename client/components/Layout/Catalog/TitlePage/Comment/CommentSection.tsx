@@ -8,6 +8,7 @@ import { CREATE_COMMENT } from "@/graphql/mutations/createComment";
 import { useAuth } from "@/contexts/AuthContext";
 import styles from "./comment.module.scss";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
+import { useTranslations } from "next-intl";
 
 type CommentType = {
   id: string;
@@ -34,6 +35,7 @@ type Props = {
 };
 
 export default function CommentsSection({ subjectId, subjectType }: Props) {
+  const t = useTranslations("Comment");
   const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -97,7 +99,6 @@ export default function CommentsSection({ subjectId, subjectType }: Props) {
         setNewComment("");
         fetchComments();
 
-        // Нарахування досвіду
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
           method: "POST",
           headers: {
@@ -133,7 +134,7 @@ export default function CommentsSection({ subjectId, subjectType }: Props) {
       {currentUserId && (
         <div className={styles.inputContainer}>
           <Input
-            label="Залишити коментар"
+            label={t("leave_comment")}
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
           />
@@ -142,13 +143,13 @@ export default function CommentsSection({ subjectId, subjectType }: Props) {
             disabled={isSending || !newComment.trim()}
             className={styles.sendButton}
           >
-            Надіслати
+            {t("send")}
           </Button>
         </div>
       )}
 
       {topLevelComments.length === 0 ? (
-        <p>Немає коментарів</p>
+        <p>{t("no_comments")}</p>
       ) : (
         topLevelComments.map((comment) => (
           <Comment

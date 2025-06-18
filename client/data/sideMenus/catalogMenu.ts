@@ -1,78 +1,80 @@
 import type { Section } from "@/components/Layout/Profile/SideMenu/SideMenu";
 
-export const generateCatalogMenu = (): Section[] => [
+export const generateCatalogMenu = (
+  t: ReturnType<typeof import("next-intl").useTranslations<"Catalog">>
+): Section[] => [
   {
-    title: "Фільтри",
+    title: t("filters"),
     type: "expandable",
     items: [
       {
-        label: "Жанри",
+        label: t("genres"),
         value: "genres",
         expandableTarget: "genres",
       },
       {
-        label: "Теги",
+        label: t("tags"),
         value: "tags",
         expandableTarget: "tags",
       },
     ],
   },
   {
-    title: "Оцінка",
+    title: t("rating"),
     type: "range",
     items: [],
   },
   {
-    title: "Сортування",
+    title: t("sort"),
     type: "radio",
     items: [
-      { label: "Назвою (А-Я)", value: "NAME" },
-      { label: "Рейтингом", value: "RATING" },
-      { label: "Датою додавання", value: "CREATED_AT" },
+      { label: t("sort_name"), value: "NAME" },
+      { label: t("sort_rating"), value: "RATING" },
+      { label: t("sort_added"), value: "CREATED_AT" },
     ],
     secondary: {
       type: "radio",
       items: [
-        { label: "Зростанням", value: "asc" },
-        { label: "Спаданням", value: "desc" },
+        { label: t("sort_asc"), value: "asc" },
+        { label: t("sort_desc"), value: "desc" },
       ],
     },
   },
   {
-    title: "Тип",
+    title: t("type"),
     type: "checkbox",
     items: [
-      { label: "Комікс", value: "COMIC" },
-      { label: "Книга", value: "NOVEL" },
+      { label: t("comic"), value: "COMIC" },
+      { label: t("novel"), value: "NOVEL" },
     ],
   },
   {
-    title: "Статус тайтла",
+    title: t("status"),
     type: "checkbox",
     items: [
-      { label: "Завершено", value: "COMPLETED" },
-      { label: "Виходить", value: "ONGOING" },
-      { label: "Анонс", value: "ANNOUNCED" },
+      { label: t("finished"), value: "COMPLETED" },
+      { label: t("ongoing"), value: "ONGOING" },
+      { label: t("announced"), value: "ANNOUNCED" },
     ],
   },
   {
-    title: "Статус перекладу",
+    title: t("transtation_status"),
     type: "checkbox",
     items: [
-      { label: "Завершено", value: "TRANSLATED" },
-      { label: "Анонс", value: "NOT_TRANSLATED" },
-      { label: "Продовжується", value: "IN_PROGRESS" },
+      { label: t("finished"), value: "TRANSLATED" },
+      { label: t("announced"), value: "NOT_TRANSLATED" },
+      { label: t("continues"), value: "IN_PROGRESS" },
     ],
   },
   {
-    title: "Мої списки",
+    title: t("my_lists"),
     type: "checkbox",
     items: [
-      { label: "Читаю", value: "reading" },
-      { label: "В планах", value: "planned" },
-      { label: "Прочитано", value: "completed" },
-      { label: "Закинуто", value: "dropped" },
-      { label: "Улюблене", value: "favorite" },
+      { label: t("reading"), value: "reading" },
+      { label: t("planned"), value: "planned" },
+      { label: t("completed"), value: "completed" },
+      { label: t("dropped"), value: "dropped" },
+      { label: t("favorite"), value: "favorite" },
     ],
   },
 ];

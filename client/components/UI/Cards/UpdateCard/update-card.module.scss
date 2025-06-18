@@ -42,6 +42,7 @@
 .desc {
     color: var(--font-secondary);
     font-size: calc(var(--font-size) - 4px);
+    text-transform: capitalize;
 }
 
 .bottomInfo {

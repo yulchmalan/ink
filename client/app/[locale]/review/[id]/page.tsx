@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 import ReviewContent from "@/components/Layout/Review/ReviewContent";
 import Container from "@/components/Layout/Container/Container";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ params }: any) {
+  const t = await getTranslations("Meta");
   const p = await params;
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",
@@ -20,11 +22,22 @@ export async function generateMetadata({ params }: any) {
   const json = await res.json();
   const review = json.data?.review;
 
-  if (!review) return { title: "Рецензія не знайдена | Ink" };
+  if (!review) {
+    return {
+      title: t("review_not_found_title"),
+    };
+  }
 
   return {
-    title: `${review.name} | Рецензія на ${review.title.name} | Ink`,
-    description: `Огляд користувача ${review.user.username} на твір "${review.title.name}". Оцінка: ${review.rating}/10. Прочитайте думки та залиште свою!`,
+    title: t("review_title", {
+      review: review.name,
+      title: review.title.name,
+    }),
+    description: t("review_description", {
+      username: review.user.username,
+      title: review.title.name,
+      rating: review.rating,
+    }),
   };
 }
 

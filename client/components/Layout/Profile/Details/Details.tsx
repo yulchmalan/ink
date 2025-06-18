@@ -17,7 +17,7 @@ interface Props {
 
 export default function UserInfoModal({ user }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const t = useTranslations("User");
+  const t = useTranslations("Profile");
 
   const bio = user.bio || "";
   const joined = user.createdAt
@@ -38,15 +38,15 @@ export default function UserInfoModal({ user }: Props) {
         <div className={styles.overlay} onClick={() => setIsOpen(false)}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <section>
-              <h2>Досвід</h2>
+              <h2>{t("exp")}</h2>
               <LevelProgress totalExp={user.exp}></LevelProgress>
             </section>
             <section>
-              <h2>Статистика за жанрами</h2>
+              <h2>{t("genre_stats")}</h2>
               <GenreStats />
             </section>
             <section>
-              <h2>Про себе</h2>
+              <h2>{t("about_me")}</h2>
               <div className={styles.info}>
                 <div>
                   <h3>{t("bio")}:</h3>

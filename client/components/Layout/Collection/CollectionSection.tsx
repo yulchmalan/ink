@@ -10,9 +10,9 @@ import SideMenu from "@/components/Layout/Profile/SideMenu/SideMenu";
 import { generateCollectionMenu } from "@/data/sideMenus/collectionMenu";
 import styles from "./collection.module.scss";
 import PlusCircle from "@/assets/icons/PlusCircle";
-import { useAuth } from "@/contexts/AuthContext";
 import ArrowBtn from "@/components/UI/Buttons/ArrowBtn/ArrowBtn";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
+import { useTranslations } from "next-intl";
 
 interface Props {
   initialCollections: any[];
@@ -24,6 +24,7 @@ export default function CollectionSection({ initialCollections }: Props) {
   const [sortBy, setSortBy] = useState("CREATED_AT");
   const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("DESC");
   const router = useRouter();
+  const t = useTranslations("Catalog");
 
   useEffect(() => {
     applyFilters();
@@ -85,7 +86,7 @@ export default function CollectionSection({ initialCollections }: Props) {
     <CatalogGrid
       sidebar={
         <Wrapper>
-          {generateCollectionMenu().map((section, idx) => (
+          {generateCollectionMenu(t).map((section, idx) => (
             <SideMenu
               key={idx}
               data={section}
@@ -98,19 +99,19 @@ export default function CollectionSection({ initialCollections }: Props) {
       }
     >
       <div className={styles.header}>
-        <h1>Колекції</h1>
-        <ArrowBtn href="/catalog">Каталог</ArrowBtn>
+        <h1>{t("collections")}</h1>
+        <ArrowBtn href="/catalog">{t("catalog")}</ArrowBtn>
       </div>
       <div className={styles.searchRow}>
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Пошук колекцій"
+          placeholder={t("search_collections")}
         />
         <Button
           className={styles.addBtn}
           onClick={() => router.push("/collection/create")}
-          title="Створити колекцію"
+          title={t("create_collection")}
         >
           <PlusCircle />
         </Button>

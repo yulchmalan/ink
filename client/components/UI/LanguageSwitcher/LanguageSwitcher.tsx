@@ -19,7 +19,7 @@ const LanguageSwitcher = () => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const rawLocale = useLocale();
-  const locale = rawLocale.split("-")[0]; // ← на всяк випадок
+  const locale = rawLocale.split("-")[0];
   const t = useTranslations("UI");
 
   const ref = useRef<HTMLDivElement>(null);
@@ -30,7 +30,9 @@ const LanguageSwitcher = () => {
     setIsOpen(false);
     if (value !== locale) {
       startTransition(() => {
-        router.replace(`/${value}`);
+        const path = window.location.pathname;
+        const newPath = path.replace(/^\/(en|uk|pl)/, `/${value}`);
+        router.replace(newPath);
       });
     }
   };

@@ -1,98 +1,59 @@
 import Container from "@/components/Layout/Container/Container";
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
+import { getTranslations } from "next-intl/server";
 import styles from "./page.module.scss";
 
-export const metadata = {
-  title: "DMCA – Правовласникам | Ink",
-  description:
-    "Інформація для правовласників щодо подання скарг про порушення авторських прав на платформі Ink. Ми дотримуємося DMCA і українського законодавства.",
-  openGraph: {
-    title: "DMCA – Правовласникам | Ink",
-    description:
-      "Платформа Ink підтримує захист інтелектуальної власності. Дізнайтесь, як подати DMCA-скаргу або звернення щодо порушення авторських прав.",
-    type: "article",
-    url: "https://ink-three.vercel.app/dmca",
-  },
-  twitter: {
-    card: "summary",
-    title: "DMCA – Правовласникам | Ink",
-    description:
-      "Розʼяснення щодо дотримання авторських прав на платформі Ink. Як подати скаргу та які вимоги для цього потрібні.",
-  },
-};
+export async function generateMetadata() {
+  const t = await getTranslations("DMCA");
+  return {
+    title: t("meta_title"),
+    description: t("meta_description"),
+    openGraph: {
+      title: t("meta_title"),
+      description: t("meta_og_desc"),
+      type: "article",
+      url: "https://ink-three.vercel.app/dmca",
+    },
+    twitter: {
+      card: "summary",
+      title: t("meta_title"),
+      description: t("meta_tw_desc"),
+    },
+  };
+}
 
-export default function DmcaPage() {
+export default async function DmcaPage() {
+  const t = await getTranslations("DMCA");
+
   return (
     <Container>
       <Wrapper className={styles.wrapper}>
-        <h1>DMCA – Правовласникам</h1>
+        <h1>{t("title")}</h1>
 
-        <p>
-          Адміністрація платформи Ink, яка розміщена в мережі Інтернет за
-          адресою https://ink-three.vercel.app, поважає права інтелектуальної
-          власності та діє відповідно до вимог Digital Millennium Copyright Act
-          (DMCA) та чинного законодавства України.
-        </p>
+        <p>{t("p1")}</p>
+        <p>{t("p2")}</p>
 
-        <p>
-          Ми виступаємо як інформаційний посередник і не несемо відповідальності
-          за контент, який публікують користувачі. Проте, у разі порушення
-          авторських прав, ми вживаємо оперативних заходів для видалення або
-          обмеження доступу до матеріалів, що порушують права.
-        </p>
-
-        <h2>Як подати скаргу</h2>
-
-        <p>
-          Якщо ви є правовласником і вважаєте, що ваші авторські права були
-          порушені на Платформі Ink, ви можете подати офіційне повідомлення про
-          порушення на електронну адресу:{" "}
-          <a href="mailto:juliamalanjuk@gmail.com">juliamalanjuk@gmail.com</a>
-        </p>
-
-        <p>Повідомлення має містити наступне:</p>
+        <h2>{t("how_title")}</h2>
+        <p>{t("how_intro")}</p>
+        <p>{t("how_must_include")}</p>
 
         <ul>
-          <li>Ваше повне ім’я або найменування компанії</li>
-          <li>Контактні дані (email, телефон)</li>
-          <li>
-            Посилання на сторінку, де розміщено контент, який, на вашу думку,
-            порушує права
-          </li>
-          <li>Опис об'єкта авторського права, що порушується</li>
-          <li>
-            Підтвердження того, що ви є правовласником або уповноваженою особою
-          </li>
-          <li>Підпис (електронний або фізичний)</li>
+          <li>{t("how_1")}</li>
+          <li>{t("how_2")}</li>
+          <li>{t("how_3")}</li>
+          <li>{t("how_4")}</li>
+          <li>{t("how_5")}</li>
+          <li>{t("how_6")}</li>
         </ul>
 
-        <p>
-          Після отримання повідомлення ми можемо тимчасово заблокувати або
-          видалити відповідний контент до з’ясування обставин.
-        </p>
+        <p>{t("after_notice")}</p>
 
-        <h2>Попередження</h2>
+        <h2>{t("warn_title")}</h2>
+        <p>{t("warn_body")}</p>
 
-        <p>
-          Надання неправдивої або спотвореної інформації може призвести до
-          юридичної відповідальності, включно з компенсацією збитків та оплатою
-          витрат на правову допомогу. Перш ніж подавати скаргу, рекомендуємо
-          проконсультуватися з юристом.
-        </p>
-
-        <h2>Обмеження відповідальності</h2>
-
-        <p>
-          Адміністрація Ink не здійснює попередню модерацію контенту
-          користувачів і не має технічної можливості контролювати кожну
-          публікацію. Уся інформація розміщується користувачами самостійно і без
-          втручання з боку адміністрації.
-        </p>
-
-        <p>
-          Разом із тим, ми сприяємо оперативному реагуванню на звернення
-          правовласників і готові взаємодіяти в межах чинного законодавства.
-        </p>
+        <h2>{t("limit_title")}</h2>
+        <p>{t("limit_1")}</p>
+        <p>{t("limit_2")}</p>
       </Wrapper>
     </Container>
   );

@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import Check from "@/assets/icons/Check";
 import { useRouter } from "next/navigation";
 import { useS3Image } from "@/hooks/useS3Image";
+import { useTranslations } from "next-intl";
 
 interface Props {
   user: {
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export default function FriendCard({ user, mode, status, isOwner }: Props) {
+  const t = useTranslations("Profile");
   const [showModal, setShowModal] = useState(false);
   const fallbackAvatar = useMemo(
     () => getDeterministicAvatar(user._id),
@@ -125,19 +127,19 @@ export default function FriendCard({ user, mode, status, isOwner }: Props) {
       <div className={styles.card}>
         <div className={styles.avatarWrapper}>
           <div className={styles.avatar} onClick={handleGoToProfile}>
-            <img src={imgSrc} alt="Аватар" />
+            <img src={imgSrc} alt={t("pfp")} />
           </div>
           <span
             className={`${styles.statusDot} ${
               isOnline ? styles.online : styles.offline
             }`}
-            title={isOnline ? "Online" : "Offline"}
+            title={isOnline ? t("online") : t("offline")}
           />
         </div>
 
         <div className={styles.info}>
           <div className={styles.name} onClick={handleGoToProfile}>
-            {user.username ?? "Користувач"}
+            {user.username ?? t("user")}
           </div>
         </div>
 
@@ -148,14 +150,14 @@ export default function FriendCard({ user, mode, status, isOwner }: Props) {
                 <button
                   className={styles.acceptBtn}
                   onClick={handleAccept}
-                  title="Прийняти"
+                  title={t("accept")}
                 >
                   <Check />
                 </button>
                 <button
                   className={styles.deleteBtn}
                   onClick={() => setShowModal(true)}
-                  title="Відхилити"
+                  title={t("reject")}
                 >
                   <Trash />
                 </button>
@@ -164,7 +166,7 @@ export default function FriendCard({ user, mode, status, isOwner }: Props) {
               <button
                 className={styles.deleteBtn}
                 onClick={() => setShowModal(true)}
-                title="Видалити"
+                title={t("delete")}
               >
                 <Trash />
               </button>
@@ -173,15 +175,14 @@ export default function FriendCard({ user, mode, status, isOwner }: Props) {
         )}
       </div>
 
-      {/* Модалка підтвердження */}
       {showModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <p>Ви впевнені, що хочете видалити цього користувача з друзів?</p>
+            <p>{t("confirm_remove")}</p>
             <div className={styles.modalActions}>
-              <Button onClick={handleRemove}>Так</Button>
+              <Button onClick={handleRemove}>{t("yes")}</Button>
               <Button variant="secondary" onClick={() => setShowModal(false)}>
-                Скасувати
+                {t("cancel")}
               </Button>
             </div>
           </div>

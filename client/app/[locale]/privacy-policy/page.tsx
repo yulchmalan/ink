@@ -1,106 +1,80 @@
 import Container from "@/components/Layout/Container/Container";
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import styles from "./page.module.scss";
 
-export const metadata = {
-  title: "Політика конфіденційності | Ink",
-  description:
-    "Дізнайтесь, як Ink обробляє, зберігає та захищає вашу особисту інформацію. Прозорі правила щодо реєстрації, cookies, сторонніх сервісів та безпеки.",
-  openGraph: {
-    title: "Політика конфіденційності | Ink",
-    description:
-      "Ink серйозно ставиться до вашої конфіденційності. Дізнайтесь, як ми збираємо та захищаємо ваші персональні дані.",
-    type: "website",
-    url: "https://ink-three.vercel.app/privacy-policy",
-  },
-  twitter: {
-    card: "summary",
-    title: "Політика конфіденційності | Ink",
-    description:
-      "Як Ink обробляє персональні дані користувачів: реєстрація, безпека, cookies, сторонні сервіси та права користувача.",
-  },
-};
+export async function generateMetadata() {
+  const t = await getTranslations("Privacy");
+  return {
+    title: t("meta_title"),
+    description: t("meta_description"),
+    openGraph: {
+      title: t("meta_title"),
+      description: t("meta_og_desc"),
+      type: "website",
+      url: "https://ink-three.vercel.app/privacy-policy",
+    },
+    twitter: {
+      card: "summary",
+      title: t("meta_title"),
+      description: t("meta_tw_desc"),
+    },
+  };
+}
 
 export default async function PrivacyPolicyPage() {
+  const t = await getTranslations("Privacy");
   const locale = await getLocale();
 
   return (
     <Container>
       <Wrapper className={styles.wrapper}>
-        <h1>Політика конфіденційності</h1>
+        <h1>{t("title")}</h1>
+        <p>{t("intro")}</p>
 
-        <p>
-          Ми в Ink поважаємо ваше право на конфіденційність і прагнемо
-          забезпечити захист персональних даних кожного користувача. Цей
-          документ пояснює, як ми збираємо, обробляємо і захищаємо інформацію.
-        </p>
-
-        <h2>1. Яку інформацію ми збираємо</h2>
-        <p>Ми можемо збирати такі дані:</p>
+        <h2>{t("section1_title")}</h2>
+        <p>{t("section1_intro")}</p>
         <ul>
-          <li>Ім’я користувача та email при реєстрації</li>
-          <li>Інформацію з профілю: біографія, аватар, обкладинка</li>
-          <li>Оцінки, рецензії, коментарі, списки творів</li>
-          <li>
-            Ідентифікатори соціальних мереж (при авторизації через Google,
-            GitHub, Discord)
-          </li>
-          <li>Технічні дані: IP-адреса, тип браузера, мова, час входу</li>
+          <li>{t("section1_item1")}</li>
+          <li>{t("section1_item2")}</li>
+          <li>{t("section1_item3")}</li>
+          <li>{t("section1_item4")}</li>
+          <li>{t("section1_item5")}</li>
         </ul>
 
-        <h2>2. Як ми використовуємо інформацію</h2>
-        <p>Ваші дані використовуються виключно для таких цілей:</p>
+        <h2>{t("section2_title")}</h2>
+        <p>{t("section2_intro")}</p>
         <ul>
-          <li>Персоналізація інтерфейсу (мова, тема, аватар)</li>
-          <li>Надання функціоналу: списки, рецензії, коментарі</li>
-          <li>Генерація рекомендацій (на основі TensorFlow)</li>
-          <li>Відображення рейтингу, збереження прогресу читання</li>
-          <li>Інформаційні сповіщення та модерація</li>
+          <li>{t("section2_item1")}</li>
+          <li>{t("section2_item2")}</li>
+          <li>{t("section2_item3")}</li>
+          <li>{t("section2_item4")}</li>
+          <li>{t("section2_item5")}</li>
         </ul>
 
-        <h2>3. Зберігання та безпека</h2>
-        <p>
-          Усі персональні дані зберігаються в захищеній базі даних MongoDB. Дані
-          передаються по захищених каналах (HTTPS) і не надаються третім
-          сторонам без згоди користувача. Ми застосовуємо автентифікацію через
-          JWT та OAuth2 для захисту акаунтів.
-        </p>
+        <h2>{t("section3_title")}</h2>
+        <p>{t("section3_body")}</p>
 
-        <h2>4. Cookies та трекінг</h2>
-        <p>
-          Ми можемо використовувати файли cookies для збереження сесії, мови
-          інтерфейсу, токена авторизації. Ви можете обмежити використання
-          cookies у налаштуваннях браузера.
-        </p>
+        <h2>{t("section4_title")}</h2>
+        <p>{t("section4_body")}</p>
 
-        <h2>5. Сторонні сервіси</h2>
-        <p>
-          Ми можемо інтегрувати сторонні сервіси: Google Auth, Discord Auth, AWS
-          S3 (для збереження обкладинок, банерів). Вони можуть отримувати
-          технічні дані, необхідні для авторизації чи обробки файлів.
-        </p>
+        <h2>{t("section5_title")}</h2>
+        <p>{t("section5_body")}</p>
 
-        <h2>6. Права користувача</h2>
-        <p>Ви маєте право:</p>
+        <h2>{t("section6_title")}</h2>
+        <p>{t("section6_intro")}</p>
         <ul>
-          <li>Отримати копію своїх персональних даних</li>
-          <li>
-            Виправити або видалити дані через профіль або звернення до підтримки
-          </li>
-          <li>Відкликати згоду на обробку (через видалення акаунту)</li>
-          <li>Обмежити обробку або подати скаргу згідно із законом</li>
+          <li>{t("section6_item1")}</li>
+          <li>{t("section6_item2")}</li>
+          <li>{t("section6_item3")}</li>
+          <li>{t("section6_item4")}</li>
         </ul>
 
-        <h2>7. Зміни до політики</h2>
-        <p>
-          Ми можемо оновлювати цю політику, щоб відображати зміни функціоналу
-          або законодавства. Усі оновлення будуть опубліковані на цій сторінці з
-          відповідною датою.
-        </p>
+        <h2>{t("section7_title")}</h2>
+        <p>{t("section7_body")}</p>
 
         <p>
-          Останнє оновлення:{" "}
+          {t("last_update")}:{" "}
           {new Date("2025-01-01T12:00:00").toLocaleString(locale, {
             year: "numeric",
             month: "short",

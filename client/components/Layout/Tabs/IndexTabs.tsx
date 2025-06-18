@@ -31,6 +31,10 @@ export default function UpdatesTabs() {
                   id
                   name
                   type
+                  alt_names {
+                    lang
+                    value
+                  }
                   genres {
                     name {
                       uk
@@ -62,24 +66,24 @@ export default function UpdatesTabs() {
         },
         body: JSON.stringify({
           query: `
-            query GetUser($id: ObjectID!) {
-              user(id: $id) {
-                lists {
-                  titles {
-                    title {
-                      id
-                      name
-                      type
-                      genres {
-                        name {
-                          uk
-                          en
-                          pl
-                        }
-                      }
-                      updatedAt
+            query {
+              titles(sort: { field: CREATED_AT, direction: DESC }, limit: 7) {
+                results {
+                  id
+                  name
+                  alt_names {
+                    lang
+                    value
+                  }
+                  type
+                  genres {
+                    name {
+                      uk
+                      en
+                      pl
                     }
                   }
+                  cover
                 }
               }
             }
@@ -106,24 +110,6 @@ export default function UpdatesTabs() {
     fetchLatest();
     fetchUserTitles();
   }, [user]);
-
-  const renderCard = (t: any) => {
-    const coverUrl = useS3Image("covers", t.id, fallbackCover.src);
-
-    return (
-      <UpdateCard
-        key={t.id}
-        href={`/catalog/${t.id}`}
-        title={t.name}
-        desc={`${t.type === "NOVEL" ? "Роман" : "Комікс"} – ${
-          t.genres?.[0]?.name.uk ?? ""
-        }`}
-        coverUrl={coverUrl}
-        rating={null}
-        saves={0}
-      />
-    );
-  };
 
   const tabs = [
     {

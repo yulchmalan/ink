@@ -1,10 +1,12 @@
 import { BookCardProps } from "@/components/UI/Cards/BookCard/BookCard";
 
+type Locale = "uk" | "en" | "pl";
+
 export const popularBooks = async (): Promise<BookCardProps[]> => {
-  const locale =
+  const locale: Locale =
     typeof window !== "undefined"
-      ? window.location.pathname.split("/")[1] || "uk"
-      : "uk"; 
+      ? (window.location.pathname.split("/")[1] as Locale) || "uk"
+      : "uk";
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",
@@ -18,6 +20,10 @@ export const popularBooks = async (): Promise<BookCardProps[]> => {
           popularTitles(limit: 15) {
             id
             name
+            alt_names {
+              lang
+              value
+            }
             type
             genres {
               name {
@@ -42,11 +48,13 @@ export const popularBooks = async (): Promise<BookCardProps[]> => {
 
   return (
     data?.popularTitles?.map((t: any): BookCardProps => {
+      const localizedName =
+        t.alt_names?.find((n: any) => n.lang === locale)?.value || t.name;
       const typeName = typeMap[t.type]?.[locale] ?? "";
       const genreName = t.genres?.[0]?.name?.[locale] ?? "";
 
       return {
-        title: t.name,
+        title: localizedName,
         desc: [typeName, genreName].filter(Boolean).join(" – "),
         coverId: t.id,
         href: `/catalog/${t.id}`,

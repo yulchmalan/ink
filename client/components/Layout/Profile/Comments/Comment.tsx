@@ -1,15 +1,14 @@
 "use client";
 
-import Flag from "@/assets/icons/Flag";
 import styles from "./comment.module.scss";
 import { formatDistanceToNow } from "date-fns";
-import { uk } from "date-fns/locale";
+import { uk, enUS, pl } from "date-fns/locale";
 import { useS3Image } from "@/hooks/useS3Image";
 import fallbackPfp from "@/assets/pfp.svg";
 import { useState } from "react";
 import clsx from "clsx";
 import { useLocale } from "next-intl";
-import Link from "next/link";
+import type { Locale } from "date-fns";
 
 interface CommentProps {
   username: string;
@@ -54,6 +53,12 @@ export default function Comment({
   const avatar = useS3Image("avatars", userId, fallbackPfp.src);
   const locale = useLocale();
 
+  const localeMap: Record<string, Locale> = {
+    uk,
+    en: enUS,
+    pl,
+  };
+
   const localizedTitle =
     title && getLocalizedName(title.name, title.alt_names, locale);
 
@@ -67,7 +72,10 @@ export default function Comment({
           <div className={styles.userInfo}>
             <span className={styles.username}>{username}</span>
             <span className={styles.date}>
-              {formatDistanceToNow(date, { addSuffix: true, locale: uk })}
+              {formatDistanceToNow(date, {
+                addSuffix: true,
+                locale: localeMap[locale] ?? uk,
+              })}
             </span>
           </div>
           <p className={styles.message}>{message}</p>

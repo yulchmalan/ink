@@ -19,29 +19,10 @@ import { ADD_TITLE_TO_LIST } from "@/graphql/mutations/addTitleToList";
 import { REMOVE_TITLE_FROM_LIST } from "@/graphql/mutations/removeTitleFromList";
 import Rating from "@/components/UI/Rating/Rating";
 import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import ReviewSection from "./Review/ReviewSection";
 import CollectionSection from "./Collection/CollectionSection";
-
-const TRANSLATION_LABELS: Record<string, string> = {
-  TRANSLATED: "Перекладено",
-  IN_PROGRESS: "У процесі",
-  NOT_TRANSLATED: "Без перекладу",
-};
-
-const STATUS_LABELS: Record<string, string> = {
-  COMPLETED: "Завершено",
-  ONGOING: "Онґоїнг",
-  ANNOUNCED: "Анонсовано",
-};
-
-const LISTS = [
-  { id: "reading", label: "Читаю" },
-  { id: "planned", label: "В планах" },
-  { id: "completed", label: "Прочитано" },
-  { id: "dropped", label: "Закинуто" },
-  { id: "favorite", label: "Улюблене" },
-];
+import { useLocalizedName } from "@/hooks/useLocalizedName";
 
 const GET_CHAPTER_COUNT = `
   query GetTitle($id: ObjectID!) {
@@ -63,6 +44,7 @@ interface Props {
     name: string;
     author?: { name: string };
     franchise?: string;
+    alt_names?: { lang: string; value: string }[];
     translation?: string;
     status?: string;
     genres?: { name: LocalizedName }[];
@@ -72,6 +54,28 @@ interface Props {
 }
 
 export default function TitleInfo({ title }: Props) {
+  const t = useTranslations("Title");
+  const localizedTitleName = useLocalizedName(title.name, title.alt_names);
+  const TRANSLATION_LABELS: Record<string, string> = {
+    TRANSLATED: t("translated"),
+    IN_PROGRESS: t("in_progress"),
+    NOT_TRANSLATED: t("not_translated"),
+  };
+
+  const STATUS_LABELS: Record<string, string> = {
+    COMPLETED: t("status_completed"),
+    ONGOING: t("status_ongoing"),
+    ANNOUNCED: t("status_announced"),
+  };
+
+  const LISTS = [
+    { id: "reading", label: t("list_reading") },
+    { id: "planned", label: t("list_planned") },
+    { id: "completed", label: t("list_completed") },
+    { id: "dropped", label: t("list_dropped") },
+    { id: "favorite", label: t("list_favorite") },
+  ];
+
   const [selectedListId, setSelectedListId] = useState<string | undefined>();
   const [userRating, setUserRating] = useState<number | null>(null);
   const [progress, setProgress] = useState<number | null>(null);
@@ -232,44 +236,44 @@ export default function TitleInfo({ title }: Props) {
 
   const tabs = [
     {
-      title: "Інформація",
+      title: t("tab_info"),
       content: (
         <div className={styles.infoSection}>
           {title.description && (
             <section>
-              <h2>Опис</h2>
+              <h2>{t("description")}</h2>
               <p>{title.description}</p>
             </section>
           )}
           {title.author?.name && (
             <section>
-              <h2>Автор</h2>
+              <h2>{t("author")}</h2>
               <p>{title.author.name}</p>
             </section>
           )}
           {title.franchise && (
             <section>
-              <h2>Франшиза</h2>
+              <h2>{t("franchise")}</h2>
               <p>{title.franchise}</p>
             </section>
           )}
           <div className={styles.halfGrid}>
             {title.translation && TRANSLATION_LABELS[title.translation] && (
               <section>
-                <h2>Переклад</h2>
+                <h2>{t("translation")}</h2>
                 <p>{TRANSLATION_LABELS[title.translation]}</p>
               </section>
             )}
             {title.status && STATUS_LABELS[title.status] && (
               <section>
-                <h2>Статус</h2>
+                <h2>{t("status")}</h2>
                 <p>{STATUS_LABELS[title.status]}</p>
               </section>
             )}
           </div>
           {Array.isArray(title.genres) && title.genres.length > 0 && (
             <section>
-              <h2>Жанри</h2>
+              <h2>{t("genres")}</h2>
               <ul className={styles.tagGroup}>
                 {title.genres.map((g) => (
                   <li key={g.name.en} className={styles.tag}>
@@ -281,7 +285,7 @@ export default function TitleInfo({ title }: Props) {
           )}
           {Array.isArray(title.tags) && title.tags.length > 0 && (
             <section>
-              <h2>Теги</h2>
+              <h2>{t("tags")}</h2>
               <ul className={styles.tagGroup}>
                 {title.tags.map((t) => (
                   <li key={t.name.en} className={styles.tag}>
@@ -299,7 +303,7 @@ export default function TitleInfo({ title }: Props) {
       ),
     },
     {
-      title: "Розділи",
+      title: t("tab_chapters"),
       content: (
         <div className={styles.chapters}>
           {Array.from({ length: chapterCount }, (_, i) => (
@@ -308,23 +312,25 @@ export default function TitleInfo({ title }: Props) {
               href={`/catalog/${title.id}/reader?c=${i + 1}`}
               className={styles.chapterCard}
             >
-              <div className={styles.chapterNumber}>Розділ {i + 1}</div>
+              <div className={styles.chapterNumber}>
+                {t("chapter")} {i + 1}
+              </div>
             </a>
           ))}
-          {chapterCount === 0 && <p>Розділи відсутні.</p>}
+          {chapterCount === 0 && <p>{t("no_chapters")}</p>}
         </div>
       ),
     },
     {
-      title: "Коментарі",
+      title: t("tab_comments"),
       content: <CommentsSection subjectType="TITLE" subjectId={title.id} />,
     },
     {
-      title: "Рецензії",
+      title: t("tab_reviews"),
       content: <ReviewSection titleId={title.id} />,
     },
     {
-      title: "Колекції",
+      title: t("tab_collections"),
       content: <CollectionSection titleId={title.id} />,
     },
   ];
@@ -343,7 +349,7 @@ export default function TitleInfo({ title }: Props) {
             onClick={handleReadClick}
             disabled={chapterCount === 0}
           >
-            {progress ? "Продовжити читання" : "Почати читати"}
+            {progress ? t("continue_reading") : t("start_reading")}
           </Button>
           {currentUserId && (
             <Dropdown
@@ -364,7 +370,7 @@ export default function TitleInfo({ title }: Props) {
               placeholder={
                 <>
                   <Plus />
-                  Додати в плани
+                  {t("add_to_list")}
                 </>
               }
             />
@@ -374,7 +380,7 @@ export default function TitleInfo({ title }: Props) {
     >
       <Wrapper className={styles.wrapper}>
         <div className={styles.header}>
-          <h1 className={styles.h1}>{title.name}</h1>
+          <h1 className={styles.h1}>{localizedTitleName}</h1>
           {currentUserId && userRating !== null && (
             <Rating
               value={userRating / 2}

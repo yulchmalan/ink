@@ -1,8 +1,7 @@
 "use client";
 
 import { generateReadingMenu } from "@/data/sideMenus/readingMenu";
-import sortMenu from "@/data/sideMenus/sortMenu";
-// import friendsMenu from "@/data/sideMenus/friendsMenu";
+import { generateSortMenu } from "@/data/sideMenus/sortMenu";
 import { generateFriendsMenu } from "@/data/sideMenus/friendsMenu";
 
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
@@ -19,10 +18,13 @@ import ProfileFriends from "../Profile/Friends/ProfileFriends";
 import FriendCard from "../Profile/Friends/FriendCard/FriendCard";
 import { useAuth } from "@/contexts/AuthContext";
 import ProfileReviews from "../Profile/Reviews/ProfileReview";
+import { useTranslations } from "next-intl";
 
-const profileTabs = (user: User) => {
-  const { user: currentUser } = useAuth();
-
+const profileTabs = (
+  user: User,
+  t: ReturnType<typeof useTranslations<"Profile">>,
+  currentUserId?: string
+) => {
   const [controls, setControls] = useState({
     sortBy: "read-date",
     sortOrder: "desc" as "asc" | "desc",
@@ -142,12 +144,12 @@ const profileTabs = (user: User) => {
 
   return [
     {
-      title: "Закладки",
+      title: t("bookmarks"),
       content: (
         <TabGrid
           sidebar={
             <Wrapper className={styles.sideWrapper}>
-              {generateReadingMenu(user.lists ?? []).map((section, idx) => (
+              {generateReadingMenu(user.lists ?? [], t).map((section, idx) => (
                 <SideMenu
                   key={idx}
                   data={section}
@@ -183,13 +185,13 @@ const profileTabs = (user: User) => {
       ),
     },
     {
-      title: "Коментарі",
+      title: t("comments"),
       content: (
         <TabGrid
           sidebar={
             <Wrapper className={styles.sideWrapper}>
               <SideMenu
-                data={sortMenu}
+                data={generateSortMenu(t)}
                 selected={commentControls.sortBy}
                 selectedSecondary={commentControls.sortOrder}
                 onSelect={handleCommentControlChange}
@@ -208,13 +210,13 @@ const profileTabs = (user: User) => {
       ),
     },
     {
-      title: "Рецензії",
+      title: t("reviews"),
       content: (
         <TabGrid
           sidebar={
             <Wrapper className={styles.sideWrapper}>
               <SideMenu
-                data={sortMenu}
+                data={generateSortMenu(t)}
                 selected={reviewControls.sortBy}
                 selectedSecondary={reviewControls.sortOrder}
                 onSelect={handleReviewControlChange}
@@ -233,13 +235,13 @@ const profileTabs = (user: User) => {
       ),
     },
     {
-      title: "Колекції",
+      title: t("collections"),
       content: (
         <TabGrid
           sidebar={
             <Wrapper className={styles.sideWrapper}>
               <SideMenu
-                data={sortMenu}
+                data={generateSortMenu(t)}
                 selected={collectionControls.sortBy}
                 selectedSecondary={collectionControls.sortOrder}
                 onSelect={handleCollectionControlChange}
@@ -258,13 +260,13 @@ const profileTabs = (user: User) => {
       ),
     },
     {
-      title: "Друзі",
+      title: t("friends"),
       content: (
         <TabGrid
           sidebar={
             <Wrapper className={styles.sideWrapper}>
               <SideMenu
-                data={generateFriendsMenu(user.friends ?? [])}
+                data={generateFriendsMenu(user.friends ?? [], t)}
                 selected={friendsFilter}
                 onSelect={(v) => setFriendsFilter(v as any)}
               />
@@ -273,7 +275,7 @@ const profileTabs = (user: User) => {
         >
           <ProfileFriends
             user={user}
-            selfId={currentUser?._id ?? ""}
+            selfId={currentUserId ?? ""}
             mode={friendsFilter}
           />
         </TabGrid>

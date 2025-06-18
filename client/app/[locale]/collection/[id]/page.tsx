@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
 import Container from "@/components/Layout/Container/Container";
 import CollectionContent from "@/components/Layout/Collection/CollectionContent";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ params }: any) {
   const p = await params;
   const { id } = p;
+  const t = await getTranslations("Collection");
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",
@@ -34,15 +36,15 @@ export async function generateMetadata({ params }: any) {
 
   if (!collection) {
     return {
-      title: "Колекція не знайдена | Ink",
-      description: "Ця колекція не існує або була видалена.",
+      title: t("not_found_title"),
+      description: t("not_found_description"),
     };
   }
 
-  const title = `${collection.name} | Колекція Ink`;
+  const title = `${collection.name} ${t("meta_title_suffix")}`;
   const description =
     collection.description?.trim() ||
-    `Переглянь добірку від користувача ${collection.user?.username} на платформі Ink.`;
+    t("meta_description_default", { username: collection.user?.username });
 
   return {
     title,

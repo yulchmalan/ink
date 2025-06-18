@@ -1,12 +1,27 @@
+"use client";
+
 import { useEffect, useState } from "react";
+import { useLocale } from "next-intl";
 import UpdateCard from "@/components/UI/Cards/UpdateCard/UpdateCard";
 import { useS3Image } from "@/hooks/useS3Image";
+import { useLocalizedName } from "@/hooks/useLocalizedName"; // підкоригуй шлях при потребі
 import fallbackCover from "@/assets/cover.png";
 
 const UpdateCardWrapper = ({ t }: { t: any }) => {
   const [rating, setRating] = useState<number | null>(null);
   const [saves, setSaves] = useState<number>(0);
+  const locale = useLocale();
   const coverUrl = useS3Image("covers", t.id, fallbackCover.src);
+
+  const localizedName = useLocalizedName(t.name, t.alt_names);
+
+  const typeMap: Record<string, Record<string, string>> = {
+    NOVEL: { uk: "Роман", en: "Novel", pl: "Powieść" },
+    COMIC: { uk: "Комікс", en: "Comic", pl: "Komiks" },
+  };
+
+  const type = typeMap[t.type]?.[locale] ?? "";
+  const genre = t.genres?.[0]?.name?.[locale] ?? "";
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -67,10 +82,8 @@ const UpdateCardWrapper = ({ t }: { t: any }) => {
   return (
     <UpdateCard
       href={`/catalog/${t.id}`}
-      title={t.name}
-      desc={`${t.type === "NOVEL" ? "Роман" : "Комікс"} – ${
-        t.genres?.[0]?.name.uk ?? ""
-      }`}
+      title={localizedName}
+      desc={[type, genre].filter(Boolean).join(" – ")}
       coverUrl={coverUrl}
       rating={rating}
       saves={saves}

@@ -1,93 +1,74 @@
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
-import styles from "./page.module.scss";
 import Container from "@/components/Layout/Container/Container";
+import styles from "./page.module.scss";
+import { getTranslations } from "next-intl/server";
 
-export const metadata = {
-  title: "Політика щодо файлів cookie | Ink",
-  description:
-    "Дізнайтесь, як Ink використовує cookie-файли для збереження сесії, персоналізації, аналітики та покращення безпеки. Керуйте cookie у своєму браузері.",
-  openGraph: {
-    title: "Політика щодо файлів cookie | Ink",
-    description:
-      "Ми пояснюємо, які cookie ми використовуємо на Ink, навіщо вони потрібні, і як ви можете ними керувати.",
-    type: "website",
-    url: "https://ink-three.vercel./cookie-policy",
-  },
-  twitter: {
-    card: "summary",
-    title: "Політика щодо файлів cookie | Ink",
-    description:
-      "Ознайомтесь із тим, як Ink обробляє файли cookie: сесії, мовні налаштування, аналітика та персоналізація.",
-  },
-};
+export async function generateMetadata() {
+  const t = await getTranslations("Cookies");
+  return {
+    title: t("meta_title"),
+    description: t("meta_description"),
+    openGraph: {
+      title: t("meta_title"),
+      description: t("og_description"),
+      type: "website",
+      url: "https://ink-three.vercel.app/cookie-policy",
+    },
+    twitter: {
+      card: "summary",
+      title: t("meta_title"),
+      description: t("twitter_description"),
+    },
+  };
+}
 
-export default function CookiesPage() {
+export default async function CookiesPage() {
+  const t = await getTranslations("Cookies");
+
   return (
     <Container>
       <Wrapper className={styles.wrapper}>
-        <h1>Політика щодо файлів cookie</h1>
+        <h1>{t("title")}</h1>
         <div className={styles.section}>
-          <h2>1. Що таке файли cookie?</h2>
-          <p>
-            Cookie — це невеликі текстові файли, які зберігаються на вашому
-            пристрої, коли ви відвідуєте наш сайт. Вони дозволяють розпізнати
-            вас серед інших користувачів, зберігати ваші налаштування та
-            покращувати взаємодію з платформою Ink.
-          </p>
+          <h2>{t("s1_title")}</h2>
+          <p>{t("s1_p")}</p>
 
-          <h2>2. Як ми використовуємо cookie</h2>
-          <p>Ми використовуємо cookie для таких цілей:</p>
+          <h2>{t("s2_title")}</h2>
+          <p>{t("s2_p")}</p>
           <ul>
-            <li>збереження авторизації та стану сесії;</li>
+            <li>{t("s2_l1")}</li>
+            <li>{t("s2_l2")}</li>
+            <li>{t("s2_l3")}</li>
+            <li>{t("s2_l4")}</li>
+            <li>{t("s2_l5")}</li>
+          </ul>
+
+          <h2>{t("s3_title")}</h2>
+          <p>{t("s3_p")}</p>
+          <ul>
             <li>
-              запамʼятовування ваших мовних налаштувань та вигляду інтерфейсу;
+              <strong>{t("s3_l1_t")}</strong>: {t("s3_l1_d")}
             </li>
             <li>
-              аналітики використання сайту (наприклад, з допомогою Google
-              Analytics);
+              <strong>{t("s3_l2_t")}</strong>: {t("s3_l2_d")}
             </li>
-            <li>персоналізації рекомендацій та контенту;</li>
             <li>
-              забезпечення безпеки (наприклад, виявлення підозрілої активності).
+              <strong>{t("s3_l3_t")}</strong>: {t("s3_l3_d")}
+            </li>
+            <li>
+              <strong>{t("s3_l4_t")}</strong>: {t("s3_l4_d")}
             </li>
           </ul>
 
-          <h2>3. Типи cookie</h2>
-          <p>Ми використовуємо такі типи файлів cookie:</p>
-          <ul>
-            <li>
-              <strong>Обовʼязкові:</strong> необхідні для роботи сайту;
-            </li>
-            <li>
-              <strong>Функціональні:</strong> запамʼятовують ваші налаштування;
-            </li>
-            <li>
-              <strong>Аналітичні:</strong> допомагають зрозуміти, як користувачі
-              взаємодіють із платформою;
-            </li>
-            <li>
-              <strong>Третіх сторін:</strong> файли cookie сервісів аналітики,
-              авторизації чи соцмереж.
-            </li>
-          </ul>
+          <h2>{t("s4_title")}</h2>
+          <p>{t("s4_p")}</p>
 
-          <h2>4. Як керувати cookie?</h2>
-          <p>
-            Ви можете керувати cookie через налаштування вашого браузера. Ви
-            маєте змогу видалити вже збережені файли cookie або заблокувати
-            нові. Однак деякі частини сайту можуть працювати некоректно без
-            обовʼязкових cookie.
-          </p>
+          <h2>{t("s5_title")}</h2>
+          <p>{t("s5_p")}</p>
 
-          <h2>5. Зміни до політики</h2>
+          <h2>{t("s6_title")}</h2>
           <p>
-            Ми можемо періодично оновлювати цю політику. Актуальна версія завжди
-            доступна на цій сторінці.
-          </p>
-
-          <h2>6. Контакти</h2>
-          <p>
-            З питань, повʼязаних із cookie, звертайтесь на email:{" "}
+            {t("s6_p")}{" "}
             <a href="mailto:juliamalanjuk@gmail.com">juliamalanjuk@gmail.com</a>
             .
           </p>

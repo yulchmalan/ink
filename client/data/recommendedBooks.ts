@@ -1,4 +1,5 @@
 import { BookCardProps } from "@/components/UI/Cards/BookCard/BookCard";
+import { jwtDecode } from "jwt-decode";
 
 type TitleType = "NOVEL" | "COMIC";
 type Locale = "uk" | "en" | "pl";
@@ -6,22 +7,22 @@ type Locale = "uk" | "en" | "pl";
 interface RecommendedTitle {
   id: string;
   name: string;
+  alt_names?: { lang: string; value: string }[];
   type: TitleType;
   genres: {
     name: Record<Locale, string>;
   }[];
 }
-import { jwtDecode } from "jwt-decode";
 
 type DecodedToken = {
   userId: string;
 };
 
 export const recommendedBooks = async (): Promise<BookCardProps[]> => {
- const locale: Locale =
-  typeof window !== "undefined"
-    ? (window.location.pathname.split("/")[1] as Locale) || "uk"
-    : "uk";
+  const locale: Locale =
+    typeof window !== "undefined"
+      ? (window.location.pathname.split("/")[1] as Locale) || "uk"
+      : "uk";
 
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
   if (!token) return [];
@@ -42,6 +43,10 @@ export const recommendedBooks = async (): Promise<BookCardProps[]> => {
           recommendedTitles(userId: $userId) {
             id
             name
+            alt_names {
+              lang
+              value
+            }
             type
             genres {
               name {
@@ -60,19 +65,20 @@ export const recommendedBooks = async (): Promise<BookCardProps[]> => {
 
   const { data } = await res.json();
 
-  const typeMap: Record<"NOVEL" | "COMIC", Record<"uk" | "en" | "pl", string>> = {
+  const typeMap: Record<"NOVEL" | "COMIC", Record<Locale, string>> = {
     NOVEL: { uk: "Новела", en: "Novel", pl: "Powieść" },
     COMIC: { uk: "Комікс", en: "Comic", pl: "Komiks" },
   };
 
-  
-
   return (
     data?.recommendedTitles?.map((t: RecommendedTitle): BookCardProps => {
+      const localizedName =
+        t.alt_names?.find((n) => n.lang === locale)?.value || t.name;
       const typeName = typeMap[t.type][locale];
       const genreName = t.genres?.[0]?.name[locale] ?? "";
+
       return {
-        title: t.name,
+        title: localizedName,
         desc: [typeName, genreName].filter(Boolean).join(" – "),
         coverId: t.id,
         href: `/catalog/${t.id}`,
@@ -80,4 +86,4 @@ export const recommendedBooks = async (): Promise<BookCardProps[]> => {
       };
     }) ?? []
   );
-};
+}

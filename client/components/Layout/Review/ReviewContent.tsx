@@ -10,7 +10,7 @@ import ChevronUp from "@/assets/icons/ChevronUp";
 import ChevronDown from "@/assets/icons/ChevronDown";
 import Wrapper from "../Wrapper/Wrapper";
 import { useEffect, useState } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { formatDistanceToNow } from "date-fns";
 import { enUS, uk, pl } from "date-fns/locale";
 import clsx from "clsx";
@@ -46,6 +46,7 @@ export default function ReviewContent({
 }: {
   initialReview: Review;
 }) {
+  const t = useTranslations("Review");
   const [review, setReview] = useState(initialReview);
   const { user: currentUser } = useAuth();
   const currentUserId = currentUser?._id;
@@ -256,12 +257,12 @@ export default function ReviewContent({
                 <div id="review-dropdown" className={styles.dropdown}>
                   {canEdit && (
                     <button onClick={handleEdit}>
-                      <Pencil /> Редагувати
+                      <Pencil /> {t("edit")}
                     </button>
                   )}
                   {canDelete && (
                     <button onClick={() => setShowConfirmModal(true)}>
-                      <Trash /> Видалити
+                      <Trash /> {t("delete")}
                     </button>
                   )}
                 </div>
@@ -270,14 +271,14 @@ export default function ReviewContent({
           )}
           <h1>{review.name}</h1>
           <p className={styles.titleName}>
-            Тема:{" "}
+            {t("subject")}:{" "}
             <Link href={`/catalog/${review.title.id}`}>
               <strong>{review.title.name}</strong>
             </Link>
           </p>
           <div className={styles.info}>
             <p className={styles.author}>
-              Автор{" "}
+              {t("author")}{" "}
               <Link href={`/profile/${review.user._id}`}>
                 <span className={styles.highlight}>{review.user.username}</span>
               </Link>
@@ -348,7 +349,7 @@ export default function ReviewContent({
                   }
                 }}
               >
-                Зберегти
+                {t("save")}
               </Button>
               <Button
                 variant="secondary"
@@ -357,7 +358,7 @@ export default function ReviewContent({
                   setEditedBody(review.body);
                 }}
               >
-                Скасувати
+                {t("cancel")}
               </Button>
             </div>
           </>
@@ -415,14 +416,14 @@ export default function ReviewContent({
       {showConfirmModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
-            <p>Ви впевнені, що хочете видалити цю рецензію?</p>
+            <p>{t("confirm_delete")}</p>
             <div className={styles.modalActions}>
-              <Button onClick={handleDelete}>Видалити</Button>
+              <Button onClick={handleDelete}>{t("delete")}</Button>
               <Button
                 variant="secondary"
                 onClick={() => setShowConfirmModal(false)}
               >
-                Скасувати
+                {t("cancel")}
               </Button>
             </div>
           </div>

@@ -4,10 +4,11 @@ import Moon from "@/assets/icons/Moon";
 import styles from "./theme-toggle.module.scss";
 import Sun from "@/assets/icons/Sun";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(false);
-
+  const t = useTranslations("Nav");
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
@@ -33,11 +34,11 @@ const ThemeToggle = () => {
     <button onClick={toggleTheme} className={styles.btn}>
       {isDark ? (
         <>
-          <Moon /> Темна
+          <Moon /> {t("dark")}
         </>
       ) : (
         <>
-          <Sun /> Світла
+          <Sun /> {t("light")}
         </>
       )}
     </button>

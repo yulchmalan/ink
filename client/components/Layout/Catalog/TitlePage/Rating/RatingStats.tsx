@@ -6,6 +6,7 @@ import ProgressBar from "@/components/UI/ProgressBar/ProgressBar";
 import React, { useEffect, useState } from "react";
 import { GET_TITLE_RATINGS } from "@/graphql/queries/getTitleRatings";
 import StarFull from "@/assets/icons/StarFull";
+import { useTranslations } from "next-intl";
 
 type Props = {
   titleId: string;
@@ -15,7 +16,7 @@ export default function RatingStats({ titleId }: Props) {
   const [stats, setStats] = useState<Record<number, number>>({});
   const [total, setTotal] = useState(0);
   const [average, setAverage] = useState<number | null>(null);
-
+  const t = useTranslations("Title");
   useEffect(() => {
     const fetchRatings = async () => {
       try {
@@ -90,7 +91,7 @@ export default function RatingStats({ titleId }: Props) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Оцінки користувачів</h2>
+        <h2 className={styles.title}>{t("user_ratings")}</h2>
         <div className={styles.avg}>
           <span className={styles.avgScore}>
             <StarFull width={18} height={18} />

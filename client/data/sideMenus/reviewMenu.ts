@@ -1,19 +1,19 @@
 import type { Section } from "@/components/Layout/Profile/SideMenu/SideMenu";
 
-export const generateReviewMenu = (): Section[] => [
+export const generateReviewMenu = (t: ReturnType<typeof import("next-intl").useTranslations<"Catalog">>): Section[] => [
   {
-    title: "Сортувати за",
+    title: t("sort_by"),
     type: "radio",
     items: [
-      { label: "Датою", value: "CREATED_AT" },
-      { label: "Оцінкою", value: "RATING" },
-      { label: "Переглядами", value: "VIEWS" },
+      { label: t("sort_created"), value: "CREATED_AT" },
+      { label: t("sort_rating"), value: "RATING" },
+      { label: t("sort_views"), value: "VIEWS" },
     ],
     secondary: {
       type: "radio",
       items: [
-        { label: "Зростанням", value: "ASC" },
-        { label: "Спаданням", value: "DESC" },
+        { label: t("sort_asc"), value: "ASC" },
+        { label: t("sort_desc"), value: "DESC" },
       ],
     },
   },

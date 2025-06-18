@@ -5,6 +5,7 @@ import styles from "./side-menu.module.scss";
 import clsx from "clsx";
 import ChevronRight from "@/assets/icons/ChevronRight";
 import Checkbox from "@/assets/icons/Checkbox";
+import { useTranslations } from "next-intl";
 
 type Item = {
   label: string;
@@ -49,6 +50,7 @@ export default function SideMenu({
   const handleClick = (value: string, isSecondary = false) => {
     onSelect?.(value);
   };
+  const t = useTranslations("Catalog");
 
   const renderItem = (item: Item, isSecondary = false) => {
     const isIcon = data.type === "icon";
@@ -126,14 +128,14 @@ export default function SideMenu({
         <div className={styles.rangeWrapper}>
           <Input
             type="number"
-            placeholder="Від"
+            placeholder={t("from")}
             value={rangeFrom}
             onChange={(e) => onSelect?.(`rating-from:${e.target.value}`)}
           />
           <span>-</span>
           <Input
             type="number"
-            placeholder="До"
+            placeholder={t("to")}
             value={rangeTo}
             onChange={(e) => onSelect?.(`rating-to:${e.target.value}`)}
           />

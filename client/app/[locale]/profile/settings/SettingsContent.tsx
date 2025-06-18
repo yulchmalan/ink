@@ -11,8 +11,10 @@ import Wrapper from "@/components/Layout/Wrapper/Wrapper";
 import fallbackPfp from "@/assets/pfp.svg";
 import fallbackBanner from "@/assets/banner.png";
 import { useS3Image } from "@/hooks/useS3Image";
+import { useTranslations } from "next-intl";
 
 export default function ProfileSettingsContent() {
+  const t = useTranslations("Profile");
   const { user } = useAuth();
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
@@ -136,7 +138,7 @@ export default function ProfileSettingsContent() {
     const newErrors: typeof errors = {};
 
     if (!username.trim()) {
-      newErrors.username = "Нікнейм не може бути порожнім";
+      newErrors.username = t("empty_nickname");
     }
 
     if (errors.avatar || errors.banner) {
@@ -201,7 +203,7 @@ export default function ProfileSettingsContent() {
       localStorage.removeItem("token");
       window.location.href = "/";
     } catch (err) {
-      console.error("Помилка при видаленні акаунту:", err);
+      console.error(t("delete_failed"), err);
     } finally {
       setDeleting(false);
     }
@@ -219,7 +221,7 @@ export default function ProfileSettingsContent() {
     if (!validTypes.includes(file.type)) {
       setErrors((prev) => ({
         ...prev,
-        [type]: "Файл має бути .jpg, .jpeg, .png або .webp",
+        [type]: t("invalid_image_type"),
       }));
       return;
     }
@@ -240,7 +242,12 @@ export default function ProfileSettingsContent() {
       if (!valid) {
         setErrors((prev) => ({
           ...prev,
-          banner: `Банер має бути щонайменше ${MIN_BANNER_WIDTH}x${MIN_BANNER_HEIGHT}px (зараз ${width}x${height})`,
+          banner: t("banner_too_small", {
+            width: MIN_BANNER_WIDTH,
+            height: MIN_BANNER_HEIGHT,
+            currentWidth: width,
+            currentHeight: height,
+          }),
         }));
         return;
       }
@@ -262,7 +269,7 @@ export default function ProfileSettingsContent() {
     if (!validTypes.includes(file.type)) {
       setErrors((prev) => ({
         ...prev,
-        [type]: "Файл має бути .jpg, .jpeg або .png",
+        [type]: t("invalid_image_type"),
       }));
       return;
     }
@@ -282,7 +289,12 @@ export default function ProfileSettingsContent() {
       if (!valid) {
         setErrors((prev) => ({
           ...prev,
-          banner: `Банер має бути щонайменше ${MIN_BANNER_WIDTH}x${MIN_BANNER_HEIGHT}px (зараз ${width}x${height})`,
+          banner: t("banner_too_small", {
+            width: MIN_BANNER_WIDTH,
+            height: MIN_BANNER_HEIGHT,
+            currentWidth: width,
+            currentHeight: height,
+          }),
         }));
         return;
       }
@@ -295,19 +307,19 @@ export default function ProfileSettingsContent() {
   return (
     <>
       <Container className={styles.container}>
-        <h1>Налаштування профілю</h1>
+        <h1>{t("profile_settings")}</h1>
 
         <Wrapper className={styles.info}>
-          <label className={styles.label}>Нікнейм</label>
+          <label className={styles.label}>{t("nickname")}</label>
           <Input
-            label="Нікнейм"
+            placeholder={t("nickname")}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <label className={styles.label}>Опис</label>
+          <label className={styles.label}>{t("about")}</label>
           <textarea
             className={styles.textarea}
-            placeholder="Опис профілю"
+            placeholder={t("about")}
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             rows={4}
@@ -315,14 +327,14 @@ export default function ProfileSettingsContent() {
         </Wrapper>
 
         <Wrapper>
-          <label className={styles.label}>Аватар</label>
+          <label className={styles.label}>{t("pfp")}</label>
           <div className={styles.imageRow}>
             <div
               className={styles.dropzone}
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => handleDrop(e, "avatar")}
             >
-              <p>Перетягни або натисни для вибору аватарки</p>
+              <p>{t("drag_pfp")}</p>
               <input
                 type="file"
                 accept="image/png,image/jpeg,image/jpg,image/webp"
@@ -339,14 +351,14 @@ export default function ProfileSettingsContent() {
           {errors.avatar && <p className={styles.error}>{errors.avatar}</p>}
         </Wrapper>
         <Wrapper>
-          <label className={styles.label}>Банер</label>
+          <label className={styles.label}>{t("banner")}</label>
           <div className={styles.imageRow}>
             <div
               className={styles.dropzone}
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => handleDrop(e, "banner")}
             >
-              <p>Перетягни або натисни для вибору банера</p>
+              <p>{t("drag_banner")}</p>
               <input
                 type="file"
                 accept="image/png,image/jpeg,image/jpg,image/webp"
@@ -363,32 +375,29 @@ export default function ProfileSettingsContent() {
           {errors.banner && <p className={styles.error}>{errors.banner}</p>}
         </Wrapper>
         <Wrapper className={styles.actions}>
-          <Button onClick={handleSave}>Зберегти</Button>
+          <Button onClick={handleSave}>{t("save")}</Button>
           <Button
             className={styles.deleteBtn}
             onClick={() => setShowDeleteModal(true)}
             variant="secondary"
           >
-            Видалити акаунт
+            {t("delete_acc")}
           </Button>
-          {saved && <p className={styles.success}>Зміни збережено!</p>}
+          {saved && <p className={styles.success}>{t("saved_msg")}</p>}
         </Wrapper>
       </Container>
       {showDeleteModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalWindow}>
-            <h2>Підтвердження</h2>
-            <p>
-              Ти впевнений(-а), що хочеш видалити акаунт? Цю дію не можна
-              скасувати.
-            </p>
+            <h2>{t("confirm_delete_title")}</h2>
+            <p>{t("confirm_delete_msg")}</p>
             <div className={styles.modalActions}>
               <Button
                 onClick={() => setShowDeleteModal(false)}
                 variant="secondary"
                 className={styles.modalControl}
               >
-                Скасувати
+                {t("cancel")}
               </Button>
               <Button
                 onClick={handleDeleteAccount}
@@ -396,7 +405,7 @@ export default function ProfileSettingsContent() {
                 variant="primary"
                 className={styles.modalControl}
               >
-                {deleting ? "Видалення..." : "Так, видалити"}
+                {deleting ? t("deleting") : t("confirm_delete")}
               </Button>
             </div>
           </div>

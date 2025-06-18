@@ -8,7 +8,7 @@ import { enUS, uk, pl } from "date-fns/locale";
 import type { Locale } from "date-fns";
 
 import styles from "./comment.module.scss";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "@/contexts/AuthContext";
 import { useS3Image } from "@/hooks/useS3Image";
 
@@ -54,6 +54,7 @@ export default function Comment({
   subjectId,
   subjectType,
 }: CommentProps) {
+  const t = useTranslations("Comment");
   const { id: commentId, body, createdAt, score, user } = comment;
   const { user: currentUser } = useAuth();
   const currentUserId = currentUser?._id;
@@ -282,7 +283,7 @@ export default function Comment({
                           setShowMenu(false);
                         }}
                       >
-                        <Pencil /> Редагувати
+                        <Pencil /> {t("edit")}
                       </button>
                     )}
                     <button
@@ -292,7 +293,7 @@ export default function Comment({
                       }}
                     >
                       <Reply />
-                      Відповісти
+                      {t("reply")}
                     </button>
                     {canDelete && (
                       <button
@@ -301,7 +302,7 @@ export default function Comment({
                           setShowMenu(false);
                         }}
                       >
-                        <Trash /> Видалити
+                        <Trash /> {t("delete")}
                       </button>
                     )}
                   </div>
@@ -322,7 +323,7 @@ export default function Comment({
                     onClick={handleEdit}
                     disabled={!editedText.trim() || editedText === body}
                   >
-                    Підтвердити
+                    {t("confirm")}
                   </Button>
                   <Button
                     variant="secondary"
@@ -331,7 +332,7 @@ export default function Comment({
                       setEditedText(body);
                     }}
                   >
-                    Скасувати
+                    {t("cancel")}
                   </Button>
                 </div>
               </div>
@@ -385,11 +386,11 @@ export default function Comment({
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
                   className={styles.replyInput}
-                  placeholder="Ваша відповідь..."
+                  placeholder={t("your_reply")}
                 />
                 <div className={styles.replyActions}>
                   <Button onClick={handleReply} disabled={!replyText.trim()}>
-                    Надіслати
+                    {t("send")}
                   </Button>
                   <Button
                     variant="secondary"
@@ -398,7 +399,7 @@ export default function Comment({
                       setShowReplyInput(false);
                     }}
                   >
-                    Скасувати
+                    {t("cancel")}
                   </Button>
                 </div>
               </div>

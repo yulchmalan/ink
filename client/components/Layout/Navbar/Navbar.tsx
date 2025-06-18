@@ -210,7 +210,7 @@ export default function Navbar() {
                     }}
                   >
                     <Settings />
-                    Налаштування
+                    {t("settings")}
                   </li>
                 )}
 
@@ -229,7 +229,7 @@ export default function Navbar() {
                     {unreadCount > 0 && (
                       <span className={styles.badge}>{unreadCount}</span>
                     )}
-                    Сповіщення
+                    {t("notifications")}
                   </li>
                 )}
 
@@ -250,7 +250,7 @@ export default function Navbar() {
                     className={styles.exit}
                   >
                     <LogOut />
-                    Вийти
+                    {t("logout")}
                   </li>
                 )}
                 {!isLoggedIn && (
