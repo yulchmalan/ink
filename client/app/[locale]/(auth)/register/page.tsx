@@ -10,28 +10,27 @@ import Form from "./Form";
 
 export async function generateMetadata() {
   const locale = await getLocale();
-
   const t = await getTranslations({ locale, namespace: "Meta" });
 
   return {
     title: "Ink | Digital Library",
-    description:
-      "Зареєструйся на платформі Ink, щоб читати улюблені книги, комікси й романи, зберігати прогрес, створювати колекції та ділитися рецензіями.",
+    description: t("register_description"),
   };
 }
 
 export default async function Home() {
   const locale = await getLocale();
-  const t = await getTranslations({ locale, namespace: "Index" });
+  const t = await getTranslations({ locale, namespace: "Registration" });
   return (
     <>
       <Container>
         <Wrapper className={styles.wrapper}>
           <Logo></Logo>
-          <h1>Реєстрація</h1>
+          <h1>{t("register_title")}</h1>
           <Form></Form>
           <p>
-            Маєте аккаунт? <LinkHighlight href="/login">Ввійти</LinkHighlight>
+            {t("already_have_account")}{" "}
+            <LinkHighlight href="/login">{t("login")}</LinkHighlight>
           </p>
         </Wrapper>
       </Container>

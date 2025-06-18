@@ -8,13 +8,13 @@
     flex-direction: row-reverse;
     font-weight: 600;
     font-family: var(--font-family);
+    font-size: var(--font-size);
     gap: 16px;
     cursor: pointer;
     color: var(--font);
     @media (min-width: 890px) {
         flex-direction: row;
         gap: 8px;
-        font-size: calc(var(--font-size) - 3px);
     }
 
 }

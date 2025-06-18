@@ -10,7 +10,9 @@
         "reviews_description": "Read the latest reviews of books, comics, and graphic novels on the Ink platform. Reader opinions, ratings, and discussions.",
         "review_not_found_title": "Review not found | Ink",
         "review_title": "{review} | Review of {title} | Ink",
-        "review_description": "A review by {username} of \"{title}\". Rating: {rating}/10. Read their thoughts and leave yours!"
+        "review_description": "A review by {username} of \"{title}\". Rating: {rating}/10. Read their thoughts and leave yours!",
+        "login_description": "Log in to Ink and continue reading where you left off. Personalized recommendations, bookmarks, reviews — all at your fingertips.",
+        "register_description": "Register on Ink to read your favorite books, comics, and novels, track your progress, create collections, and share reviews."  
     },
     "UI": {
         "ukrainian": "Ukrainian",
@@ -55,7 +57,8 @@
         "login": "Log in",
         "reg": "Register",
         "light": "Light",
-        "dark": "Dark"
+        "dark": "Dark",
+        "guest": "Guest"
     },
     "Tabs": {
         "AllUpdates": "All updates",
@@ -525,5 +528,35 @@
         "chapter": "Chapter",
         "no_chapters": "No chapters available.",
         "user_ratings": "User ratings"
+    },
+    "Login": {
+        "login_heading": "Login",
+        "no_account": "Don't have an account?",
+        "register": "Register",
+        "password": "Password",
+        "login": "Login",
+        "loading": "Loading...",
+        "or_social": "Or via social networks",
+        "error_no_captcha": "Please confirm you are not a robot",
+        "error_captcha_failed": "CAPTCHA verification failed",
+        "error_user_not_found": "No user found with this email",
+        "error_invalid_credentials": "Incorrect password",
+        "error_unknown": "Something went wrong",
+        "error_network": "Network request error"
+    },
+        "Registration": {
+        "register_title": "Registration",
+        "already_have_account": "Already have an account?",
+        "login": "Login",
+        "email": "Email",
+        "password": "Password",
+        "confirm_password": "Confirm password",
+        "username": "Username",
+        "register": "Register",
+        "loading": "Loading...",
+        "or_social": "Or via social networks",
+        "error_password_mismatch": "Passwords do not match",
+        "error_email_exists": "User with this email already exists",
+        "error_generic": "Something went wrong"
     }
 }

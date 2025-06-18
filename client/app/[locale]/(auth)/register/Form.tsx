@@ -8,8 +8,10 @@ import Github from "@/assets/icons/Github";
 import Google from "@/assets/icons/Google";
 import Discord from "@/assets/icons/Discord";
 import { useCallbackUrl } from "@/hooks/useCallbackUrl";
+import { useTranslations } from "next-intl";
 
 const Form = () => {
+  const t = useTranslations("Registration");
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -32,7 +34,7 @@ const Form = () => {
     setIsLoading(true);
 
     if (form.password !== form.confirmPassword) {
-      setError("Паролі не збігаються");
+      setError(t("error_password_mismatch"));
       setIsLoading(false);
       return;
     }
@@ -75,10 +77,10 @@ const Form = () => {
 
         switch (code) {
           case "EMAIL_EXISTS":
-            setError("Користувача з такою поштою вже зареєстровано");
+            setError(t("error_email_exists"));
             break;
           default:
-            setError("Щось пішло не так: " + error.message);
+            setError(t("error_generic") + ": " + error.message);
         }
       } else {
         localStorage.setItem("token", json.data.registerUser.token);
@@ -86,7 +88,7 @@ const Form = () => {
       }
     } catch (err) {
       console.error("Submit error:", err);
-      setError("Щось пішло не так");
+      setError(t("error_generic"));
     } finally {
       setIsLoading(false);
     }
@@ -96,7 +98,7 @@ const Form = () => {
     <form onSubmit={handleSubmit} className={styles.form}>
       <Input
         name="email"
-        label="Email"
+        label={t("email")}
         required
         value={form.email}
         onChange={handleChange}
@@ -104,7 +106,7 @@ const Form = () => {
       <Input
         name="password"
         type="password"
-        label="Password"
+        label={t("password")}
         required
         value={form.password}
         onChange={handleChange}
@@ -112,14 +114,14 @@ const Form = () => {
       <Input
         name="confirmPassword"
         type="password"
-        label="Confirm password"
+        label={t("confirm_password")}
         required
         value={form.confirmPassword}
         onChange={handleChange}
       />
       <Input
         name="username"
-        label="Username"
+        label={t("username")}
         required
         value={form.username}
         onChange={handleChange}
@@ -127,7 +129,7 @@ const Form = () => {
 
       {error && <p className={styles.error}>{error}</p>}
 
-      <p className={styles.center}>Або через соцмережі</p>
+      <p className={styles.center}>{t("or_social")}</p>
       <div className={styles.socials}>
         <button
           onClick={() => socialSignIn("github")}
@@ -153,7 +155,7 @@ const Form = () => {
       </div>
 
       <SubmitBtn disabled={isLoading}>
-        {isLoading ? "Завантаження..." : "Зареєструватися"}
+        {isLoading ? t("loading") : t("register")}
       </SubmitBtn>
     </form>
   );

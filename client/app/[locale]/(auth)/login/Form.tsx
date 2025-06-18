@@ -10,8 +10,10 @@ import Github from "@/assets/icons/Github";
 import Discord from "@/assets/icons/Discord";
 import Google from "@/assets/icons/Google";
 import { useCallbackUrl } from "@/hooks/useCallbackUrl";
+import { useTranslations } from "next-intl";
 
 const Form = () => {
+  const t = useTranslations("Login");
   const [form, setForm] = useState({ email: "", password: "" });
   const { login } = useAuth();
   const { redirect, socialSignIn } = useCallbackUrl();
@@ -41,7 +43,7 @@ const Form = () => {
     setIsLoading(true);
 
     if (!recaptchaToken || recaptchaToken.trim() === "") {
-      setError("Підтвердіть, що ви не робот");
+      setError(t("error_no_captcha"));
       setIsLoading(false);
       return;
     }
@@ -87,13 +89,13 @@ const Form = () => {
         const code = json.errors[0].extensions?.code;
 
         if (code === "RECAPTCHA_FAILED") {
-          setError("Перевірка капчі не пройдена");
+          setError(t("error_captcha_failed"));
         } else if (message === "User not found") {
-          setError("Користувача з такою поштою не знайдено");
+          setError(t("error_user_not_found"));
         } else if (message === "Invalid credentials") {
-          setError("Невірний пароль");
+          setError(t("error_invalid_credentials"));
         } else {
-          setError("Щось пішло не так: " + message);
+          setError(t("error_unknown") + ": " + message);
         }
       } else {
         localStorage.setItem("token", json.data.loginUser.token);
@@ -102,7 +104,7 @@ const Form = () => {
       }
     } catch (err: any) {
       console.error("Login error:", err);
-      setError(err.message || "Помилка під час запиту");
+      setError(err.message || t("error_network"));
       captchaRef.current?.reset();
       setRecaptchaToken(null);
     } finally {
@@ -123,7 +125,7 @@ const Form = () => {
         <Input
           name="password"
           type="password"
-          label="Password"
+          label={t("password")}
           required
           value={form.password}
           onChange={handleChange}
@@ -139,11 +141,11 @@ const Form = () => {
 
         {error && <p className={styles.error}>{error}</p>}
         <SubmitBtn disabled={isLoading}>
-          {isLoading ? "Завантаження..." : "Увійти"}
+          {isLoading ? t("loading") : t("login")}
         </SubmitBtn>
       </form>
 
-      <p className={styles.center}>Або через соцмережі</p>
+      <p className={styles.center}>{t("or_social")}</p>
       <div className={styles.socials}>
         <button
           onClick={() => socialSignIn("github")}

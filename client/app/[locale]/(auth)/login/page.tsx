@@ -15,24 +15,23 @@ export async function generateMetadata() {
 
   return {
     title: "Ink | Digital Library",
-    description:
-      "Авторизуйся на Ink і продовжуй читати там, де зупинився. Персоналізовані рекомендації, закладки, рецензії — все під рукою.",
+    description: t("login_description"),
   };
 }
 
 export default async function Home() {
   const locale = await getLocale();
-  const t = await getTranslations({ locale, namespace: "Index" });
+  const t = await getTranslations({ locale, namespace: "Login" });
   return (
     <>
       <Container>
         <Wrapper className={styles.wrapper}>
           <Logo></Logo>
-          <h1>Авторизація</h1>
+          <h1>{t("login_heading")}</h1>
           <Form></Form>
           <p>
-            Не маєте аккаунту?{" "}
-            <LinkHighlight href="/register">Зареєструватися</LinkHighlight>
+            {t("no_account")}{" "}
+            <LinkHighlight href="/register">{t("register")}</LinkHighlight>
           </p>
         </Wrapper>
       </Container>

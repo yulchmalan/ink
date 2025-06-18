@@ -187,7 +187,7 @@ export default function Navbar() {
                   {!isLoggedIn && (
                     <>
                       <span></span>
-                      <p>Гість</p>
+                      <p>{t("guest")}</p>
                     </>
                   )}
                   {isLoggedIn && user && (
