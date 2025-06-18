@@ -8,7 +8,7 @@
     flex-direction: row-reverse;
     font-weight: 600;
     font-family: var(--font-family);
-    font-size: var(--font-size);
+    font-size: calc(var(--font-size) - 3px);
     gap: 16px;
     cursor: pointer;
     color: var(--font);

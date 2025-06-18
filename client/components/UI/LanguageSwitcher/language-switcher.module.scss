@@ -13,7 +13,7 @@
     gap: 16px;
     cursor: pointer;
     color: var(--font);
-    font-size: var(--font-size);
+    font-size: calc(var(--font-size) - 3px);
     @media (min-width: 890px) {
         flex-direction: row;
         gap: 8px;
