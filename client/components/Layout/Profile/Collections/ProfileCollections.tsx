@@ -5,6 +5,7 @@ import CollectionCard from "@/components/UI/Cards/CollectionCard/CollectionCard"
 import { User } from "@/types/user";
 import styles from "./profile-collections.module.scss";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface Collection {
   id: string;
@@ -30,6 +31,7 @@ export default function ProfileCollections({ user, sortBy, sortOrder }: Props) {
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement | null>(null);
+  const t = useTranslations("Profile");
 
   const fetchCollections = async (pageToFetch: number) => {
     if (isLoading || !hasMore) return;
@@ -139,7 +141,7 @@ export default function ProfileCollections({ user, sortBy, sortOrder }: Props) {
 
   return (
     <div className={styles.wrapper}>
-      {collections.length === 0 && !isLoading && <p>Немає колекцій</p>}
+      {collections.length === 0 && !isLoading && <p>{t("no_collections")}</p>}
       {collections.map((collection) => (
         <Link
           key={collection.id}

@@ -5,12 +5,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import Button from "@/components/UI/Buttons/StandartButton/Button";
 import Container from "@/components/Layout/Container/Container";
 import styles from "./btn.module.scss";
+import { useTranslations } from "next-intl";
 
 interface Props {
   profileUserId: string;
 }
 
 export default function AddFriendButton({ profileUserId }: Props) {
+  const t = useTranslations("Friends");
   const { user: currentUser } = useAuth();
   const [status, setStatus] = useState<
     "NONE" | "PENDING" | "RECEIVED" | "ACCEPTED"
@@ -98,10 +100,10 @@ export default function AddFriendButton({ profileUserId }: Props) {
   if (!currentUser || currentUser._id === profileUserId) return null;
 
   const getText = () => {
-    if (status === "PENDING") return "Заявка надіслана";
-    if (status === "RECEIVED") return "Вхідна заявка";
-    if (status === "ACCEPTED") return "У вас у друзях";
-    return "Додати в друзі";
+    if (status === "PENDING") return t("pending");
+    if (status === "RECEIVED") return t("received");
+    if (status === "ACCEPTED") return t("accepted");
+    return t("add");
   };
 
   const getVariant = (): "primary" | "secondary" => {
@@ -118,7 +120,7 @@ export default function AddFriendButton({ profileUserId }: Props) {
         disabled={isDisabled || isLoading}
         className={styles.btn}
       >
-        {isLoading ? "Надсилається..." : getText()}
+        {isLoading ? t("sending") : getText()}
       </Button>
     </Container>
   );

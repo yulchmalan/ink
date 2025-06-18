@@ -7,6 +7,7 @@ import styles from "./bookmarks.module.scss";
 import clsx from "clsx";
 import Wrapper from "../../Wrapper/Wrapper";
 import { useLocalizedName } from "@/hooks/useLocalizedName";
+import { useTranslations } from "next-intl";
 
 interface Props {
   user: User;
@@ -24,6 +25,7 @@ export default function BookMarks({
   list = "all",
 }: Props) {
   const lists = user.lists ?? [];
+  const t = useTranslations("Profile");
 
   const selectedTitles =
     list === "all"
@@ -31,7 +33,7 @@ export default function BookMarks({
       : lists.find((l) => l.name === list)?.titles ?? [];
 
   if (selectedTitles.length === 0) {
-    return <p>Немає творів у цьому списку.</p>;
+    return <p>{t("no_bookmarks")}</p>;
   }
 
   const sortedTitles = [...selectedTitles].sort((a, b) => {

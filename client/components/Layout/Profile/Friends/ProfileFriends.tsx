@@ -7,6 +7,7 @@ import FriendCard from "./FriendCard/FriendCard";
 import styles from "./profile-friends.module.scss";
 import { useAuth } from "@/contexts/AuthContext";
 import Wrapper from "../../Wrapper/Wrapper";
+import { useTranslations } from "next-intl";
 
 interface Props {
   user: User;
@@ -23,6 +24,7 @@ export default function ProfileFriends({ user, selfId, mode }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const { user: currentUser } = useAuth();
+  const t = useTranslations("Profile");
 
   const fetchFriends = async (pageToFetch: number) => {
     let result: any[] = [];
@@ -103,7 +105,7 @@ export default function ProfileFriends({ user, selfId, mode }: Props) {
 
   return (
     <Wrapper className={styles.wrapper}>
-      {friends.length === 0 && !isLoading && <p>Немає друзів</p>}
+      {friends.length === 0 && !isLoading && <p>{t("no_friends")}</p>}
       {friends.map(({ user: friendUser, status }) => (
         <FriendCard
           key={friendUser._id}

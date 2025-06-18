@@ -558,5 +558,12 @@
         "error_password_mismatch": "Passwords do not match",
         "error_email_exists": "User with this email already exists",
         "error_generic": "Something went wrong"
+    },
+    "Friends": {
+        "add": "Add Friend",
+        "pending": "Request Sent",
+        "received": "Incoming Request",
+        "accepted": "Already Friends",
+        "sending": "Sending..."
     }
 }

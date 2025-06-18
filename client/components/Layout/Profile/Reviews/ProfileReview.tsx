@@ -8,6 +8,7 @@ import fallbackCover from "@/assets/cover.png";
 import { useRouter } from "next/navigation";
 import { useS3Image } from "@/hooks/useS3Image";
 import styles from "./review.module.scss";
+import { useTranslations } from "next-intl";
 
 const BATCH_SIZE = 5;
 
@@ -24,7 +25,7 @@ export default function ProfileReviews({ user, sortBy, sortOrder }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
-
+  const t = useTranslations("Profile");
   const graphqlSortBy = sortBy.toUpperCase();
 
   const fetchReviews = async () => {
@@ -108,7 +109,7 @@ export default function ProfileReviews({ user, sortBy, sortOrder }: Props) {
   return (
     <Wrapper className={styles.section}>
       {reviews.length === 0 ? (
-        <p>Рецензій поки немає.</p>
+        <p>{t("no_reviews")}</p>
       ) : (
         reviews.map((r) => {
           const coverUrl = getS3ImageUrl(
