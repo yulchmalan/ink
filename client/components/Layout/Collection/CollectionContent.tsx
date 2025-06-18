@@ -78,11 +78,6 @@ export default function CollectionContent({ collection, isCreating }: Props) {
     { id: string; name: string; alt_names: { lang: string; value: string }[] }[]
   >(collection.titles);
 
-  console.log(
-    "titles.altNames",
-    titles.map((t) => t.alt_names)
-  );
-
   useLayoutEffect(() => {
     if (isEditing && textareaRef.current) {
       const el = textareaRef.current;

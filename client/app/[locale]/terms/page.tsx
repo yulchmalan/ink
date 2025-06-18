@@ -4,6 +4,8 @@ import Container from "@/components/Layout/Container/Container";
 
 export const metadata = {
   title: "Умови використання",
+  description:
+    "Ознайомтесь із правилами користування платформою Ink: умови реєстрації, публікації контенту, відповідальності, інтелектуальної власності та конфіденційності.",
 };
 
 export default function TermsPage() {

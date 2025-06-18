@@ -372,7 +372,7 @@ export default function TitleInfo({ title }: Props) {
         </>
       }
     >
-      <Wrapper>
+      <Wrapper className={styles.wrapper}>
         <div className={styles.header}>
           <h1 className={styles.h1}>{title.name}</h1>
           {currentUserId && userRating !== null && (

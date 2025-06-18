@@ -5,6 +5,21 @@ import styles from "./page.module.scss";
 
 export const metadata = {
   title: "Політика конфіденційності | Ink",
+  description:
+    "Дізнайтесь, як Ink обробляє, зберігає та захищає вашу особисту інформацію. Прозорі правила щодо реєстрації, cookies, сторонніх сервісів та безпеки.",
+  openGraph: {
+    title: "Політика конфіденційності | Ink",
+    description:
+      "Ink серйозно ставиться до вашої конфіденційності. Дізнайтесь, як ми збираємо та захищаємо ваші персональні дані.",
+    type: "website",
+    url: "https://ink-three.vercel.app/privacy-policy",
+  },
+  twitter: {
+    card: "summary",
+    title: "Політика конфіденційності | Ink",
+    description:
+      "Як Ink обробляє персональні дані користувачів: реєстрація, безпека, cookies, сторонні сервіси та права користувача.",
+  },
 };
 
 export default async function PrivacyPolicyPage() {

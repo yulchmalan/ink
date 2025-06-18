@@ -4,6 +4,21 @@ import styles from "./page.module.scss";
 
 export const metadata = {
   title: "Контакти | Ink",
+  description:
+    "Звʼяжіться з командою Ink — техпідтримка, авторські права, соціальні мережі та юридичні запити. Ми завжди на звʼязку.",
+  openGraph: {
+    title: "Контакти | Ink",
+    description:
+      "Маєш питання або пропозицію? Напиши нам! Технічна підтримка, авторське право, Discord, Telegram — знайдеш нас всюди.",
+    type: "website",
+    url: "https://ink-three.vercel.app/contacts",
+  },
+  twitter: {
+    card: "summary",
+    title: "Контакти | Ink",
+    description:
+      "Звʼяжіться з командою Ink — техпідтримка, соціальні мережі, юридична адреса. Ми відповідаємо швидко та по суті.",
+  },
 };
 
 export default function ContactsPage() {

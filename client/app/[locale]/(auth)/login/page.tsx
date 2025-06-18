@@ -15,7 +15,8 @@ export async function generateMetadata() {
 
   return {
     title: "Ink | Digital Library",
-    description: t("description"),
+    description:
+      "Авторизуйся на Ink і продовжуй читати там, де зупинився. Персоналізовані рекомендації, закладки, рецензії — все під рукою.",
   };
 }
 

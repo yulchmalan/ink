@@ -1,6 +1,20 @@
 import CollectionSection from "@/components/Layout/Collection/CollectionSection";
 import Container from "@/components/Layout/Container/Container";
 
+export async function generateMetadata() {
+  return {
+    title: "Колекції | Ink",
+    description:
+      "Переглянь унікальні підбірки книг, романів і коміксів, створені користувачами Ink. Відкрий щось нове для читання!",
+    openGraph: {
+      title: "Колекції | Ink",
+      description:
+        "Оглянь добірки творів на платформі Ink — від особистих рекомендацій до тематичних серій.",
+      type: "website",
+    },
+  };
+}
+
 const GET_COLLECTIONS = `
   query Collections(
     $filter: CollectionFilter

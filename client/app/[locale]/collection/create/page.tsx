@@ -1,21 +1,19 @@
-"use client";
+import CreateCollectionContent from "./CreateCollectionContent";
 
-import CollectionContent from "@/components/Layout/Collection/CollectionContent";
-import { useAuth } from "@/contexts/AuthContext";
-
-export default function CreateCollectionPage() {
-  const { user } = useAuth();
-
-  if (!user) return null;
-
-  const mockCollection = {
-    id: "temp-id",
-    name: "",
-    description: "",
-    createdAt: new Date().toISOString(),
-    user: { _id: user._id, username: user.username },
-    titles: [],
+export function generateMetadata() {
+  return {
+    title: "Створити колекцію | Ink",
+    description:
+      "Створи власну добірку улюблених тайтлів — книжок, коміксів чи романів на платформі Ink.",
+    openGraph: {
+      title: "Створити колекцію | Ink",
+      description:
+        "Складай колекції, ділись з іншими й відкривай нові твори разом з Ink.",
+      type: "website",
+    },
   };
+}
 
-  return <CollectionContent collection={mockCollection} isCreating />;
+export default function Page() {
+  return <CreateCollectionContent />;
 }

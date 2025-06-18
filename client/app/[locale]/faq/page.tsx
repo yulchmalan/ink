@@ -2,6 +2,25 @@ import Container from "@/components/Layout/Container/Container";
 import styles from "./faq.module.scss";
 import Wrapper from "@/components/Layout/Wrapper/Wrapper";
 
+export const metadata = {
+  title: "Часті питання | Ink",
+  description:
+    "Знайдіть відповіді на популярні питання про платформу Ink: читання, списки, реєстрація, публікація творів та мобільний застосунок.",
+  openGraph: {
+    title: "Часті питання | Ink",
+    description:
+      "Як користуватись Ink? Чи потрібна реєстрація? Де зберігається прогрес? Тут зібрано найчастіші питання й відповіді.",
+    type: "website",
+    url: "https://ink-three.vercel.app/faq",
+  },
+  twitter: {
+    card: "summary",
+    title: "Часті питання | Ink",
+    description:
+      "Детальні відповіді на все, що ви хотіли знати про Ink: функції, можливості, плани та підтримка авторів.",
+  },
+};
+
 const faqItems = [
   {
     question: "Чим Ink відрізняється від інших платформ для читання?",

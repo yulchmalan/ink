@@ -3,7 +3,22 @@ import styles from "./page.module.scss";
 import Container from "@/components/Layout/Container/Container";
 
 export const metadata = {
-  title: "Політика щодо файлів cookie",
+  title: "Політика щодо файлів cookie | Ink",
+  description:
+    "Дізнайтесь, як Ink використовує cookie-файли для збереження сесії, персоналізації, аналітики та покращення безпеки. Керуйте cookie у своєму браузері.",
+  openGraph: {
+    title: "Політика щодо файлів cookie | Ink",
+    description:
+      "Ми пояснюємо, які cookie ми використовуємо на Ink, навіщо вони потрібні, і як ви можете ними керувати.",
+    type: "website",
+    url: "https://ink-three.vercel./cookie-policy",
+  },
+  twitter: {
+    card: "summary",
+    title: "Політика щодо файлів cookie | Ink",
+    description:
+      "Ознайомтесь із тим, як Ink обробляє файли cookie: сесії, мовні налаштування, аналітика та персоналізація.",
+  },
 };
 
 export default function CookiesPage() {

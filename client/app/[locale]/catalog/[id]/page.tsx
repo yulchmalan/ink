@@ -9,7 +9,9 @@ import styles from "./page.module.scss";
 import TitleInfo from "@/components/Layout/Catalog/TitlePage/TitleInfo";
 
 export async function generateMetadata({ params }: any) {
-  const { id, locale } = await params;
+  const p = await params;
+  const id = p.id;
+  const locale = p.locale;
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
     method: "POST",
@@ -35,8 +37,12 @@ export async function generateMetadata({ params }: any) {
       description: t("default_description"),
     };
 
+  const localizedName =
+    title.alt_names?.find((alt: any) => alt.lang === locale)?.value ||
+    title.name;
+
   return {
-    title: `${title.name} | Ink`,
+    title: `${localizedName} | Ink`,
     description: title.description ?? t("default_description"),
   };
 }

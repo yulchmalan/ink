@@ -4,6 +4,21 @@ import styles from "./page.module.scss";
 
 export const metadata = {
   title: "DMCA – Правовласникам | Ink",
+  description:
+    "Інформація для правовласників щодо подання скарг про порушення авторських прав на платформі Ink. Ми дотримуємося DMCA і українського законодавства.",
+  openGraph: {
+    title: "DMCA – Правовласникам | Ink",
+    description:
+      "Платформа Ink підтримує захист інтелектуальної власності. Дізнайтесь, як подати DMCA-скаргу або звернення щодо порушення авторських прав.",
+    type: "article",
+    url: "https://ink-three.vercel.app/dmca",
+  },
+  twitter: {
+    card: "summary",
+    title: "DMCA – Правовласникам | Ink",
+    description:
+      "Розʼяснення щодо дотримання авторських прав на платформі Ink. Як подати скаргу та які вимоги для цього потрібні.",
+  },
 };
 
 export default function DmcaPage() {

@@ -1,6 +1,12 @@
 import Container from "@/components/Layout/Container/Container";
 import ReviewSection from "@/components/Layout/Review/ReviewSection";
 
+export const metadata = {
+  title: "Усі рецензії | Ink",
+  description:
+    "Читайте найновіші рецензії на книги, комікси та графічні романи на платформі Ink. Думки читачів, оцінки та обговорення творів.",
+};
+
 const GET_REVIEWS = `
   query Reviews(
     $filter: ReviewFilter

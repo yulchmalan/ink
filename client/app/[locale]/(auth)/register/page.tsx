@@ -15,7 +15,8 @@ export async function generateMetadata() {
 
   return {
     title: "Ink | Digital Library",
-    description: t("description"),
+    description:
+      "Зареєструйся на платформі Ink, щоб читати улюблені книги, комікси й романи, зберігати прогрес, створювати колекції та ділитися рецензіями.",
   };
 }
 

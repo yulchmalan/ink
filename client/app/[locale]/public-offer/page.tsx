@@ -5,6 +5,8 @@ import styles from "./page.module.scss";
 
 export const metadata = {
   title: "Публічна оферта | Ink",
+  description:
+    "Ознайомтесь із умовами користування платформою Ink: права та обовʼязки користувачів, обмеження, відповідальність та політика донатів.",
 };
 
 export default async function PublicOfferPage() {
