@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { knownRoutes } from "./knownRoutes";
+import Head from "next/head";
 
 export default function RootLayout({
   children,
@@ -16,6 +16,11 @@ export default function RootLayout({
 
   return (
     <html lang={locale || "uk"}>
+      <Head>
+        <link rel="manifest" href="/manifest.webmanifest" />
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <meta name="theme-color" content="#000000" />
+      </Head>
       <body>{children}</body>
     </html>
   );
