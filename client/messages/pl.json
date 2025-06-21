@@ -10,6 +10,7 @@
         "reviews_title": "Wszystkie recenzje | Ink",
         "reviews_description": "Czytaj najnowsze recenzje książek, komiksów i powieści graficznych na platformie Ink. Opinie czytelników, oceny i dyskusje.",
         "review_not_found_title": "Recenzja nie znaleziona | Ink",
+        "NotFoundTitle": "Strony nie znaleziono",
         "review_title": "{review} | Recenzja: {title} | Ink",
         "review_description": "Recenzja użytkownika {username} o \"{title}\". Ocena: {rating}/10. Przeczytaj i dodaj swoją opinię!",
         "login_description": "Zaloguj się na Ink i kontynuuj czytanie od miejsca, w którym przerwałeś. Spersonalizowane rekomendacje, zakładki, recenzje — wszystko pod ręką.",
