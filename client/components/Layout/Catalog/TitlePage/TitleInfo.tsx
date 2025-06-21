@@ -356,7 +356,7 @@ export default function TitleInfo({ title }: Props) {
               options={[
                 ...LISTS,
                 ...(selectedListId
-                  ? [{ id: "remove", label: "Видалити зі списків" }]
+                  ? [{ id: "remove", label: t("remove_from_lists") }]
                   : []),
               ]}
               selectedId={selectedListId}
