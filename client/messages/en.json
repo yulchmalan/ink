@@ -9,7 +9,7 @@
         "reviews_title": "All Reviews | Ink",
         "reviews_description": "Read the latest reviews of books, comics, and graphic novels on the Ink platform. Reader opinions, ratings, and discussions.",
         "review_not_found_title": "Review not found | Ink",
-        "NotFoundTitle": "Page not found",
+        "notFoundTitle": "Page not found",
         "review_title": "{review} | Review of {title} | Ink",
         "review_description": "A review by {username} of \"{title}\". Rating: {rating}/10. Read their thoughts and leave yours!",
         "login_description": "Log in to Ink and continue reading where you left off. Personalized recommendations, bookmarks, reviews — all at your fingertips.",
