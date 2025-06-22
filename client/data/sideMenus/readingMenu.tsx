@@ -17,7 +17,7 @@ export const generateReadingMenu = (
         badge: lists.reduce((acc, l) => acc + l.titles.length, 0),
       },
       ...lists.map((list) => ({
-        label: t(list.name as any), // типово: reading, planned, etc.
+        label: t(list.name as any),
         value: list.name,
         badge: list.titles.length,
       })),
