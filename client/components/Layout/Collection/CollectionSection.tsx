@@ -45,11 +45,13 @@ export default function CollectionSection({ initialCollections }: Props) {
             $filter: CollectionFilter
             $sortBy: CollectionSortField
             $sortOrder: SortOrder
+            $limit: Int
           ) {
             collections(
               filter: $filter
               sortBy: $sortBy
               sortOrder: $sortOrder
+              $limit: Int
             ) {
               results {
                 id
@@ -65,6 +67,7 @@ export default function CollectionSection({ initialCollections }: Props) {
           filter: trimmedSearch ? { name: trimmedSearch } : {},
           sortBy,
           sortOrder,
+          limit: 100,
         },
       }),
     });

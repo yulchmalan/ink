@@ -44,12 +44,14 @@ export default function ReviewSection({ initialReviews }: Props) {
             $sortBy: ReviewSortField
             $sortOrder: SortOrder
             $search: String
+            $limit: Int
           ) {
             reviews(
               filter: $filter
               sortBy: $sortBy
               sortOrder: $sortOrder
               search: $search
+              $limit: Int
             ) {
               results {
                 id
@@ -67,6 +69,7 @@ export default function ReviewSection({ initialReviews }: Props) {
           search: trimmedSearch || null,
           sortBy,
           sortOrder,
+          limit: 100,
         },
       }),
     });
