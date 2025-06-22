@@ -22,12 +22,14 @@ const GET_COLLECTIONS = `
     $sortBy: CollectionSortField
     $sortOrder: SortOrder
     $offset: Int
+    $limit: Int
   ) {
     collections(
       filter: $filter
       sortBy: $sortBy
       sortOrder: $sortOrder
       offset: $offset
+      $limit: Int
     ) {
       results {
         id
@@ -53,6 +55,7 @@ export default async function Page() {
         sortBy: "CREATED_AT",
         sortOrder: "DESC",
         offset: 0,
+        limit: 100,
       },
     }),
     cache: "no-store",

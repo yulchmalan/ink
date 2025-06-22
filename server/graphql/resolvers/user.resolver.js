@@ -18,7 +18,7 @@ export const userResolvers = {
     async users(
       _,
       {
-        limit = 10,
+        limit = 100,
         offset = 0,
         role,
         sortBy = "createdAt",

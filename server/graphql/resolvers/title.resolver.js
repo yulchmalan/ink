@@ -184,7 +184,7 @@ export const titleResolvers = {
       }
     },
 
-    popularTitles: async (_, { limit = 10 }) => {
+    popularTitles: async (_, { limit = 20 }) => {
       const pipeline = [
         { $unwind: "$lists" },
         { $unwind: "$lists.titles" },
