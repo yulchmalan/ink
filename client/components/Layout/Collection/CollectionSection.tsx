@@ -51,7 +51,7 @@ export default function CollectionSection({ initialCollections }: Props) {
               filter: $filter
               sortBy: $sortBy
               sortOrder: $sortOrder
-              $limit: Int
+              limit: $limit
             ) {
               results {
                 id

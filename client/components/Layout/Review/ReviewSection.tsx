@@ -51,7 +51,7 @@ export default function ReviewSection({ initialReviews }: Props) {
               sortBy: $sortBy
               sortOrder: $sortOrder
               search: $search
-              $limit: Int
+              limit: $limit
             ) {
               results {
                 id

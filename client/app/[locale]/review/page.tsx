@@ -20,7 +20,7 @@ const GET_REVIEWS = `
       sortBy: $sortBy
       sortOrder: $sortOrder
       offset: $offset
-      $limit: Int
+      limit: $limit
     ) {
       results {
         id

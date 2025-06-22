@@ -29,7 +29,7 @@ const GET_COLLECTIONS = `
       sortBy: $sortBy
       sortOrder: $sortOrder
       offset: $offset
-      $limit: Int
+      limit: $limit
     ) {
       results {
         id
